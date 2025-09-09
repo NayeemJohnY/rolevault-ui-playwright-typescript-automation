@@ -1,5 +1,5 @@
 name: Test Execution - Playwright
-run-name: ${{inputs.env}} - Playwright Test Execution
+run-name: ${{inputs.env}} - playwright test execution
 
 on:
   workflow_dispatch:
