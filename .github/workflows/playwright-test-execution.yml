@@ -35,9 +35,23 @@ jobs:
         path: rolevault-webapp
 
     - name: Start RoleVault Webapp (Docker Compose Up)
+      run: docker compose -f rolevault-webapp/docker-compose.${{env.TESTENV}}.yml up -d
+
+    - name: Tail logs until RoleVault started or timeout
+      shell: bash
       run: |
-        docker compose -f rolevault-webapp/docker-compose.${{env.TESTENV}}.yml up -d
-        timeout 60s docker compose -f rolevault-webapp/docker-compose.${{ env.TESTENV }}.yml logs -f
+        timeout 300s bash -c '
+        docker compose -f rolevault-webapp/docker-compose.${{ env.TESTENV }}.yml logs -f | while IFS= read -r line
+        do
+          echo "$line"
+          if echo "$line" | grep -q "✅ RoleVault started successfully!"; then
+            echo "RoleVault started successfully message found, stopping log stream."
+            exit 0
+          fi
+        done
+        echo "❌ Timeout reached: RoleVault did not start successfully within 5 minutes."
+        exit 1
+        '
 
     - name: Install dependencies
       run: npm ci
