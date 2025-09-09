@@ -37,7 +37,7 @@ jobs:
     - name: Start RoleVault Webapp (Docker Compose Up)
       run: |
         docker compose -f rolevault-webapp/docker-compose.${{env.TESTENV}}.yml up -d
-        timeout 180s docker compose -f rolevault-webapp/docker-compose.${{ env.TESTENV }}.yml logs -f
+        timeout 60s docker compose -f rolevault-webapp/docker-compose.${{ env.TESTENV }}.yml logs -f
 
     - name: Install dependencies
       run: npm ci
