@@ -1,5 +1,13 @@
 import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 
+const startMaximized = {
+  deviceScaleFactor: undefined,
+  viewport: null,
+  launchOptions: {
+    args: ['--start-maximized']
+  }
+}
+
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
   fullyParallel: true,
@@ -13,7 +21,8 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
     {
       name: 'chromium',
       use: {
-        ...devices['Desktop Chrome']
+        ...devices['Desktop Chrome'],
+        ...startMaximized
       }
     },
 
@@ -21,22 +30,23 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
     {
       name: 'firefox',
       use: {
-        ...devices['Desktop Firefox']
+        ...devices['Desktop Firefox'],
       }
     },
 
     // Mobile - Most popular mobile browser
     {
-      name: 'mobileChrome',
+      name: 'Mobile Chrome',
       use: {
         ...devices['Pixel 7']
       },
     },
 
     {
-      name: 'readChrome',
+      name: 'Google Chrome',
       use: {
         ...devices['Desktop Chrome'], channel: 'chrome',
+        ...startMaximized
       }
     }
   ]
