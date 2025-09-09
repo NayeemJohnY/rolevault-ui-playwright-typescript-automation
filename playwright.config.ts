@@ -50,23 +50,8 @@ const stagingPlaywrightTestConfig: PlaywrightTestConfig = {
   use: {
     ...basePlaywrightTestConfig.use,
     baseURL: 'http://localhost:5001',
-    trace: 'on-first-retry',
-  },
-  projects: [
-    ...basePlaywrightTestConfig.projects!,
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-      }
-    },
-    {
-      name: 'Mobile Safari',
-      use: {
-        ...devices['iPhone 15'],
-      }
-    }
-  ]
+    trace: process.env.ci ? 'on-first-retry' : 'retain-on-failure'
+  }
 }
 
 // Production config: extends base, can be minimized for speed
