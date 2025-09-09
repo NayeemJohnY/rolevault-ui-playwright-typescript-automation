@@ -1,79 +1,94 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
-export default defineConfig({
+const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
-  /* Run tests in files in parallel */
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:3000',
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-  },
-
-  /* Configure projects for major browsers */
+  reporter: [
+    ['html', { title: 'RoleVault Playwright Test Results' }],
+    ['list']
+  ],
   projects: [
+    // Desktop - Most popular browser (covers 70%+ market share)
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome']
+      }
     },
 
+    // Desktop - Alternative engine for compatibility testing
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: {
+        ...devices['Desktop Firefox']
+      }
+    },
+
+    // Mobile - Most popular mobile browser
+    {
+      name: 'mobileChrome',
+      use: {
+        ...devices['Pixel 7']
+      },
     },
 
     {
+      name: 'readChrome',
+      use: {
+        ...devices['Desktop Chrome'], channel: 'chrome',
+      }
+    }
+  ]
+}
+
+// Staging config: extends base, adds extra browsers for compatibility
+const stagingPlaywrightTestConfig: PlaywrightTestConfig = {
+  ...basePlaywrightTestConfig,
+  name: 'Staging Tests',
+  retries: process.env.ci ? 2 : 0,
+  use: {
+    ...basePlaywrightTestConfig.use,
+    baseURL: 'http://localhost:5001',
+    trace: 'on-first-retry',
+  },
+  projects: [
+    ...basePlaywrightTestConfig.projects!,
+    {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        ...devices['Desktop Safari'],
+      }
     },
+    {
+      name: 'Mobile Safari',
+      use: {
+        ...devices['iPhone 15'],
+      }
+    }
+  ]
+}
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
+// Production config: extends base, can be minimized for speed
+const prodPlaywrightTestConfig: PlaywrightTestConfig = {
+  ...basePlaywrightTestConfig,
+  name: 'Production Tests',
+  retries: 0,
+  use: {
+    ...basePlaywrightTestConfig.use,
+    baseURL: 'http://localhost:5000',
+    trace: 'retain-on-failure'
+  }
+}
 
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
+// Map of environment name to config
+const configMap: Record<string, PlaywrightTestConfig> = {
+  staging: stagingPlaywrightTestConfig,
+  prod: prodPlaywrightTestConfig
+}
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
-});
+// Select environment from TESTENV variable, default to 'staging'
+const testEnv = (process.env.TESTENV || 'staging') as keyof typeof configMap
+
+// Export the selected config for Playwright
+export default defineConfig(configMap[testEnv])
