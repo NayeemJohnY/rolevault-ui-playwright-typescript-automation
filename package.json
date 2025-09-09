@@ -1,0 +1,23 @@
+{
+  "name": "rolevault-ui-playwright-typescript-automation",
+  "version": "1.0.0",
+  "description": "Role Vault UI Automation using playwright and typescript",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NayeemJohnY/rolevault-ui-playwright-typescript-automation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NayeemJohnY/rolevault-ui-playwright-typescript-automation/issues"
+  },
+  "homepage": "https://github.com/NayeemJohnY/rolevault-ui-playwright-typescript-automation#readme"
+}
