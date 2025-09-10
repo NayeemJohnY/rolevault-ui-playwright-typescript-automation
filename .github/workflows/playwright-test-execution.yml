@@ -42,14 +42,14 @@ jobs:
       run: |
         for i in {1..60}; do
           if docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs | grep -q "RoleVault started successfully!"; then
-            echo "<========================= ✅ RoleVault App started successfully! ✅ =========================>"
             docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 50
+            echo "<========================= ✅ RoleVault App started successfully! ✅ =========================>"
             exit 0
           fi
           sleep 5
         done
-        echo "<========================= ❌ Timeout: RoleVault did not start within 5 minutes ❌ =========================>"
         docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 50
+        echo "<========================= ❌ Timeout: RoleVault did not start within 5 minutes ❌ =========================>"
         exit 1
 
     - name: Install dependencies
