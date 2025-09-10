@@ -14,7 +14,8 @@ on:
 
 env:
   TESTENV: ${{inputs.env}}
-  DOCKER_COMPOSE_FILE: rolevault-webapp/docker-compose.${{ inputs.env }}.yml  # Global for all steps
+  DOCKER_COMPOSE_FILE: rolevault-webapp/docker-compose.${{ inputs.env }}.yml
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
 jobs:
   test:
@@ -42,13 +43,13 @@ jobs:
       run: |
         for i in {1..60}; do
           if docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs | grep -q "RoleVault started successfully"; then
-            docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 50
             echo "<========================= ✅ RoleVault App started successfully! ✅ =========================>"
             exit 0
           fi
+          echo "Waiting.... attempt $i/60"
           sleep 5
         done
-        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 50
+        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 100
         echo "<========================= ❌ Timeout: RoleVault did not start within 5 minutes ❌ =========================>"
         exit 1
 
@@ -64,7 +65,8 @@ jobs:
     - name: Stop RoleVault Webapp (Docker Compose Down)
       if: always()
       run: |
-        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs
+        mkdir -p playwright-report
+        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs > playwright-report/application.log
         docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} down
 
     - uses: actions/upload-artifact@v4
