@@ -8,6 +8,9 @@ const startMaximized = {
   }
 }
 
+const baseURL = process.env.BASE_URL ||
+  (process.env.TESTENV === 'prod' ? 'http://localhost:5001' : 'http://localhost:5000');
+
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
   fullyParallel: true,
@@ -59,7 +62,7 @@ const stagingPlaywrightTestConfig: PlaywrightTestConfig = {
   retries: process.env.ci ? 2 : 0,
   use: {
     ...basePlaywrightTestConfig.use,
-    baseURL: 'http://localhost:5001',
+    baseURL: baseURL,
     trace: process.env.ci ? 'on-first-retry' : 'retain-on-failure'
   }
 }
@@ -71,7 +74,7 @@ const prodPlaywrightTestConfig: PlaywrightTestConfig = {
   retries: 0,
   use: {
     ...basePlaywrightTestConfig.use,
-    baseURL: 'http://localhost:5000',
+    baseURL: baseURL,
     trace: 'retain-on-failure'
   }
 }
