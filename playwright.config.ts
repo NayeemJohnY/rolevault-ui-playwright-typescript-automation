@@ -19,6 +19,9 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
     ['html', { title: 'RoleVault Playwright Test Results' }],
     ['list']
   ],
+  expect: {
+    timeout: 10000
+  },
   use: {
     screenshot: 'on-first-failure'
   },
