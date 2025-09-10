@@ -1,10 +1,12 @@
-import { test, expect } from '../fixtures/base';
+import { expect, test } from '../fixtures/base';
+import { DashboardPage } from '../pages/DashboardPage';
+import { HomePage } from '../pages/HomePage';
 
-
-test('Should user able to Login', async ({ page }) => {
-  await page.getByLabel('Email Address').fill('admin@test.com');
-  await page.getByLabel('Password').fill('admin123');
-  await page.getByTestId('login-submit').click();
-  await expect(page.getByRole('heading', { name: 'Dashboard', level: 1 })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Profile', exact: true })).toBeVisible();
+test('should allow admin to log in with valid credentials and view dashboard', async ({ page }) => {
+  const homePage = new HomePage(page);
+  await homePage.login({ emailAddress: "admin@test.com", password: 'admin123' })
+  await expect(page).toHaveURL(/dashboard/);
+  const dashboardPage = new DashboardPage(page);
+  await dashboardPage.assertIsVisible();
 });
+
