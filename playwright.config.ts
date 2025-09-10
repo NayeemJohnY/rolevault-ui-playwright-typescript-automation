@@ -9,7 +9,7 @@ const startMaximized = {
 }
 
 const baseURL = process.env.BASE_URL ||
-  (process.env.TESTENV === 'prod' ? 'http://localhost:5001' : 'http://localhost:5000');
+  (process.env.TESTENV === 'prod' ? 'http://localhost:5000' : 'http://localhost:5001');
 
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
@@ -19,6 +19,9 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
     ['html', { title: 'RoleVault Playwright Test Results' }],
     ['list']
   ],
+  use: {
+    screenshot: 'on-first-failure'
+  },
   projects: [
     // Desktop - Most popular browser (covers 70%+ market share)
     {
