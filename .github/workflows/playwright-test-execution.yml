@@ -64,7 +64,7 @@ jobs:
     - name: Stop RoleVault Webapp (Docker Compose Down)
       if: always()
       run: |
-        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 5000
+        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs
         docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} down
 
     - uses: actions/upload-artifact@v4
