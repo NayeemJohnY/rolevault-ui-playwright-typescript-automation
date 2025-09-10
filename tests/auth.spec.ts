@@ -1,4 +1,5 @@
 import { expect, test } from '../fixtures/base';
+import { commonLocators } from '../pages/common/locators';
 import { DashboardPage } from '../pages/DashboardPage';
 import { HomePage } from '../pages/HomePage';
 
@@ -18,6 +19,21 @@ test.describe("User Authentication", () => {
       await dashboardPage.assertIsVisible();
     });
   };
+
+  const invalidCredentials = {
+    invalidPassword: { emailAddress: "invaliduser@test.com", password: 'invalidPassword' },
+    shorterInvalidPassword: { emailAddress: "invalidPassword@test.com", password: 'pass' },
+  };
+
+  for (const [type, credentials] of Object.entries(invalidCredentials)) {
+    test(`should show error ${type} for invalid login credentials`, async ({ page }) => {
+      const homePage = new HomePage(page);
+      await homePage.login(credentials)
+      const errorMessage = "Invalid credentials or account deactivated"
+      await expect(commonLocators.$formError(page)).toHaveText(errorMessage);
+      await expect(commonLocators.$toastMessage(page, errorMessage)).toBeVisible();
+    });
+  }
 
 
 })
