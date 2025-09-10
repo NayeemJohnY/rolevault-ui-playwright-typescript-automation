@@ -41,7 +41,7 @@ jobs:
     - name: Wait for RoleVault to start
       run: |
         for i in {1..60}; do
-          if docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs | grep -q "RoleVault started successfully!"; then
+          if docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs | grep -q "RoleVault started successfully"; then
             docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 50
             echo "<========================= ✅ RoleVault App started successfully! ✅ =========================>"
             exit 0
