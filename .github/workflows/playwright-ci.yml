@@ -12,6 +12,16 @@ on:
           - staging
           - prod
 
+      publish_report:
+        description: Publish Test Report
+        type: boolean
+        default: true
+
+permissions:
+  id-token: write
+  contents: read
+  pages: write
+
 env:
   TESTENV: ${{inputs.env}}
   DOCKER_COMPOSE_FILE: rolevault-webapp/docker-compose.${{ inputs.env }}.yml
@@ -75,3 +85,11 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
+    - name: Copy Playwright Test Report to Github Pages
+      if: ${{ (success() || failure()) && inputs.publish_report }}
+      run: cp -r playwright-report github-pages/playwright-report
+
+    - name: Deploy GitHub Pages
+      if: ${{ (success() || failure()) && inputs.publish_report }}
+      uses: NayeemJohnY/actions/deploy-github-pages-site@main
