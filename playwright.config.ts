@@ -1,5 +1,12 @@
 import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 
+type Environment = 'staging' | 'prod';
+
+const environment = (process.env.TESTENV as Environment) || 'staging';
+
+const baseURL = process.env.BASE_URL ||
+  (environment === 'prod' ? 'http://localhost:5000' : 'http://localhost:5001');
+
 const startMaximized = {
   deviceScaleFactor: undefined,
   viewport: null,
@@ -7,9 +14,6 @@ const startMaximized = {
     args: ['--start-maximized']
   }
 }
-
-const baseURL = process.env.BASE_URL ||
-  (process.env.TESTENV === 'prod' ? 'http://localhost:5000' : 'http://localhost:5001');
 
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
@@ -85,14 +89,13 @@ const prodPlaywrightTestConfig: PlaywrightTestConfig = {
   }
 }
 
+
 // Map of environment name to config
-const configMap: Record<string, PlaywrightTestConfig> = {
+const configMap: Record<Environment, PlaywrightTestConfig> = {
   staging: stagingPlaywrightTestConfig,
   prod: prodPlaywrightTestConfig
 }
 
-// Select environment from TESTENV variable, default to 'staging'
-const testEnv = (process.env.TESTENV || 'staging') as keyof typeof configMap
 
 // Export the selected config for Playwright
-export default defineConfig(configMap[testEnv])
+export default defineConfig(configMap[environment])
