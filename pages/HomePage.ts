@@ -56,15 +56,10 @@ export class HomePage {
     }
 
     public async getRandomTestAccountEmail(): Promise<string> {
-        type TestAccount = {
-            role: string;
-            email: string;
-        };
         const $testAccount = await this.getRandomTestAccountLocator();
         const innerTexts = await $testAccount.allInnerTexts();
-        const [role, email] = innerTexts[0].split("\n");
-        const user: TestAccount = { role, email };
-        return user.email;
+        const [, email] = innerTexts[0].split("\n");
+        return email;
     }
 
 }
