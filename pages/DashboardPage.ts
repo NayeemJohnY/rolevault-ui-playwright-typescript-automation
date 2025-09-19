@@ -8,16 +8,16 @@ export class DashboardPage {
     readonly $logout: Locator;
     readonly $sidebar: Locator;
     readonly $menuButton: Locator
-    readonly $appHeader: Locator
+    readonly $logoutFromProfile: Locator
 
     constructor(page: Page) {
         this.page = page;
         this.$headingDashboard = page.getByRole('heading', { name: 'Dashboard', level: 1 });
         this.$profileIcon = page.getByRole('button', { name: 'Profile', exact: true });
         this.$logout = page.getByRole('button', { name: 'Logout' });
+        this.$logoutFromProfile = page.getByTestId('logout-button');
         this.$sidebar = page.getByTestId('sidebar');
         this.$menuButton = page.getByTestId('menu-button');
-        this.$appHeader = page.locator(".app-header");
     }
 
     async assertIsVisible() {
@@ -27,15 +27,15 @@ export class DashboardPage {
 
 
     async logoutFromProfile() {
-        await this.$profileIcon.hover()
+        const dialogPromise = this.page.waitForEvent('dialog')
+
+        await this.$profileIcon.hover();
         await this.$profileIcon.click();
-        await Promise.all([
-            this.page.once('dialog', async dialog => {
-                expect(dialog.message()).toEqual("Are you sure you want to logout?");
-                await dialog.accept();
-            }),
-            this.$appHeader.locator(this.$logout).click()
-        ]);
+        this.$logoutFromProfile.click();
+
+        const dialog = await dialogPromise
+        expect(dialog.message()).toEqual("Are you sure you want to logout?");
+        await dialog.accept();
     }
 
     async logoutFromSideNavMenu() {
