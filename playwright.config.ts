@@ -5,7 +5,10 @@ type Environment = 'staging' | 'prod';
 const environment = (process.env.TESTENV as Environment) || 'staging';
 
 const baseURL = process.env.BASE_URL ||
-  (environment === 'prod' ? 'http://localhost:5000' : 'http://localhost:5001');
+  {
+    prod: 'http://localhost:5000',
+    staging: 'http://localhost:5001'
+  }[environment];
 
 const startMaximized = {
   deviceScaleFactor: undefined,
