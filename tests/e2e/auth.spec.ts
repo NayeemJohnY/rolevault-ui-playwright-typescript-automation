@@ -1,24 +1,19 @@
 import { expect, test } from '../../fixtures/base';
-import { commonLocators } from '../../pages/common/locators';
-import { DashboardPage } from '../../pages/DashboardPage';
-import { HomePage } from '../../pages/HomePage';
 
 test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
     const currentTimeStampInSeconds = Math.floor(new Date().getTime() / 1000)
     const registerUser = {
         fullName: "John Test",
         emailAddress: `johntest${currentTimeStampInSeconds}@rolevault.com`,
-        password: `TestMe@${currentTimeStampInSeconds}`
+        password: `TestPassword@${currentTimeStampInSeconds}`
     };
 
-    test("complete user registration, login, and logout flow", async ({ page }) => {
-        const homePage = new HomePage(page);
-        const dashboardPage = new DashboardPage(page);
+    test("complete user registration, login, and logout flow", async ({ page, homePage, dashboardPage, assert }) => {
 
         // Step 1 : Register New User
         await test.step("Register new user", async () => {
             await homePage.register(registerUser);
-            await expect(commonLocators.$toastMessage(page, 'Account created successfully')).toBeVisible();
+            await assert.expectToastMessage('Account created successfully');
             await expect(page).toHaveURL(/dashboard/);
             await dashboardPage.assertIsVisible();
         });
@@ -26,7 +21,7 @@ test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
         // Step 2: Logout user
         await test.step("Logout user", async () => {
             await dashboardPage.logoutFromProfile()
-            await expect(commonLocators.$toastMessage(page, "Logged out successfully")).toBeVisible();
+            await assert.expectToastMessage("Logged out successfully");
             await expect(homePage.$login).toBeVisible();
             await expect(page).toHaveURL(/login/);
         });
@@ -37,7 +32,7 @@ test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
                 emailAddress: registerUser.emailAddress,
                 password: registerUser.password
             });
-            await expect(commonLocators.$toastMessage(page, 'Welcome back')).toBeVisible()
+            await assert.expectToastMessage("Welcome back");
             await expect(page).toHaveURL(/dashboard/);
             await dashboardPage.assertIsVisible();
         });
@@ -46,7 +41,7 @@ test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
         // Step 4: Logout user
         await test.step("Logout user", async () => {
             await dashboardPage.logoutFromSideNavMenu()
-            await expect(commonLocators.$toastMessage(page, "Logged out successfully")).toBeVisible();
+            await assert.expectToastMessage("Logged out successfully");
             await expect(homePage.$login).toBeVisible();
             await expect(page).toHaveURL(/login/);
         });
