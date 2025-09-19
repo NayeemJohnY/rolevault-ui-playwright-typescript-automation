@@ -29,6 +29,22 @@ test.describe("User Authentication", { tag: '@component' }, () => {
         await expect(commonLocators.$toastMessage(page, errorMessage)).toBeVisible();
       });
     }
+
+    test('should redirect unauthenticated user to login', async ({ page }) => {
+      // user login
+      const homePage = new HomePage(page);
+      await homePage.loginUsingTestAccount();
+      await expect(page).toHaveURL(/dashboard/);
+      const dashboardPage = new DashboardPage(page);
+      await dashboardPage.assertIsVisible();
+      // clear token & Reload
+      await page.evaluate(() => { localStorage.clear(); })
+      await page.reload();
+      // session should be removed and redirected to login
+      await expect(page).not.toHaveURL(/dashboard/);
+      await expect(homePage.$login).toBeVisible();
+      await expect(page).toHaveURL(/login/);
+    });
   });
 
   test.describe("Register", () => {
