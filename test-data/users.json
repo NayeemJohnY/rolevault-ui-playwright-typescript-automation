@@ -1,0 +1,32 @@
+{
+    "Administrator": {
+        "emailAddress": "admin@test.com",
+        "password": "admin123",
+        "fullName": "Admin User"
+    },
+    "Contributor": {
+        "emailAddress": "contributor@test.com",
+        "password": "contrib123",
+        "fullName": "Contributor User"
+    },
+    "Viewer": {
+        "emailAddress": "viewer@test.com",
+        "password": "viewer123",
+        "fullName": "Viewer User"
+    },
+    "invalidPassword": {
+        "emailAddress": "invaliduser@test.com",
+        "password": "invalidPassword",
+        "fullName": "InvalidPassword User"
+    },
+    "tooShortPassword": {
+        "emailAddress": "invalidPassword@test.com",
+        "password": "pass",
+        "fullName": "TooShortPassword User"
+    },
+    "registerUser": {
+        "emailAddress": "registerUser{{timestamp}}@test.com",
+        "password": "registerUser@123",
+        "fullName": "Register{{timestamp}} User"
+    }
+}

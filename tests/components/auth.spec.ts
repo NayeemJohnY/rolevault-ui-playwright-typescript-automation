@@ -1,4 +1,5 @@
 import { expect, test } from '../../fixtures/base';
+import { registerUser, testUsers } from '../../test-data/test-users';
 
 test.describe("User Authentication", { tag: '@component' }, () => {
 
@@ -10,15 +11,12 @@ test.describe("User Authentication", { tag: '@component' }, () => {
       await dashboardPage.assertIsVisible();
     });
 
-    const invalidCredentials = {
-      invalidPassword: { emailAddress: "invaliduser@test.com", password: 'invalidPassword' },
-      tooShortPassword: { emailAddress: "invalidPassword@test.com", password: 'pass' },
-    };
+    const invalidCredentials = [testUsers['invalidPassword'], testUsers['tooShortPassword']];
     const errorMessage = "Invalid credentials or account deactivated"
 
-    for (const [type, credentials] of Object.entries(invalidCredentials)) {
-      test(`should show valid error ${type} for invalid login credentials`, async ({ homePage, assert }) => {
-        await homePage.login(credentials)
+    for (const user of invalidCredentials) {
+      test(`should show valid error ${user.role} for invalid login credentials`, async ({ homePage, assert }) => {
+        await homePage.login(user)
         await assert.expectFormError(errorMessage);
         await assert.expectToastMessage(errorMessage);
       });
@@ -46,7 +44,7 @@ test.describe("User Authentication", { tag: '@component' }, () => {
 
     test("should handle registration with existing email", async ({ page, homePage, assert }) => {
       const existingEmail = await homePage.getRandomTestAccountEmail();
-      await homePage.register({ emailAddress: existingEmail, fullName: 'Admin User', password: 'TestMe@123' });
+      await homePage.register({ ...registerUser, emailAddress: existingEmail });
       await assert.expectToastMessage('User already exists with this email');
       await expect(page).not.toHaveURL(/dashboard/);
     });

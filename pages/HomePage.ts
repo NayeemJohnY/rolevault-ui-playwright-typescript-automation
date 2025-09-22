@@ -1,5 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
+import { UserData } from "../test-data/test-users";
 
 export class HomePage extends BasePage {
     readonly $emailAddress: Locator;
@@ -26,7 +27,7 @@ export class HomePage extends BasePage {
         this.$testAccounts = page.locator('[data-testid^="test-account"]');
     }
 
-    public async login(user): Promise<void> {
+    public async login(user: UserData): Promise<void> {
         await this.$emailAddress.fill(user.emailAddress);
         await this.$password.fill(user.password);
         await this.$login.click();
@@ -38,7 +39,8 @@ export class HomePage extends BasePage {
         await this.$login.click();
     }
 
-    public async register(registerUser): Promise<void> {
+
+    public async register(registerUser: UserData): Promise<void> {
         await this.$registerTab.click();
         await this.$fullName.fill(registerUser.fullName)
         await this.$emailAddress.fill(registerUser.emailAddress);

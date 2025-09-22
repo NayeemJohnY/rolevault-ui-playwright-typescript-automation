@@ -1,12 +1,8 @@
 import { expect, test } from '../../fixtures/base';
+import { registerUser } from '../../test-data/test-users';
 
 test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
-    const currentTimeStampInSeconds = Math.floor(new Date().getTime() / 1000)
-    const registerUser = {
-        fullName: "John Test",
-        emailAddress: `johntest${currentTimeStampInSeconds}@rolevault.com`,
-        password: `TestPassword@${currentTimeStampInSeconds}`
-    };
+
 
     test("complete user registration, login, and logout flow", async ({ page, homePage, dashboardPage, assert }) => {
 
@@ -28,10 +24,7 @@ test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
 
         // Step 3: Login with registered user
         await test.step("Login with registered user", async () => {
-            homePage.login({
-                emailAddress: registerUser.emailAddress,
-                password: registerUser.password
-            });
+            homePage.login(registerUser);
             await assert.expectToastMessage("Welcome back");
             await expect(page).toHaveURL(/dashboard/);
             await dashboardPage.assertIsVisible();

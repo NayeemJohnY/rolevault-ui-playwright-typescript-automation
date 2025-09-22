@@ -1,0 +1,30 @@
+{
+    "Administrator": [
+        "rv.requests.viewAll",
+        "rv.requests.approve",
+        "rv.requests.reject",
+        "rv.files.upload",
+        "rv.files.download",
+        "rv.files.makePublic",
+        "rv.apiKeys.create",
+        "rv.apiKeys.view",
+        "rv.apiKeys.manage",
+        "rv.apiKeys.viewAll",
+        "rv.apiKeys.deleteAll",
+        "rv.users.manage"
+    ],
+    "Contributor": [
+        "rv.files.upload",
+        "rv.files.download",
+        "rv.requests.create",
+        "rv.requests.view",
+        "rv.apiKeys.create",
+        "rv.apiKeys.view",
+        "rv.apiKeys.manage"
+    ],
+    "Viewer": [
+        "rv.files.download",
+        "rv.requests.create",
+        "rv.requests.view"
+    ]
+}
