@@ -1,8 +1,7 @@
 import { Locator, Page } from "@playwright/test";
+import { BasePage } from "./BasePage";
 
-export class HomePage {
-
-    readonly page: Page;
+export class HomePage extends BasePage {
     readonly $emailAddress: Locator;
     readonly $password: Locator;
     readonly $login: Locator;
@@ -15,7 +14,7 @@ export class HomePage {
 
 
     constructor(page: Page) {
-        this.page = page;
+        super(page);
         this.$emailAddress = page.getByLabel('Email Address');
         this.$password = page.getByLabel('Password', { exact: true });
         this.$login = page.getByTestId('login-submit');
