@@ -1,17 +1,17 @@
 {
     "Administrator": {
         "emailAddress": "admin@test.com",
-        "password": "admin123",
+        "password": "jQl8hqgz3BYMmF4jtaR/nMQLdwtkfYTpdfTcHkdBUrzqzBev",
         "fullName": "Admin User"
     },
     "Contributor": {
         "emailAddress": "contributor@test.com",
-        "password": "contrib123",
+        "password": "U5zlBifxyWKNEpjLIaWytn/iYZoQWFWn7/GQQOtTs7zRPMEo+vE=",
         "fullName": "Contributor User"
     },
     "Viewer": {
         "emailAddress": "viewer@test.com",
-        "password": "viewer123",
+        "password": "kt0wvZ1nhuWj0RCm31PQdRVf60rZmYQxRIKxtohzdVID0MyVrQ==",
         "fullName": "Viewer User"
     },
     "invalidPassword": {

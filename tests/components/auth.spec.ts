@@ -1,5 +1,5 @@
 import { expect, test } from '../../fixtures/base';
-import { registerUser, testUsers } from '../../test-data/test-users';
+import { testUsers, getRegistrationUser } from '../../test-data/test-users';
 
 test.describe("User Authentication", { tag: '@component' }, () => {
 
@@ -11,7 +11,7 @@ test.describe("User Authentication", { tag: '@component' }, () => {
       await dashboardPage.assertIsVisible();
     });
 
-    const invalidCredentials = [testUsers['invalidPassword'], testUsers['tooShortPassword']];
+    const invalidCredentials = [testUsers.invalidPassword, testUsers.tooShortPassword];
     const errorMessage = "Invalid credentials or account deactivated"
 
     for (const user of invalidCredentials) {
@@ -44,7 +44,7 @@ test.describe("User Authentication", { tag: '@component' }, () => {
 
     test("should handle registration with existing email", async ({ page, homePage, assert }) => {
       const existingEmail = await homePage.getRandomTestAccountEmail();
-      await homePage.register({ ...registerUser, emailAddress: existingEmail });
+      await homePage.register({ ...getRegistrationUser(), emailAddress: existingEmail });
       await assert.expectToastMessage('User already exists with this email');
       await expect(page).not.toHaveURL(/dashboard/);
     });

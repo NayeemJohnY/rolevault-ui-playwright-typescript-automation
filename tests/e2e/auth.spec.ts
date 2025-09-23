@@ -1,5 +1,5 @@
 import { expect, test } from '../../fixtures/base';
-import { registerUser } from '../../test-data/test-users';
+import { getRegistrationUser } from '../../test-data/test-users';
 
 test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
 
@@ -7,6 +7,7 @@ test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
     test("complete user registration, login, and logout flow", async ({ page, homePage, dashboardPage, assert }) => {
 
         // Step 1 : Register New User
+        const registerUser = getRegistrationUser();
         await test.step("Register new user", async () => {
             await homePage.register(registerUser);
             await assert.expectToastMessage('Account created successfully');

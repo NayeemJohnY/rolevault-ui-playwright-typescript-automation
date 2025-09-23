@@ -1,7 +1,8 @@
 import permissionsData from './role-permissions.json';
 import usersData from './users.json';
+import { decrypt } from '../utils/EncryptionUtils';
 
-type Role = 'Administrator' | 'Contributor' | 'Viewer' | 'registerUser' | 'invalidPassword' | 'tooShortPassword';
+type Role = keyof typeof usersData
 
 export interface UserData {
     emailAddress: string;
@@ -25,7 +26,7 @@ class UserWithPermissions implements TestUser {
 
     constructor(userData: UserData, role: Role) {
         this.emailAddress = userData.emailAddress;
-        this.password = userData.password;
+        this.password = decrypt(userData.password);
         this.fullName = userData.fullName;
         this.role = role;
         this.permissions = permissionsData[role as keyof typeof permissionsData] || [];
@@ -36,30 +37,28 @@ class UserWithPermissions implements TestUser {
 
 }
 
-const createTestUsers = (): Record<Role, TestUser> => {
-    const users = {} as Record<Role, TestUser>;
+const userCache = {} as Record<Role, TestUser>;
 
-    // Loop through JSON entries and create users
-    for (const [roleKey, userData] of Object.entries(usersData)) {
-        const role = roleKey as Role; // Cast to Role type
-        users[role] = new UserWithPermissions(userData as UserData, role);
+export const testUsers = new Proxy(userCache, {
+    get(target, role: Role) {
+        if (!target[role]) {
+            target[role] = new UserWithPermissions(usersData[role] as UserData, role);
+        }
+        return target[role];
     }
+});
 
-    return users;
-};
 
-export const testUsers = createTestUsers();
-
-export const getUserByRole = (role: Role): TestUser | undefined => {
-    return testUsers[role]
+export const getUserByRole = (role: Role): TestUser => {
+    return new UserWithPermissions(usersData[role] as UserData, role);
 }
 
 export const getAvailableRoles = (): Role[] => {
-    return Object.keys(testUsers) as Role[];
+    return Object.keys(usersData) as Role[];
 }
 
-const createRegistrationUser = (): TestUser => {
-    const baseUser = testUsers.registerUser;
+export const getRegistrationUser = (): TestUser => {
+    const baseUser = getUserByRole('registerUser')
     if (!baseUser) {
         throw new Error('registerUser not found in testUsers');
     }
@@ -72,7 +71,5 @@ const createRegistrationUser = (): TestUser => {
         emailAddress: baseUser.emailAddress.replace(placeholder, timestamp),
         fullName: baseUser.fullName.replace(placeholder, timestamp),
     };
-}
-
-export const registerUser = createRegistrationUser();
+};
 
