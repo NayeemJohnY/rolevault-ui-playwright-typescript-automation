@@ -35,8 +35,9 @@ export const test = base.extend<TestFixtures>({
             const appInstance = await launchApp(targetPage, options?.baseURL);
 
             if (options?.role) {
-                await appInstance.homePage.login(testUsers[options.role]);
-                await appInstance.assert.expectToastMessage("Welcome back");
+                const user = testUsers[options.role];
+                await appInstance.homePage.login(user);
+                await appInstance.assert.expectToastMessage(`Welcome back, ${user.fullName}!`);
                 await appInstance.dashboardPage.assertIsVisible();
             }
 

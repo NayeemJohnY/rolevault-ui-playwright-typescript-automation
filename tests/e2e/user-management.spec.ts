@@ -24,7 +24,7 @@ test.describe("User management", { tag: '@e2e' }, () => {
         await test.step('Newly added user login to Role Vault and logs out', async () => {
             newUserApp = await session({ newSession: true });
             newUserApp.homePage.login(newUser);
-            await newUserApp.assert.expectToastMessage("Welcome back");
+            await newUserApp.assert.expectToastMessage(`Welcome back, ${newUser.fullName}!`);
             await newUserApp.dashboardPage.assertIsVisible();
             await newUserApp.dashboardPage.logoutFromSideNavMenu();
         });

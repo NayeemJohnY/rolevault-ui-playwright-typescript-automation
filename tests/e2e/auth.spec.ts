@@ -25,7 +25,7 @@ test.describe("User authentication E2E", { tag: '@e2e' }, () => {
         // Step 3: Login with registered user credentials
         await test.step('Login with registered user credentials', async () => {
             await app.homePage.login(registerUser);
-            await app.assert.expectToastMessage("Welcome back");
+            await app.assert.expectToastMessage(`Welcome back, ${registerUser.fullName}!`);
             await app.dashboardPage.assertIsVisible();
         });
 
