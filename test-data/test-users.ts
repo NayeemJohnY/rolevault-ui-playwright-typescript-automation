@@ -2,7 +2,7 @@ import { decrypt } from '../utils/EncryptionUtils';
 import permissionsData from './role-permissions.json';
 import usersData from './users.json';
 
-type Role = keyof typeof usersData
+export type Role = keyof typeof usersData
 
 export interface UserData {
     emailAddress: string;

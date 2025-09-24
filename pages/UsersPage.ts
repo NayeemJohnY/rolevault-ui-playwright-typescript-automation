@@ -1,6 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 import { expect } from '../fixtures/base';
-import { TestUser, UserData } from "../test-data/test-users";
+import { Role, TestUser, UserData } from "../test-data/test-users";
 import { BasePage } from "./BasePage";
 
 export class UsersPage extends BasePage {
@@ -25,6 +25,7 @@ export class UsersPage extends BasePage {
     this.$userRow = (user) =>
       this.page.locator(`//tr[td[text()="${user.fullName}"] and td[text()="${user.emailAddress.toLowerCase()}"] and td/span[text()="${user.role.toLowerCase()}"]]`);
     this.$delete = (user) => this.$userRow(user).getByRole('button', { name: "Delete" });
+
   }
 
   public async addNewUser(newUser: UserData) {
@@ -39,6 +40,13 @@ export class UsersPage extends BasePage {
     await this.$delete(newUser).click();
     await expect(this.ui.$paragraph('Are you sure you want to delete this user?')).toBeVisible();
     await this.ui.$confirmPopup.click();
+  }
+
+  public async filterUsersByRole(): Promise<string> {
+    const roles = await this.ui.$comboboxSelect().getByRole('option').allTextContents();
+    const randomOption = roles[Math.floor(Math.random() * roles.length)]
+    await this.ui.$comboboxSelect().selectOption({ label: randomOption });
+    return randomOption;
   }
 
 }   

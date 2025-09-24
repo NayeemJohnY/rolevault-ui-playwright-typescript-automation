@@ -1,6 +1,6 @@
 import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 import { App } from '../pages/App';
-import { testUsers } from '../test-data/test-users';
+import { Role, testUsers } from '../test-data/test-users';
 
 
 async function launchApp(page: Page, url = "/") {
@@ -12,7 +12,7 @@ async function launchApp(page: Page, url = "/") {
 
 export type TestFixtures = {
     app: App;
-    session: (options?: { baseURL?: string, newSession?: boolean, role?: keyof typeof testUsers }) => Promise<App>;
+    session: (options?: { baseURL?: string, newSession?: boolean, role?: Role }) => Promise<App>;
 }
 
 export const test = base.extend<TestFixtures>({
@@ -23,7 +23,7 @@ export const test = base.extend<TestFixtures>({
 
     session: async ({ browser, page }, use) => {
         const newSessions: BrowserContext[] = [];
-        const getSession = async (options?: { baseURL?: string, newSession?: boolean, role?: keyof typeof testUsers }): Promise<App> => {
+        const getSession = async (options?: { baseURL?: string, newSession?: boolean, role?: Role }): Promise<App> => {
             let targetPage = page;
 
             if (options?.newSession) {

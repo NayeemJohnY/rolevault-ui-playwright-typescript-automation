@@ -13,4 +13,7 @@ export const commonLocators = (page: Page) => ({
     $sidebarMenu: (menuName: string) => page.getByTestId('sidebar').getByRole('link', { name: menuName }),
     $confirmPopup: page.getByRole('button', { name: 'Confirm' }),
     $paragraph: (text: string) => page.getByRole('paragraph').filter({ hasText: text }),
+    $comboboxSelect: (index: number = 0) => page.getByRole('combobox').nth(index),
+    $tableBeforeColumnHeaders: (headerName: string) => page.locator(`xpath=//table//th[text()="${headerName}"]/preceding-sibling::th`),
+    $tableColumn: (index: number = 0) => page.locator(`//table//td[${index}]`),
 });
