@@ -1,5 +1,6 @@
-import { test as base, expect, Page } from '@playwright/test';
+import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 import { App } from '../pages/App';
+import { testUsers } from '../test-data/test-users';
 
 
 async function launchApp(page: Page, url = "/") {
@@ -11,7 +12,7 @@ async function launchApp(page: Page, url = "/") {
 
 export type TestFixtures = {
     app: App;
-    newSession: (baseURL?: string) => Promise<App>;
+    session: (options?: { baseURL?: string, newSession?: boolean, role?: keyof typeof testUsers }) => Promise<App>;
 }
 
 export const test = base.extend<TestFixtures>({
@@ -20,25 +21,34 @@ export const test = base.extend<TestFixtures>({
         await use(app);
     },
 
-    newSession: async ({ browser }, use) => {
-        const sessions: App[] = [];
+    session: async ({ browser, page }, use) => {
+        const newSessions: BrowserContext[] = [];
+        const getSession = async (options?: { baseURL?: string, newSession?: boolean, role?: keyof typeof testUsers }): Promise<App> => {
+            let targetPage = page;
 
-        const createSession = async (baseURL?: string) => {
-            const context = await browser.newContext();
-            const page = await context.newPage();
-            const url = baseURL || "/";
-            const app = launchApp(page, url);
-            return app;
+            if (options?.newSession) {
+                const context = await browser.newContext();
+                targetPage = await context.newPage();
+                newSessions.push(context);
+            }
+
+            const appInstance = await launchApp(targetPage, options?.baseURL);
+
+            if (options?.role) {
+                await appInstance.homePage.login(testUsers[options.role]);
+                await appInstance.assert.expectToastMessage("Welcome back");
+                await expect(appInstance.page).toHaveURL(/dashboard/);
+                await appInstance.dashboardPage.assertIsVisible();
+            }
+
+            return appInstance
+        };
+        await use(getSession);
+
+        for (const session of newSessions) {
+            await session.close();
         }
-
-        await use(createSession);
-
-        // Cleanup all created sessions
-        for (const session of sessions) {
-            await session.page.context().close();
-        }
-    }
-
+    },
 });
 
 export { expect };
