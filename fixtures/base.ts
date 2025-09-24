@@ -1,44 +1,44 @@
 import { test as base, expect, Page } from '@playwright/test';
-import { DashboardPage } from '../pages/DashboardPage';
-import { HomePage } from '../pages/HomePage';
-import { CommonAssertions } from '../pages/common/assertions';
-import { commonLocators } from '../pages/common/locators';
+import { App } from '../pages/App';
+
+
+async function launchApp(page: Page, url = "/") {
+    await page.goto(url);
+    await expect(page).toHaveTitle('RoleVault');
+    await expect(page.getByRole('heading', { name: 'Role Vault' })).toBeVisible();
+    return new App(page);
+}
 
 export type TestFixtures = {
-    app: Page;
-    homePage: HomePage;
-    dashboardPage: DashboardPage;
-    assert: CommonAssertions;
-    ui: ReturnType<typeof commonLocators>;
+    app: App;
+    newSession: (baseURL?: string) => Promise<App>;
 }
 
 export const test = base.extend<TestFixtures>({
     app: async ({ page }, use) => {
-        // Extend the page fixture to launch app and assert title and heading
-        await page.goto("/");
-        await expect(page).toHaveTitle('RoleVault');
-        await expect(page.getByRole('heading', { name: 'Role Vault' })).toBeVisible();
-        await use(page);
+        const app = await launchApp(page);
+        await use(app);
     },
 
-    homePage: async ({ app }, use) => {
-        const home = new HomePage(app);
-        await use(home);
-    },
+    newSession: async ({ browser }, use) => {
+        const sessions: App[] = [];
 
-    dashboardPage: async ({ app }, use) => {
-        const dashboard = new DashboardPage(app);
-        await use(dashboard);
-    },
+        const createSession = async (baseURL?: string) => {
+            const context = await browser.newContext();
+            const page = await context.newPage();
+            const url = baseURL || "/";
+            const app = launchApp(page, url);
+            return app;
+        }
 
-    assert: async ({ page }, use) => {
-        const assert = new CommonAssertions(page);
-        await use(assert);
-    },
+        await use(createSession);
 
-    ui: async ({ page }, use) => {
-        await use(commonLocators(page));
+        // Cleanup all created sessions
+        for (const session of sessions) {
+            await session.page.context().close();
+        }
     }
+
 });
 
 export { expect };
