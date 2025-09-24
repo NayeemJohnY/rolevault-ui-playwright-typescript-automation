@@ -17,6 +17,7 @@ export abstract class BasePage {
         await this.ui.$sidebarMenu(menuName).click();
         pageHeading = pageHeading ? pageHeading : menuName;
         await expect(this.ui.$level1Heading(pageHeading)).toBeVisible();
+        await this.ui.$themeToggle.hover();
     }
 }
 
