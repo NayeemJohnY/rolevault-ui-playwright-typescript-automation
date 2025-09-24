@@ -11,7 +11,6 @@ test.describe("User authentication E2E", { tag: '@e2e' }, () => {
         await test.step('Register a new user', async () => {
             await app.homePage.register(registerUser);
             await app.assert.expectToastMessage('Account created successfully');
-            await expect(app.page).toHaveURL(/dashboard/);
             await app.dashboardPage.assertIsVisible();
         });
 
@@ -27,7 +26,6 @@ test.describe("User authentication E2E", { tag: '@e2e' }, () => {
         await test.step('Login with registered user credentials', async () => {
             await app.homePage.login(registerUser);
             await app.assert.expectToastMessage("Welcome back");
-            await expect(app.page).toHaveURL(/dashboard/);
             await app.dashboardPage.assertIsVisible();
         });
 

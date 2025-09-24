@@ -17,6 +17,7 @@ export class DashboardPage extends BasePage {
     }
 
     async assertIsVisible() {
+        await expect(this.page).toHaveURL(/dashboard/);
         await expect(this.ui.$level1Heading('Dashboard')).toBeVisible();
         await expect(this.$profileIcon).toBeVisible();
     }

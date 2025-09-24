@@ -25,7 +25,6 @@ test.describe("User management", { tag: '@e2e' }, () => {
             newUserApp = await session({ newSession: true });
             newUserApp.homePage.login(newUser);
             await newUserApp.assert.expectToastMessage("Welcome back");
-            await expect(newUserApp.page).toHaveURL(/dashboard/);
             await newUserApp.dashboardPage.assertIsVisible();
             await newUserApp.dashboardPage.logoutFromSideNavMenu();
         });

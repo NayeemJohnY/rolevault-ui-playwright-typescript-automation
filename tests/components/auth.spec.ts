@@ -7,7 +7,6 @@ test.describe("User authentication", { tag: '@component' }, () => {
 
     test('Should allow user to login and access dashboard using UI test accounts', { tag: '@smoke' }, async ({ app }) => {
       await app.homePage.loginUsingTestAccount()
-      await expect(app.page).toHaveURL(/dashboard/);
       await app.dashboardPage.assertIsVisible();
     });
 
@@ -26,7 +25,6 @@ test.describe("User authentication", { tag: '@component' }, () => {
 
       await test.step('Login with valid credentials', async () => {
         await app.homePage.loginUsingTestAccount();
-        await expect(app.page).toHaveURL(/dashboard/);
         await app.dashboardPage.assertIsVisible();
       });
 
