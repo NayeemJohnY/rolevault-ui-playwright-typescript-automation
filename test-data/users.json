@@ -1,32 +1,32 @@
 {
     "Administrator": {
-        "emailAddress": "admin@test.com",
+        "emailAddress": "admin@rolevault.com",
         "password": "jQl8hqgz3BYMmF4jtaR/nMQLdwtkfYTpdfTcHkdBUrzqzBev",
         "fullName": "Admin User"
     },
     "Contributor": {
-        "emailAddress": "contributor@test.com",
+        "emailAddress": "contributor@rolevault.com",
         "password": "U5zlBifxyWKNEpjLIaWytn/iYZoQWFWn7/GQQOtTs7zRPMEo+vE=",
         "fullName": "Contributor User"
     },
     "Viewer": {
-        "emailAddress": "viewer@test.com",
+        "emailAddress": "viewer@rolevault.com",
         "password": "kt0wvZ1nhuWj0RCm31PQdRVf60rZmYQxRIKxtohzdVID0MyVrQ==",
         "fullName": "Viewer User"
     },
     "invalidPassword": {
-        "emailAddress": "invaliduser@test.com",
+        "emailAddress": "invaliduser@rolevault.com",
         "password": "invalidPassword",
         "fullName": "InvalidPassword User"
     },
     "tooShortPassword": {
-        "emailAddress": "invalidPassword@test.com",
+        "emailAddress": "invalidPassword@rolevault.com",
         "password": "pass",
         "fullName": "TooShortPassword User"
     },
-    "registerUser": {
-        "emailAddress": "registerUser{{timestamp}}@test.com",
-        "password": "registerUser@123",
-        "fullName": "Register{{timestamp}} User"
+    "newUser": {
+        "emailAddress": "new{{timestamp}}user@rolevault.com",
+        "password": "newUser@123",
+        "fullName": "New{{timestamp}} User"
     }
 }
