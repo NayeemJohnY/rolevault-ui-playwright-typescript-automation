@@ -1,40 +1,39 @@
 import { expect, test } from '../../fixtures/base';
 import { getNewUser } from '../../test-data/test-users';
 
-test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
+test.describe("User authentication E2E", { tag: '@e2e' }, () => {
 
 
-    test("complete user registration, login, and logout flow", async ({ app }) => {
+    test('Should complete user registration, login, and logout flow', { tag: '@smoke' }, async ({ app }) => {
 
-        // Step 1 : Register New User
+        // Step 1: Register a new user
         const registerUser = getNewUser();
-        await test.step("Register new user", async () => {
+        await test.step('Register a new user', async () => {
             await app.homePage.register(registerUser);
             await app.assert.expectToastMessage('Account created successfully');
             await expect(app.page).toHaveURL(/dashboard/);
             await app.dashboardPage.assertIsVisible();
         });
 
-        // Step 2: Logout user
-        await test.step("Logout user", async () => {
-            await app.dashboardPage.logoutFromProfile()
+        // Step 2: Logout from dashboard profile
+        await test.step('Logout from dashboard profile', async () => {
+            await app.dashboardPage.logoutFromProfile();
             await app.assert.expectToastMessage("Logged out successfully");
             await expect(app.homePage.$login).toBeVisible();
             await expect(app.page).toHaveURL(/login/);
         });
 
-        // Step 3: Login with registered user
-        await test.step("Login with registered user", async () => {
+        // Step 3: Login with registered user credentials
+        await test.step('Login with registered user credentials', async () => {
             await app.homePage.login(registerUser);
             await app.assert.expectToastMessage("Welcome back");
             await expect(app.page).toHaveURL(/dashboard/);
             await app.dashboardPage.assertIsVisible();
         });
 
-
-        // Step 4: Logout user
-        await test.step("Logout user", async () => {
-            await app.dashboardPage.logoutFromSideNavMenu()
+        // Step 4: Logout from side navigation menu
+        await test.step('Logout from side navigation menu', async () => {
+            await app.dashboardPage.logoutFromSideNavMenu();
             await app.assert.expectToastMessage("Logged out successfully");
             await expect(app.homePage.$login).toBeVisible();
             await expect(app.page).toHaveURL(/login/);

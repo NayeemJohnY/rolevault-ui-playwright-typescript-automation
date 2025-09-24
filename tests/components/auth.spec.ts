@@ -1,11 +1,11 @@
 import { expect, test } from '../../fixtures/base';
 import { testUsers, getNewUser } from '../../test-data/test-users';
 
-test.describe("User Authentication", { tag: '@component' }, () => {
+test.describe("User authentication", { tag: '@component' }, () => {
 
   test.describe("Login", () => {
 
-    test(`should allow to log in and access dashboard using ui test accounts`, { tag: '@smoke' }, async ({ app }) => {
+    test('Should allow user to login and access dashboard using UI test accounts', { tag: '@smoke' }, async ({ app }) => {
       await app.homePage.loginUsingTestAccount()
       await expect(app.page).toHaveURL(/dashboard/);
       await app.dashboardPage.assertIsVisible();
@@ -15,14 +15,14 @@ test.describe("User Authentication", { tag: '@component' }, () => {
     const errorMessage = "Invalid credentials or account deactivated"
 
     for (const user of invalidCredentials) {
-      test(`should show valid error ${user.role} for invalid login credentials`, async ({ app }) => {
+      test(`Should show valid error for ${user.role} with invalid login credentials`, async ({ app }) => {
         await app.homePage.login(user)
         await app.assert.expectFormError(errorMessage);
         await app.assert.expectToastMessage(errorMessage);
       });
     }
 
-    test('should redirect unauthenticated user to login', async ({ app }) => {
+    test('Should redirect unauthenticated user to login', async ({ app }) => {
 
       await test.step('Login with valid credentials', async () => {
         await app.homePage.loginUsingTestAccount();
@@ -42,7 +42,7 @@ test.describe("User Authentication", { tag: '@component' }, () => {
 
   test.describe("Register", () => {
 
-    test("should handle registration with existing email", async ({ app }) => {
+    test("Should handle registration with existing email", async ({ app }) => {
       const existingEmail = await app.homePage.getRandomTestAccountEmail();
       await app.homePage.register({ ...getNewUser(), emailAddress: existingEmail });
       await app.assert.expectToastMessage('User already exists with this email');
