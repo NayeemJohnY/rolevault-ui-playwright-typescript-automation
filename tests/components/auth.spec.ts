@@ -1,52 +1,52 @@
 import { expect, test } from '../../fixtures/base';
-import { testUsers, getRegistrationUser } from '../../test-data/test-users';
+import { testUsers, getNewUser } from '../../test-data/test-users';
 
 test.describe("User Authentication", { tag: '@component' }, () => {
 
   test.describe("Login", () => {
 
-    test(`should allow to log in and access dashboard using ui test accounts`, { tag: '@smoke' }, async ({ page, homePage, dashboardPage }) => {
-      await homePage.loginUsingTestAccount()
-      await expect(page).toHaveURL(/dashboard/);
-      await dashboardPage.assertIsVisible();
+    test(`should allow to log in and access dashboard using ui test accounts`, { tag: '@smoke' }, async ({ app }) => {
+      await app.homePage.loginUsingTestAccount()
+      await expect(app.page).toHaveURL(/dashboard/);
+      await app.dashboardPage.assertIsVisible();
     });
 
     const invalidCredentials = [testUsers.invalidPassword, testUsers.tooShortPassword];
     const errorMessage = "Invalid credentials or account deactivated"
 
     for (const user of invalidCredentials) {
-      test(`should show valid error ${user.role} for invalid login credentials`, async ({ homePage, assert }) => {
-        await homePage.login(user)
-        await assert.expectFormError(errorMessage);
-        await assert.expectToastMessage(errorMessage);
+      test(`should show valid error ${user.role} for invalid login credentials`, async ({ app }) => {
+        await app.homePage.login(user)
+        await app.assert.expectFormError(errorMessage);
+        await app.assert.expectToastMessage(errorMessage);
       });
     }
 
-    test('should redirect unauthenticated user to login', async ({ page, homePage, dashboardPage }) => {
+    test('should redirect unauthenticated user to login', async ({ app }) => {
 
       await test.step('Login with valid credentials', async () => {
-        await homePage.loginUsingTestAccount();
-        await expect(page).toHaveURL(/dashboard/);
-        await dashboardPage.assertIsVisible();
+        await app.homePage.loginUsingTestAccount();
+        await expect(app.page).toHaveURL(/dashboard/);
+        await app.dashboardPage.assertIsVisible();
       });
 
       await test.step('Clear session and verify redirect', async () => {
-        await page.evaluate(() => { localStorage.clear(); })
-        await page.reload();
-        await expect(page).not.toHaveURL(/dashboard/);
-        await expect(homePage.$login).toBeVisible();
-        await expect(page).toHaveURL(/login/);
+        await app.page.evaluate(() => { localStorage.clear(); })
+        await app.page.reload();
+        await expect(app.page).not.toHaveURL(/dashboard/);
+        await expect(app.homePage.$login).toBeVisible();
+        await expect(app.page).toHaveURL(/login/);
       });
     });
   });
 
   test.describe("Register", () => {
 
-    test("should handle registration with existing email", async ({ page, homePage, assert }) => {
-      const existingEmail = await homePage.getRandomTestAccountEmail();
-      await homePage.register({ ...getRegistrationUser(), emailAddress: existingEmail });
-      await assert.expectToastMessage('User already exists with this email');
-      await expect(page).not.toHaveURL(/dashboard/);
+    test("should handle registration with existing email", async ({ app }) => {
+      const existingEmail = await app.homePage.getRandomTestAccountEmail();
+      await app.homePage.register({ ...getNewUser(), emailAddress: existingEmail });
+      await app.assert.expectToastMessage('User already exists with this email');
+      await expect(app.page).not.toHaveURL(/dashboard/);
     });
   });
 

@@ -1,43 +1,43 @@
 import { expect, test } from '../../fixtures/base';
-import { getRegistrationUser } from '../../test-data/test-users';
+import { getNewUser } from '../../test-data/test-users';
 
 test.describe("User Authentication E2E", { tag: '@e2e' }, () => {
 
 
-    test("complete user registration, login, and logout flow", async ({ page, homePage, dashboardPage, assert }) => {
+    test("complete user registration, login, and logout flow", async ({ app }) => {
 
         // Step 1 : Register New User
-        const registerUser = getRegistrationUser();
+        const registerUser = getNewUser();
         await test.step("Register new user", async () => {
-            await homePage.register(registerUser);
-            await assert.expectToastMessage('Account created successfully');
-            await expect(page).toHaveURL(/dashboard/);
-            await dashboardPage.assertIsVisible();
+            await app.homePage.register(registerUser);
+            await app.assert.expectToastMessage('Account created successfully');
+            await expect(app.page).toHaveURL(/dashboard/);
+            await app.dashboardPage.assertIsVisible();
         });
 
         // Step 2: Logout user
         await test.step("Logout user", async () => {
-            await dashboardPage.logoutFromProfile()
-            await assert.expectToastMessage("Logged out successfully");
-            await expect(homePage.$login).toBeVisible();
-            await expect(page).toHaveURL(/login/);
+            await app.dashboardPage.logoutFromProfile()
+            await app.assert.expectToastMessage("Logged out successfully");
+            await expect(app.homePage.$login).toBeVisible();
+            await expect(app.page).toHaveURL(/login/);
         });
 
         // Step 3: Login with registered user
         await test.step("Login with registered user", async () => {
-            homePage.login(registerUser);
-            await assert.expectToastMessage("Welcome back");
-            await expect(page).toHaveURL(/dashboard/);
-            await dashboardPage.assertIsVisible();
+            await app.homePage.login(registerUser);
+            await app.assert.expectToastMessage("Welcome back");
+            await expect(app.page).toHaveURL(/dashboard/);
+            await app.dashboardPage.assertIsVisible();
         });
 
 
         // Step 4: Logout user
         await test.step("Logout user", async () => {
-            await dashboardPage.logoutFromSideNavMenu()
-            await assert.expectToastMessage("Logged out successfully");
-            await expect(homePage.$login).toBeVisible();
-            await expect(page).toHaveURL(/login/);
+            await app.dashboardPage.logoutFromSideNavMenu()
+            await app.assert.expectToastMessage("Logged out successfully");
+            await expect(app.homePage.$login).toBeVisible();
+            await expect(app.page).toHaveURL(/login/);
         });
 
     });
