@@ -1,18 +1,16 @@
 import { expect, test } from '../../fixtures/base';
-import { testUsers, getNewUser, TestUser } from '../../test-data/test-users';
+import { App } from '../../pages/App';
+import { getNewUser } from '../../test-data/test-users';
 
 
 test.describe("User management", { tag: '@e2e' }, () => {
 
-    test('Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login', async ({ app, newSession }) => {
+    test('Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login', async ({ app, session }) => {
         await test.step('Admin login to Role Vault', async () => {
-            await app.homePage.login(testUsers.Administrator);
-            await app.assert.expectToastMessage("Welcome back");
-            await expect(app.page).toHaveURL(/dashboard/);
-            await app.dashboardPage.assertIsVisible();
+            await session({ role: 'Administrator' });
         });
 
-        const newUser: TestUser = getNewUser();
+        const newUser = getNewUser();
         newUser.role = 'Viewer';
 
         await test.step('Admin adds a new user and verifies user is added', async () => {
@@ -22,8 +20,9 @@ test.describe("User management", { tag: '@e2e' }, () => {
             await expect(app.usersPage.$userRow(newUser)).toBeVisible();
         });
 
-        await test.step("Added new user login to role vault & logout", async () => {
-            const newUserApp = await newSession();
+        let newUserApp: App;
+        await test.step('Newly added user login to Role Vault and logs out', async () => {
+            newUserApp = await session({ newSession: true });
             newUserApp.homePage.login(newUser);
             await newUserApp.assert.expectToastMessage("Welcome back");
             await expect(newUserApp.page).toHaveURL(/dashboard/);
@@ -36,8 +35,11 @@ test.describe("User management", { tag: '@e2e' }, () => {
             await expect(app.usersPage.$userRow({ ...newUser, role: 'Viewer' })).not.toBeVisible();
         });
 
-
-
-
+        await test.step('Removed user is unable to login', async () => {
+            newUserApp.homePage.login(newUser);
+            const errorMessage = "Invalid credentials or account deactivated"
+            await newUserApp.assert.expectFormError(errorMessage);
+            await newUserApp.assert.expectToastMessage(errorMessage);
+        });
     });
 });
