@@ -1,6 +1,6 @@
+import { decrypt } from '../utils/EncryptionUtils';
 import permissionsData from './role-permissions.json';
 import usersData from './users.json';
-import { decrypt } from '../utils/EncryptionUtils';
 
 type Role = keyof typeof usersData
 
@@ -57,10 +57,10 @@ export const getAvailableRoles = (): Role[] => {
     return Object.keys(usersData) as Role[];
 }
 
-export const getRegistrationUser = (): TestUser => {
-    const baseUser = getUserByRole('registerUser')
+export const getNewUser = (): TestUser => {
+    const baseUser = getUserByRole('newUser')
     if (!baseUser) {
-        throw new Error('registerUser not found in testUsers');
+        throw new Error('newUser not found in testUsers');
     }
 
     const timestamp = Math.floor(Date.now() / 1000).toString();
