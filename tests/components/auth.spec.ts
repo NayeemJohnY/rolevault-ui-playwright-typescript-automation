@@ -1,3 +1,4 @@
+import { INVALID_LOGIN_ERROR_MSG, USER_ALREADY_EXISTS } from '../../constants';
 import { expect, test } from '../../fixtures/base';
 import { testUsers, getNewUser, Role } from '../../test-data/test-users';
 
@@ -11,13 +12,13 @@ test.describe("User authentication", { tag: '@component' }, () => {
     });
 
     const invalidCredentials: Role[] = ['invalidPassword', 'tooShortPassword'];
-    const errorMessage = "Invalid credentials or account deactivated"
+
 
     for (const role of invalidCredentials) {
       test(`Should show valid error for ${role} with invalid login credentials`, async ({ app }) => {
         await app.homePage.login(testUsers[role])
-        await app.assert.expectFormError(errorMessage);
-        await app.assert.expectToastMessage(errorMessage);
+        await app.assert.expectFormError(INVALID_LOGIN_ERROR_MSG);
+        await app.assert.expectToastMessage(INVALID_LOGIN_ERROR_MSG);
       });
     }
 
@@ -43,7 +44,7 @@ test.describe("User authentication", { tag: '@component' }, () => {
     test("Should handle registration with existing email", async ({ app }) => {
       const existingEmail = await app.homePage.getRandomTestAccountEmail();
       await app.homePage.register({ ...getNewUser(), emailAddress: existingEmail });
-      await app.assert.expectToastMessage('User already exists with this email');
+      await app.assert.expectToastMessage(USER_ALREADY_EXISTS);
       await expect(app.page).not.toHaveURL(/dashboard/);
     });
   });

@@ -1,3 +1,4 @@
+import { ACCOUNT_CREATE_SUCCESS, LOGOUT_SUCCESS } from '../../constants';
 import { expect, test } from '../../fixtures/base';
 import { getNewUser } from '../../test-data/test-users';
 
@@ -10,14 +11,14 @@ test.describe("User authentication E2E", { tag: '@e2e' }, () => {
         const registerUser = getNewUser();
         await test.step('Register a new user', async () => {
             await app.homePage.register(registerUser);
-            await app.assert.expectToastMessage('Account created successfully');
+            await app.assert.expectToastMessage(ACCOUNT_CREATE_SUCCESS);
             await app.dashboardPage.assertIsVisible();
         });
 
         // Step 2: Logout from dashboard profile
         await test.step('Logout from dashboard profile', async () => {
             await app.dashboardPage.logoutFromProfile();
-            await app.assert.expectToastMessage("Logged out successfully");
+            await app.assert.expectToastMessage(LOGOUT_SUCCESS);
             await expect(app.homePage.$login).toBeVisible();
             await expect(app.page).toHaveURL(/login/);
         });
@@ -32,7 +33,7 @@ test.describe("User authentication E2E", { tag: '@e2e' }, () => {
         // Step 4: Logout from side navigation menu
         await test.step('Logout from side navigation menu', async () => {
             await app.dashboardPage.logoutFromSideNavMenu();
-            await app.assert.expectToastMessage("Logged out successfully");
+            await app.assert.expectToastMessage(LOGOUT_SUCCESS);
             await expect(app.homePage.$login).toBeVisible();
             await expect(app.page).toHaveURL(/login/);
         });
