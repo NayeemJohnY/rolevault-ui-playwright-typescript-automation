@@ -1,5 +1,5 @@
 import { expect, test } from '../../fixtures/base';
-import { testUsers, getNewUser } from '../../test-data/test-users';
+import { testUsers, getNewUser, Role } from '../../test-data/test-users';
 
 test.describe("User authentication", { tag: '@component' }, () => {
 
@@ -10,12 +10,12 @@ test.describe("User authentication", { tag: '@component' }, () => {
       await app.dashboardPage.assertIsVisible();
     });
 
-    const invalidCredentials = [testUsers.invalidPassword, testUsers.tooShortPassword];
+    const invalidCredentials: Role[] = ['invalidPassword', 'tooShortPassword'];
     const errorMessage = "Invalid credentials or account deactivated"
 
-    for (const user of invalidCredentials) {
-      test(`Should show valid error for ${user.role} with invalid login credentials`, async ({ app }) => {
-        await app.homePage.login(user)
+    for (const role of invalidCredentials) {
+      test(`Should show valid error for ${role} with invalid login credentials`, async ({ app }) => {
+        await app.homePage.login(testUsers[role])
         await app.assert.expectFormError(errorMessage);
         await app.assert.expectToastMessage(errorMessage);
       });
