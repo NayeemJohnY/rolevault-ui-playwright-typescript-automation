@@ -2,6 +2,7 @@ import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 import { UserData } from "../test-data/test-users";
 import { step } from "../fixtures/base";
+import { getRandomValue } from "../utils/helper";
 
 export class HomePage extends BasePage {
     readonly $emailAddress: Locator;
@@ -54,7 +55,7 @@ export class HomePage extends BasePage {
     public async getRandomTestAccountLocator(): Promise<Locator> {
         await this.$showTestAccounts.click();
         const testAccounts = await this.$testAccounts.all();
-        const randomTestAccount = testAccounts[Math.floor(Math.random() * testAccounts.length)];
+        const randomTestAccount = getRandomValue(testAccounts)
         return randomTestAccount;
     }
 

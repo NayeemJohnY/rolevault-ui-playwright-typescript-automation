@@ -15,6 +15,8 @@ export const commonLocators = (page: Page) => ({
     $paragraph: (text: string) => page.getByRole('paragraph').filter({ hasText: text }),
     $comboboxSelect: (index: number = 0) => page.getByRole('combobox').nth(index),
     $tableBeforeColumnHeaders: (headerName: string) => page.locator(`xpath=//table//th[text()="${headerName}"]/preceding-sibling::th`),
+    $tableRow: page.locator('tbody').getByRole('row'),
     $tableColumn: (index: number = 0) => page.locator(`//table//td[${index}]`),
-    $nextPageNavButton: page.locator('//button[contains(@class, "nav-button")][2]')
+    $nextPageNavButton: page.locator('//button[contains(@class, "nav-button")][2]'),
+    $searchInput: page.locator('input[class*=search-input]'),
 });

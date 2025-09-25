@@ -2,6 +2,7 @@ import { Locator, Page } from "@playwright/test";
 import { expect, step } from '../fixtures/base';
 import { TestUser, UserData } from "../test-data/test-users";
 import { BasePage } from "./BasePage";
+import { getRandomValue } from "../utils/helper";
 
 export class UsersPage extends BasePage {
 
@@ -47,9 +48,17 @@ export class UsersPage extends BasePage {
   @step('Filter Users By Role')
   public async filterUsersByRole(): Promise<string> {
     const roles = await this.ui.$comboboxSelect().getByRole('option', { selected: false }).allTextContents();
-    const randomOption = roles[Math.floor(Math.random() * roles.length)]
+    const randomOption = getRandomValue(roles);
     await this.ui.$comboboxSelect().selectOption({ label: randomOption });
     return randomOption;
   }
+
+  @step('Search Users By Name/Email/Role')
+  public async searchUsersBy(search: string): Promise<string[]> {
+    await this.ui.$searchInput.fill(search);
+    await this.ui.$tableRow.first().waitFor({ state: "visible" });
+    return await this.ui.$tableRow.allTextContents();
+  }
+
 
 }   
