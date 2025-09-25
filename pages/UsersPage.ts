@@ -1,6 +1,6 @@
 import { Locator, Page } from "@playwright/test";
-import { expect } from '../fixtures/base';
-import { Role, TestUser, UserData } from "../test-data/test-users";
+import { expect, step } from '../fixtures/base';
+import { TestUser, UserData } from "../test-data/test-users";
 import { BasePage } from "./BasePage";
 
 export class UsersPage extends BasePage {
@@ -14,6 +14,7 @@ export class UsersPage extends BasePage {
   readonly $userRow: (user: TestUser) => Locator;
   readonly $delete: (user: TestUser) => Locator;
 
+
   constructor(page: Page) {
     super(page);
     this.$addNewUser = this.page.getByRole('button', { name: 'Add New User' });
@@ -25,9 +26,10 @@ export class UsersPage extends BasePage {
     this.$userRow = (user) =>
       this.page.locator(`//tr[td[text()="${user.fullName}"] and td[text()="${user.emailAddress.toLowerCase()}"] and td/span[text()="${user.role.toLowerCase()}"]]`);
     this.$delete = (user) => this.$userRow(user).getByRole('button', { name: "Delete" });
-
+    this.page.locator('button.nav-button:nth-of-type(2)')
   }
 
+  @step('Add New User')
   public async addNewUser(newUser: UserData) {
     await this.$addNewUser.click();
     await this.$userName.fill(newUser.fullName);
@@ -42,8 +44,9 @@ export class UsersPage extends BasePage {
     await this.ui.$confirmPopup.click();
   }
 
+  @step('Filter Users By Role')
   public async filterUsersByRole(): Promise<string> {
-    const roles = await this.ui.$comboboxSelect().getByRole('option').allTextContents();
+    const roles = await this.ui.$comboboxSelect().getByRole('option', { selected: false }).allTextContents();
     const randomOption = roles[Math.floor(Math.random() * roles.length)]
     await this.ui.$comboboxSelect().selectOption({ label: randomOption });
     return randomOption;

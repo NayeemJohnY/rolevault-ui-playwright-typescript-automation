@@ -2,6 +2,8 @@ import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 import { App } from '../pages/App';
 import { Role, testUsers } from '../test-data/test-users';
 
+export { expect };
+
 async function launchApp(page: Page, url = "/") {
     return await test.step('Launch Application', async () => {
         await page.goto(url);
@@ -56,5 +58,14 @@ export const test = base.extend<TestFixtures>({
     },
 });
 
-export { expect };
 
+export function step(stepName?: string) {
+    return function decorator(target: Function, context: ClassMethodDecoratorContext) {
+        return async function replacementMethod(this: any, ...args: any[]) {
+            const name = stepName ? stepName : `${this.constructor.name} + "." + ${String(context.name)}`
+            return await test.step(name, async () => {
+                return await target.call(this, ...args);
+            })
+        }
+    }
+}

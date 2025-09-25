@@ -1,6 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 import { UserData } from "../test-data/test-users";
+import { step } from "../fixtures/base";
 
 export class HomePage extends BasePage {
     readonly $emailAddress: Locator;
@@ -40,6 +41,7 @@ export class HomePage extends BasePage {
     }
 
 
+    @step('Fill User Registration Form and Create Account')
     public async register(registerUser: UserData): Promise<void> {
         await this.$registerTab.click();
         await this.$fullName.fill(registerUser.fullName)
