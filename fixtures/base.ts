@@ -2,12 +2,13 @@ import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 import { App } from '../pages/App';
 import { Role, testUsers } from '../test-data/test-users';
 
-
 async function launchApp(page: Page, url = "/") {
-    await page.goto(url);
-    await expect(page).toHaveTitle('RoleVault');
-    await expect(page.getByRole('heading', { name: 'Role Vault' })).toBeVisible();
-    return new App(page);
+    return await test.step('Launch Application', async () => {
+        await page.goto(url);
+        await expect(page).toHaveTitle('RoleVault');
+        await expect(page.getByRole('heading', { name: 'Role Vault' })).toBeVisible();
+        return new App(page);
+    });
 }
 
 export type TestFixtures = {
@@ -22,31 +23,35 @@ export const test = base.extend<TestFixtures>({
     },
 
     session: async ({ browser, page }, use) => {
-        const newSessions: BrowserContext[] = [];
-        const getSession = async (options?: { baseURL?: string, newSession?: boolean, role?: Role }): Promise<App> => {
-            let targetPage = page;
+        const browserContexts: BrowserContext[] = [];
 
-            if (options?.newSession) {
-                const context = await browser.newContext();
-                targetPage = await context.newPage();
-                newSessions.push(context);
-            }
+        const createSession = async (options?: { baseURL?: string, newSession?: boolean, role?: Role }): Promise<App> => {
+            const stepName = `Initialize session ${options?.newSession ? 'New' : ''} for ${options?.role || 'anonymous user'}`;
+            return await test.step(stepName, async () => {
+                let sessionPage = page;
+                if (options?.newSession) {
+                    const context = await browser.newContext();
+                    sessionPage = await context.newPage();
+                    browserContexts.push(context);
+                }
+                const appInstance = await launchApp(sessionPage, options?.baseURL);
 
-            const appInstance = await launchApp(targetPage, options?.baseURL);
+                if (options?.role) {
+                    const user = testUsers[options.role];
+                    await appInstance.homePage.login(user);
+                    await appInstance.assert.expectToastMessage(`Welcome back, ${user.fullName}!`);
+                    await appInstance.dashboardPage.assertIsVisible();
+                }
 
-            if (options?.role) {
-                const user = testUsers[options.role];
-                await appInstance.homePage.login(user);
-                await appInstance.assert.expectToastMessage(`Welcome back, ${user.fullName}!`);
-                await appInstance.dashboardPage.assertIsVisible();
-            }
-
-            return appInstance
+                return appInstance;
+            });
         };
-        await use(getSession);
 
-        for (const session of newSessions) {
-            await session.close();
+        await use(createSession);
+
+        // Cleanup: Close all created browser contexts
+        for (const context of browserContexts) {
+            await context.close();
         }
     },
 });
