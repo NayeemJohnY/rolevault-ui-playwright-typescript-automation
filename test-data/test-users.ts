@@ -8,6 +8,7 @@ export interface UserData {
     emailAddress: string;
     password: string;
     fullName: string;
+    unencrypted?: boolean
 }
 
 export interface TestUser extends UserData {
@@ -26,7 +27,7 @@ class UserWithPermissions implements TestUser {
 
     constructor(userData: UserData, role: Role) {
         this.emailAddress = userData.emailAddress;
-        this.password = decrypt(userData.password);
+        this.password = userData.unencrypted == false ? userData.password : decrypt(userData.password);
         this.fullName = userData.fullName;
         this.role = role;
         this.permissions = permissionsData[role as keyof typeof permissionsData] || [];
@@ -58,12 +59,12 @@ export const getAvailableRoles = (): Role[] => {
 }
 
 export const getNewUser = (): TestUser => {
-    const baseUser = getUserByRole('newUser')
+    const baseUser = testUsers.newUser;
     if (!baseUser) {
         throw new Error('newUser not found in testUsers');
     }
 
-    const timestamp = Math.floor(Date.now() / 1000).toString();
+    const timestamp = Date.now().toString();
     const placeholder = "{{timestamp}}";
     // Create a new object to avoid mutating the original
     return {
