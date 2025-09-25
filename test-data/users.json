@@ -17,16 +17,19 @@
     "invalidPassword": {
         "emailAddress": "invaliduser@rolevault.com",
         "password": "invalidPassword",
+        "unencrypted": true,
         "fullName": "InvalidPassword User"
     },
     "tooShortPassword": {
         "emailAddress": "invalidPassword@rolevault.com",
         "password": "pass",
+        "unencrypted": true,
         "fullName": "TooShortPassword User"
     },
     "newUser": {
         "emailAddress": "new{{timestamp}}user@rolevault.com",
         "password": "newUser@123",
+        "unencrypted": true,
         "fullName": "New{{timestamp}} User"
     }
 }

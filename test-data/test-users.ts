@@ -27,7 +27,7 @@ class UserWithPermissions implements TestUser {
 
     constructor(userData: UserData, role: Role) {
         this.emailAddress = userData.emailAddress;
-        this.password = userData.unencrypted == false ? userData.password : decrypt(userData.password);
+        this.password = userData.unencrypted == true ? userData.password : decrypt(userData.password);
         this.fullName = userData.fullName;
         this.role = role;
         this.permissions = permissionsData[role as keyof typeof permissionsData] || [];
