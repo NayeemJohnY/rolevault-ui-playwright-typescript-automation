@@ -27,6 +27,10 @@ export default defineConfig([
         rules: {
             /** --- TypeScript Best Practices --- **/
             '@typescript-eslint/no-floating-promises': 'error',       // Prevent unhandled async operations
+
+            /* General code quality */
+            'eqeqeq': ['error', 'always'],             // Enforce strict equality
+            'prefer-const': 'warn',                    // Suggest `const` where possible
         }
     }
 ]);
