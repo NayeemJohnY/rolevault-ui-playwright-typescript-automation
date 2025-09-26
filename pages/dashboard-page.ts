@@ -26,6 +26,8 @@ export class DashboardPage extends BasePage {
 
         await this.$profileIcon.hover();
         await this.$profileIcon.click();
+        // Since this logout click not get resolves unless the dialog in handled
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.$logoutFromProfile.click();
 
         const dialog = await dialogPromise

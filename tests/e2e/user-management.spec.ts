@@ -20,7 +20,7 @@ test.describe("User management E2E", { tag: '@e2e' }, () => {
         let newUserApp: App;
         await test.step('Newly added user login to Role Vault and logs out', async () => {
             newUserApp = await session({ newSession: true });
-            newUserApp.homePage.login(newUser);
+            await newUserApp.homePage.login(newUser);
             await newUserApp.assert.expectToastMessage(`Welcome back, ${newUser.fullName}!`);
             await newUserApp.dashboardPage.assertIsVisible();
             await newUserApp.dashboardPage.logoutFromSideNavMenu();
@@ -32,7 +32,7 @@ test.describe("User management E2E", { tag: '@e2e' }, () => {
         });
 
         await test.step('Removed user is unable to login', async () => {
-            newUserApp.homePage.login(newUser);
+            await newUserApp.homePage.login(newUser);
             await newUserApp.assert.expectFormError(INVALID_LOGIN_ERROR_MSG);
             await newUserApp.assert.expectToastMessage(INVALID_LOGIN_ERROR_MSG);
         });

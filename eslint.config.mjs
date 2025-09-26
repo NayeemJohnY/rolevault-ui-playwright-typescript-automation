@@ -24,5 +24,9 @@ export default defineConfig([
                 tsconfigRootDir: import.meta.dirname,
             },
         },
+        rules: {
+            /** --- TypeScript Best Practices --- **/
+            '@typescript-eslint/no-floating-promises': 'error',       // Prevent unhandled async operations
+        }
     }
 ]);
