@@ -1,5 +1,5 @@
 import { Locator, Page } from "@playwright/test";
-import { BasePage } from "./BasePage";
+import { BasePage } from "./base-page";
 import { UserData } from "../test-data/test-users";
 import { step } from "../fixtures/base";
 import { getRandomValue } from "../utils/helper";

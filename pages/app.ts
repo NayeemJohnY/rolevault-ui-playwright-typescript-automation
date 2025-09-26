@@ -1,9 +1,9 @@
 import { Page } from '@playwright/test';
 import { CommonAssertions } from './common/assertions';
 import { commonLocators } from './common/locators';
-import { DashboardPage } from './DashboardPage';
-import { HomePage } from './HomePage';
-import { UsersPage } from './UsersPage';
+import { DashboardPage } from './dashboard-page';
+import { HomePage } from './home-page';
+import { UsersPage } from './users-page';
 
 
 export class App {

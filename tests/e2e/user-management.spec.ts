@@ -1,6 +1,6 @@
 import { INVALID_LOGIN_ERROR_MSG, USER_CREATE_SUCCESS, USER_MANAGEMENT } from '../../constants';
 import { expect, test } from '../../fixtures/base';
-import { App } from '../../pages/App';
+import { App } from '../../pages/app';
 import { getNewUser, TestUser } from '../../test-data/test-users';
 
 

@@ -1,7 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 import { expect, step } from '../fixtures/base';
 import { TestUser, UserData } from "../test-data/test-users";
-import { BasePage } from "./BasePage";
+import { BasePage } from "./base-page";
 import { getRandomValue } from "../utils/helper";
 
 export class UsersPage extends BasePage {

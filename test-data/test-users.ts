@@ -1,4 +1,5 @@
-import { decrypt } from '../utils/encryptionUtils';
+
+import { decrypt } from '../utils/encryption-utils';
 import permissionsData from './role-permissions.json';
 import usersData from './users.json';
 
