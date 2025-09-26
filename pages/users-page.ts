@@ -58,7 +58,7 @@ export class UsersPage extends BasePage {
     await this.ui.$comboboxSelect(1).selectOption({ value: '50' })
     await this.ui.$searchInput.fill(search);
     await this.ui.$tableRow.first().waitFor({ state: "visible" });
-    let tableValues: string[] = []
+    const tableValues: string[] = []
     while (true) {
       const rowsNotMatch = this.ui.$tableRow.filter({ hasNotText: search });
       await expect(rowsNotMatch).toHaveCount(0);

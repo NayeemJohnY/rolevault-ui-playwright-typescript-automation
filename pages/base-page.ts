@@ -33,7 +33,7 @@ export abstract class BasePage {
         await tableBeforeColumnHeaders.first().waitFor({ state: 'visible' }); // Ensure at least one is visible
         const columnNumber = await tableBeforeColumnHeaders.count() + 1;
         await this.ui.$comboboxSelect(1).selectOption({ value: '50' })
-        let columnValues: string[] = []
+        const columnValues: string[] = []
         while (true) {
             const tableColumn = this.ui.$tableColumn(columnNumber);
             await tableColumn.first().waitFor({ state: 'visible' });

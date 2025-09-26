@@ -60,7 +60,10 @@ export const test = base.extend<TestFixtures>({
 
 
 export function step(stepName?: string) {
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     return function decorator(target: Function, context: ClassMethodDecoratorContext) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return async function replacementMethod(this: any, ...args: any[]) {
             const name = stepName ? stepName : `${this.constructor.name} + "." + ${String(context.name)}`
             return await test.step(name, async () => {

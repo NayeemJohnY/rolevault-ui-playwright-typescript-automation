@@ -7,7 +7,7 @@ import { getRandomValue, getSearchString } from '../../utils/helper';
 export const ROLES = ['admin', 'contributor', 'viewer'];
 
 test.describe("User management", { tag: '@component' }, () => {
-    let users: TestUser[] = []
+    const users: TestUser[] = []
     test.beforeAll('Create new users to enable pagination on the users table', async ({ request }) => {
         const admin = testUsers.Administrator;
         const loginResponse = await request.post("/api/auth/login", { data: { email: admin.emailAddress, password: admin.password } });

@@ -5,7 +5,7 @@ import { getNewUser } from '../../test-data/test-users';
 test.describe("User authentication E2E", { tag: '@e2e' }, () => {
 
 
-    test('Should complete user registration, login, and logout flow', { tag: '@smoke' }, async ({ app }) => {
+    test('Should complete user registration, login, and logout flow', async ({ app }) => {
 
         // Step 1: Register a new user
         const registerUser = getNewUser();
