@@ -1,5 +1,5 @@
-import { expect, Page } from '@playwright/test';
-import { step } from '../fixtures/base';
+import { type Page } from '@playwright/test';
+import { step, expect } from '../fixtures/base';
 import { CommonAssertions } from './common/assertions';
 import { commonLocators } from './common/locators';
 

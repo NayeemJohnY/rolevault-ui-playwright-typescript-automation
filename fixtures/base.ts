@@ -1,6 +1,7 @@
-import { test as base, BrowserContext, expect, Page } from '@playwright/test';
+import type { BrowserContext, Page } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
 import { App } from '../pages/app';
-import { Role, testUsers } from '../test-data/test-users';
+import { testUsers, type Role } from '../test-data/test-users';
 
 export { expect };
 

@@ -1,6 +1,7 @@
 import { USER_MANAGEMENT } from '../../constants';
 import { expect, test } from '../../fixtures/base';
-import { getNewUser, Role, TestUser, testUsers } from '../../test-data/test-users';
+import type { Role, TestUser } from '../../test-data/test-users';
+import { getNewUser, testUsers } from '../../test-data/test-users';
 import { getRandomValue, getSearchString } from '../../utils/helper';
 
 

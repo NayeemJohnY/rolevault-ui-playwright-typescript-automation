@@ -29,7 +29,7 @@ export default defineConfig([
             '@typescript-eslint/no-floating-promises': 'error',       // Prevent unhandled async operations
             '@typescript-eslint/await-thenable': 'error',             // Ensure only awaitable values are awaited
             '@typescript-eslint/no-misused-promises': 'error',        // Prevent accidentally using promises in conditionals
-            
+            '@typescript-eslint/consistent-type-imports': 'error',    // Use `import type` for type-only imports
 
             /* General code quality */
             'eqeqeq': ['error', 'always'],             // Enforce strict equality

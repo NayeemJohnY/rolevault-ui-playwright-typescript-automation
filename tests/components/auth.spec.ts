@@ -1,6 +1,6 @@
 import { INVALID_LOGIN_ERROR_MSG, USER_ALREADY_EXISTS } from '../../constants';
 import { expect, test } from '../../fixtures/base';
-import { testUsers, getNewUser, Role } from '../../test-data/test-users';
+import { testUsers, getNewUser, type Role } from '../../test-data/test-users';
 
 test.describe("User authentication", { tag: '@component' }, () => {
 

@@ -1,6 +1,6 @@
-import { Locator, Page } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 import { expect, step } from '../fixtures/base';
-import { TestUser, UserData } from "../test-data/test-users";
+import type { TestUser, UserData } from "../test-data/test-users";
 import { BasePage } from "./base-page";
 import { getRandomValue } from "../utils/helper";
 

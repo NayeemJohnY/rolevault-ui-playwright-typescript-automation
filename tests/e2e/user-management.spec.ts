@@ -1,7 +1,7 @@
 import { INVALID_LOGIN_ERROR_MSG, USER_CREATE_SUCCESS, USER_MANAGEMENT } from '../../constants';
 import { expect, test } from '../../fixtures/base';
-import { App } from '../../pages/app';
-import { getNewUser, TestUser } from '../../test-data/test-users';
+import type { App } from '../../pages/app';
+import { getNewUser, type TestUser } from '../../test-data/test-users';
 
 
 test.describe("User management E2E", { tag: '@e2e' }, () => {
