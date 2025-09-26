@@ -5,7 +5,6 @@ import { BasePage } from "./BasePage";
 export class DashboardPage extends BasePage {
     readonly $profileIcon: Locator;
     readonly $logout: Locator;
-    readonly $menuButton: Locator
     readonly $logoutFromProfile: Locator
 
     constructor(page: Page) {
@@ -13,7 +12,6 @@ export class DashboardPage extends BasePage {
         this.$profileIcon = page.getByRole('button', { name: 'Profile', exact: true });
         this.$logout = page.getByRole('button', { name: 'Logout' });
         this.$logoutFromProfile = page.getByTestId('logout-button');
-        this.$menuButton = page.getByTestId('menu-button');
     }
 
     async assertIsVisible() {
@@ -36,8 +34,8 @@ export class DashboardPage extends BasePage {
     }
 
     async logoutFromSideNavMenu() {
-        if (await this.$menuButton.isVisible()) {
-            await this.$menuButton.click();
+        if (await this.ui.$menuButton.isVisible()) {
+            await this.ui.$menuButton.click();
         } else {
             await this.ui.$sidebar.hover();
         }

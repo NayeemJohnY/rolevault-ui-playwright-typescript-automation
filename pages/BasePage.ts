@@ -1,7 +1,7 @@
 import { expect, Page } from '@playwright/test';
-import { commonLocators } from './common/locators';
-import { CommonAssertions } from './common/assertions';
 import { step } from '../fixtures/base';
+import { CommonAssertions } from './common/assertions';
+import { commonLocators } from './common/locators';
 
 export abstract class BasePage {
     readonly page: Page;
@@ -16,6 +16,11 @@ export abstract class BasePage {
 
     @step('Navigate to Menu from Sidebar')
     async navigateToMenu(menuName: string, pageHeading?: string) {
+        if (await this.ui.$menuButton.isVisible()) {
+            await this.ui.$menuButton.click();
+        } else {
+            await this.ui.$sidebar.hover();
+        }
         await this.ui.$sidebarMenu(menuName).click();
         pageHeading = pageHeading ? pageHeading : menuName;
         await expect(this.ui.$level1Heading(pageHeading)).toBeVisible();
@@ -39,7 +44,6 @@ export abstract class BasePage {
             await this.ui.$nextPageNavButton.click();
         }
         return columnValues;
-
     }
 }
 

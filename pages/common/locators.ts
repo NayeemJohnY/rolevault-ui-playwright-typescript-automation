@@ -9,6 +9,7 @@ export const commonLocators = (page: Page) => ({
         return message ? locator.getByText(message).first() : locator.first();
     },
     $level1Heading: (heading: string) => page.getByRole('heading', { name: heading, level: 1 }),
+    $menuButton: page.getByTestId('menu-button'),
     $sidebar: page.getByTestId('sidebar'),
     $sidebarMenu: (menuName: string) => page.getByTestId('sidebar').getByRole('link', { name: menuName }),
     $confirmPopup: page.getByRole('button', { name: 'Confirm' }),
