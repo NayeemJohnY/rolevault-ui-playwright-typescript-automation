@@ -27,6 +27,9 @@ export default defineConfig([
         rules: {
             /** --- TypeScript Best Practices --- **/
             '@typescript-eslint/no-floating-promises': 'error',       // Prevent unhandled async operations
+            '@typescript-eslint/await-thenable': 'error',             // Ensure only awaitable values are awaited
+            '@typescript-eslint/no-misused-promises': 'error',        // Prevent accidentally using promises in conditionals
+            
 
             /* General code quality */
             'eqeqeq': ['error', 'always'],             // Enforce strict equality

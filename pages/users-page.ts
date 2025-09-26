@@ -62,9 +62,9 @@ export class UsersPage extends BasePage {
     while (true) {
       const rowsNotMatch = this.ui.$tableRow.filter({ hasNotText: search });
       await expect(rowsNotMatch).toHaveCount(0);
-      (await this.ui.$tableRow.all()).forEach(async (locator) => {
+      for (const locator of await this.ui.$tableRow.all()) {
         tableValues.push((await locator.textContent()) ?? "");
-      })
+      }
       if (await this.ui.$nextPageNavButton.isDisabled()) {
         break;
       }
