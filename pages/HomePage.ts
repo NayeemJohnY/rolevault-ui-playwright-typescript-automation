@@ -42,7 +42,7 @@ export class HomePage extends BasePage {
     }
 
 
-    @step('Fill User Registration Form and Create Account')
+    @step('Fill user registration form and create account')
     public async register(registerUser: UserData): Promise<void> {
         await this.$registerTab.click();
         await this.$fullName.fill(registerUser.fullName)

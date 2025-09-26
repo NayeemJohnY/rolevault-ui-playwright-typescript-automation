@@ -30,7 +30,7 @@ export class UsersPage extends BasePage {
     this.page.locator('button.nav-button:nth-of-type(2)')
   }
 
-  @step('Add New User')
+  @step('Add new user')
   public async addNewUser(newUser: UserData) {
     await this.$addNewUser.click();
     await this.$userName.fill(newUser.fullName);
@@ -45,7 +45,7 @@ export class UsersPage extends BasePage {
     await this.ui.$confirmPopup.click();
   }
 
-  @step('Filter Users By Role')
+  @step('Filter users by role')
   public async filterUsersByRole(): Promise<string> {
     const roles = await this.ui.$comboboxSelect().getByRole('option', { selected: false }).allTextContents();
     const randomOption = getRandomValue(roles);
@@ -53,11 +53,25 @@ export class UsersPage extends BasePage {
     return randomOption;
   }
 
-  @step('Search Users By Name/Email/Role')
+  @step('Search users by name/email')
   public async searchUsersBy(search: string): Promise<string[]> {
+    await this.ui.$comboboxSelect(1).selectOption({ value: '50' })
     await this.ui.$searchInput.fill(search);
     await this.ui.$tableRow.first().waitFor({ state: "visible" });
-    return await this.ui.$tableRow.allTextContents();
+    let tableValues: string[] = []
+    while (true) {
+      const rowsNotMatch = this.ui.$tableRow.filter({ hasNotText: search });
+      await expect(rowsNotMatch).toHaveCount(0);
+      (await this.ui.$tableRow.all()).forEach(async (locator) => {
+        tableValues.push((await locator.textContent()) ?? "");
+      })
+      if (await this.ui.$nextPageNavButton.isDisabled()) {
+        break;
+      }
+      await this.ui.$nextPageNavButton.click();
+      await this.ui.$tableRow.first().waitFor({ state: "visible" });
+    }
+    return tableValues;
   }
 
 

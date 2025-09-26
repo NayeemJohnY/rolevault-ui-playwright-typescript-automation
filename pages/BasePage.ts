@@ -14,7 +14,7 @@ export abstract class BasePage {
         this.assert = new CommonAssertions(page);
     }
 
-    @step('Navigate to Menu from Sidebar')
+    @step('Navigate to menu from sidebar')
     async navigateToMenu(menuName: string, pageHeading?: string) {
         if (await this.ui.$menuButton.isVisible()) {
             await this.ui.$menuButton.click();
@@ -27,7 +27,7 @@ export abstract class BasePage {
         await this.ui.$themeToggle.hover();
     }
 
-    @step('Get Table Column Values')
+    @step('Get table column values')
     async getColumnValues(headerName: string) {
         const tableBeforeColumnHeaders = this.ui.$tableBeforeColumnHeaders(headerName);
         await tableBeforeColumnHeaders.first().waitFor({ state: 'visible' }); // Ensure at least one is visible

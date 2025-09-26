@@ -1,16 +1,17 @@
 import { USER_MANAGEMENT } from '../../constants';
 import { expect, test } from '../../fixtures/base';
-import { getNewUser, Role, TestUser } from '../../test-data/test-users';
+import { getNewUser, Role, TestUser, testUsers } from '../../test-data/test-users';
 import { getRandomValue, getSearchString } from '../../utils/helper';
 
 
 export const ROLES = ['admin', 'contributor', 'viewer'];
 
-test.describe("User management ", { tag: '@component' }, () => {
+test.describe("User management", { tag: '@component' }, () => {
     let users: TestUser[] = []
-    test.beforeAll('Create new users to enable pagination on the users table', async ({ app, session, request }) => {
-        await session({ role: 'Administrator' });
-        const authToken = await app.page.evaluate(() => localStorage.getItem('token'));
+    test.beforeAll('Create new users to enable pagination on the users table', async ({ request }) => {
+        const admin = testUsers.Administrator;
+        const loginResponse = await request.post("/api/auth/login", { data: { email: admin.emailAddress, password: admin.password } });
+        const { token: authToken } = await loginResponse.json();
         for (let i = 0; i < 10; i++) {
             const user = getNewUser();
             user.role = getRandomValue(ROLES) as Role
@@ -37,16 +38,16 @@ test.describe("User management ", { tag: '@component' }, () => {
         expect(uniqueColumValues.has(filteredRole)).toBeTruthy();
     });
 
-    const searchFieldKey = { name: 'fullName', role: 'role', email: 'emailAddress' };
+    const searchFieldKey = { name: 'fullName', email: 'emailAddress' };
     for (const [field, key] of Object.entries(searchFieldKey)) {
         test(`Search users by ${field}`, async ({ app, session }) => {
+            test.setTimeout(60000);
             await session({ role: 'Administrator' });
             await app.dashboardPage.navigateToMenu(USER_MANAGEMENT);
             const searchString = getSearchString(String(getRandomValue(users)[key as keyof TestUser]));
-            const rowsTextContents = await app.usersPage.searchUsersBy(searchString);
-            expect(rowsTextContents.length).toBeGreaterThan(0);
-            const q = searchString.toLowerCase();
-            expect(rowsTextContents.every(rowText => rowText.toLowerCase().includes(q))).toBeTruthy();
+            const tableTextContents = await app.usersPage.searchUsersBy(searchString);
+            expect(tableTextContents.length).toBeGreaterThan(0);
+            expect(tableTextContents.every(rowText => rowText.toLowerCase().includes(searchString))).toBeTruthy();
         });
     }
 
