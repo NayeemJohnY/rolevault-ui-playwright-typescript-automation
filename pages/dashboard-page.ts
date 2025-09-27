@@ -15,14 +15,14 @@ export class DashboardPage extends BasePage {
         this.$logoutFromProfile = page.getByTestId('logout-button');
     }
 
-    async assertIsVisible() {
+    async assertIsVisible(): Promise<void> {
         await expect(this.page).toHaveURL(/dashboard/);
         await expect(this.ui.$level1Heading('Dashboard')).toBeVisible();
         await expect(this.$profileIcon).toBeVisible();
     }
 
 
-    async logoutFromProfile() {
+    async logoutFromProfile(): Promise<void> {
         const dialogPromise = this.page.waitForEvent('dialog')
 
         await this.$profileIcon.hover();
@@ -36,7 +36,7 @@ export class DashboardPage extends BasePage {
         await dialog.accept();
     }
 
-    async logoutFromSideNavMenu() {
+    async logoutFromSideNavMenu(): Promise<void> {
         if (await this.ui.$menuButton.isVisible()) {
             await this.ui.$menuButton.click();
         } else {

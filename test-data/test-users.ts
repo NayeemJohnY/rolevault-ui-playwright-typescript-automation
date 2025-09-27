@@ -42,7 +42,7 @@ class UserWithPermissions implements TestUser {
 const userCache = {} as Record<Role, TestUser>;
 
 export const testUsers = new Proxy(userCache, {
-    get(target, role: Role) {
+    get(target, role: Role): TestUser {
         if (!target[role]) {
             target[role] = new UserWithPermissions(usersData[role] as UserData, role);
         }

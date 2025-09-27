@@ -15,23 +15,23 @@ export class App {
     private _assert?: CommonAssertions;
     private _ui?: ReturnType<typeof commonLocators>;
 
-    get homePage() {
+    get homePage(): HomePage {
         return this._homePage ??= new HomePage(this.page);
     }
 
-    get dashboardPage() {
+    get dashboardPage(): DashboardPage {
         return this._dashboardPage ??= new DashboardPage(this.page);
     }
 
-    get usersPage() {
+    get usersPage(): UsersPage {
         return this._usersPage ??= new UsersPage(this.page);
     }
 
-    get assert() {
+    get assert(): CommonAssertions {
         return this._assert ??= new CommonAssertions(this.page);
     }
 
-    get ui() {
+    get ui(): ReturnType<typeof commonLocators> {
         return this._ui ??= commonLocators(this.page);
     }
 }

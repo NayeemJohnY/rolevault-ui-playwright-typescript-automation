@@ -15,7 +15,7 @@ export abstract class BasePage {
     }
 
     @step('Navigate to menu from sidebar')
-    async navigateToMenu(menuName: string, pageHeading?: string) {
+    async navigateToMenu(menuName: string, pageHeading?: string): Promise<void> {
         if (await this.ui.$menuButton.isVisible()) {
             await this.ui.$menuButton.click();
         } else {
@@ -28,7 +28,7 @@ export abstract class BasePage {
     }
 
     @step('Get table column values')
-    async getColumnValues(headerName: string) {
+    async getColumnValues(headerName: string): Promise<string[]> {
         const tableBeforeColumnHeaders = this.ui.$tableBeforeColumnHeaders(headerName);
         await tableBeforeColumnHeaders.first().waitFor({ state: 'visible' }); // Ensure at least one is visible
         const columnNumber = await tableBeforeColumnHeaders.count() + 1;

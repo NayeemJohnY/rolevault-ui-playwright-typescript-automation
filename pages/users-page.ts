@@ -24,14 +24,14 @@ export class UsersPage extends BasePage {
     this.$password = this.page.locator('input[name="password"]');
     this.role = this.page.locator('select[name="role"]');
     this.$createUser = this.page.getByRole('button', { name: 'Create User' });
-    this.$userRow = (user) =>
+    this.$userRow = (user): Locator =>
       this.page.locator(`//tr[td[text()="${user.fullName}"] and td[text()="${user.emailAddress.toLowerCase()}"] and td/span[text()="${user.role.toLowerCase()}"]]`);
-    this.$delete = (user) => this.$userRow(user).getByRole('button', { name: "Delete" });
+    this.$delete = (user): Locator => this.$userRow(user).getByRole('button', { name: "Delete" });
     this.page.locator('button.nav-button:nth-of-type(2)')
   }
 
   @step('Add new user')
-  public async addNewUser(newUser: UserData) {
+  public async addNewUser(newUser: UserData): Promise<void> {
     await this.$addNewUser.click();
     await this.$userName.fill(newUser.fullName);
     await this.$email.fill(newUser.emailAddress);
@@ -39,7 +39,7 @@ export class UsersPage extends BasePage {
     await this.$createUser.click();
   }
 
-  public async deleteUser(newUser: TestUser) {
+  public async deleteUser(newUser: TestUser): Promise<void> {
     await this.$delete(newUser).click();
     await expect(this.ui.$paragraph('Are you sure you want to delete this user?')).toBeVisible();
     await this.ui.$confirmPopup.click();
