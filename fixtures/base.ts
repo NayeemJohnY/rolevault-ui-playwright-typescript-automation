@@ -5,7 +5,7 @@ import { testUsers, type Role } from '../test-data/test-users';
 
 export { expect };
 
-async function launchApp(page: Page, url = "/"): Promise<App> {
+async function launchApp(page: Page, url = '/'): Promise<App> {
     return await test.step('Launch Application', async () => {
         await page.goto(url);
         await expect(page).toHaveTitle('RoleVault');
@@ -59,17 +59,14 @@ export const test = base.extend<TestFixtures>({
     },
 });
 
-
 export function step(stepName?: string) {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     return function decorator(target: Function, context: ClassMethodDecoratorContext) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return async function replacementMethod<T>(this: any, ...args: any[]): Promise<T> {
-            const name = stepName ? stepName : `${this.constructor.name} + "." + ${String(context.name)}`
-            return await test.step(name, async () => {
-                return await target.call(this, ...args);
-            })
-        }
-    }
+            const name = stepName ? stepName : `${this.constructor.name} + "." + ${String(context.name)}`;
+            return await test.step(name, async () => await target.call(this, ...args));
+        };
+    };
 }

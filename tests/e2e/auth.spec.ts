@@ -2,8 +2,7 @@ import { ACCOUNT_CREATE_SUCCESS, LOGOUT_SUCCESS } from '../../constants';
 import { expect, test } from '../../fixtures/base';
 import { getNewUser } from '../../test-data/test-users';
 
-test.describe("User authentication E2E", { tag: '@e2e' }, () => {
-
+test.describe('User authentication E2E', { tag: '@e2e' }, () => {
 
     test('Should complete user registration, login, and logout flow', async ({ app }) => {
 
@@ -40,7 +39,5 @@ test.describe("User authentication E2E", { tag: '@e2e' }, () => {
 
     });
 
-})
-
-
+});
 

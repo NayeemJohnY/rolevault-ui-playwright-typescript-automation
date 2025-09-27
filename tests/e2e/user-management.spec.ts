@@ -3,8 +3,7 @@ import { expect, test } from '../../fixtures/base';
 import type { App } from '../../pages/app';
 import { getNewUser, type TestUser } from '../../test-data/test-users';
 
-
-test.describe("User management E2E", { tag: '@e2e' }, () => {
+test.describe('User management E2E', { tag: '@e2e' }, () => {
 
     test('Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login', async ({ app, session }) => {
         await session({ role: 'Administrator' });

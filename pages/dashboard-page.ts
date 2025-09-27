@@ -1,12 +1,11 @@
-import type { Locator, Page } from "@playwright/test";
+import type { Locator, Page } from '@playwright/test';
 import { expect } from '../fixtures/base';
-import { BasePage } from "./base-page";
-
+import { BasePage } from './base-page';
 
 export class DashboardPage extends BasePage {
     readonly $profileIcon: Locator;
     readonly $logout: Locator;
-    readonly $logoutFromProfile: Locator
+    readonly $logoutFromProfile: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -21,9 +20,8 @@ export class DashboardPage extends BasePage {
         await expect(this.$profileIcon).toBeVisible();
     }
 
-
     async logoutFromProfile(): Promise<void> {
-        const dialogPromise = this.page.waitForEvent('dialog')
+        const dialogPromise = this.page.waitForEvent('dialog');
 
         await this.$profileIcon.hover();
         await this.$profileIcon.click();
@@ -31,8 +29,8 @@ export class DashboardPage extends BasePage {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.$logoutFromProfile.click();
 
-        const dialog = await dialogPromise
-        expect(dialog.message()).toEqual("Are you sure you want to logout?");
+        const dialog = await dialogPromise;
+        expect(dialog.message()).toEqual('Are you sure you want to logout?');
         await dialog.accept();
     }
 

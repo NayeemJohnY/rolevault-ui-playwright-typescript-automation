@@ -7,5 +7,5 @@ export function getRandomValue<T>(iterable: T[]): T {
 }
 
 export function getSearchString(str: string): string {
-    return str.toLowerCase().slice(Math.floor(Math.random() * str.length))
+    return str.toLowerCase().slice(Math.floor(Math.random() * str.length));
 }

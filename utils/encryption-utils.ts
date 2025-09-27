@@ -1,4 +1,4 @@
-import * as crypto from 'crypto'
+import * as crypto from 'crypto';
 
 const ALGORITHM = 'aes-256-gcm';
 const SECRET_KEY = process.env.ENCRYPTION_KEY || 'default-secret-key-change-me';
@@ -16,7 +16,7 @@ export const encrypt = (text: string): string => {
     ]);
     const authTag = cipher.getAuthTag();
     return Buffer.concat([iv, authTag, encrypted]).toString('base64');
-}
+};
 
 export const decrypt = (encryptedBase64: string): string => {
     try {
@@ -35,4 +35,4 @@ export const decrypt = (encryptedBase64: string): string => {
         return encryptedBase64;
     }
 
-}
+};

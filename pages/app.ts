@@ -5,7 +5,6 @@ import { DashboardPage } from './dashboard-page';
 import { HomePage } from './home-page';
 import { UsersPage } from './users-page';
 
-
 export class App {
     constructor(public readonly page: Page) { }
 

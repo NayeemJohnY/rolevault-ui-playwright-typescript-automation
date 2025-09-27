@@ -32,12 +32,12 @@ export abstract class BasePage {
         const tableBeforeColumnHeaders = this.ui.$tableBeforeColumnHeaders(headerName);
         await tableBeforeColumnHeaders.first().waitFor({ state: 'visible' }); // Ensure at least one is visible
         const columnNumber = await tableBeforeColumnHeaders.count() + 1;
-        await this.ui.$comboboxSelect(1).selectOption({ value: '50' })
-        const columnValues: string[] = []
+        await this.ui.$comboboxSelect(1).selectOption({ value: '50' });
+        const columnValues: string[] = [];
         while (true) {
             const tableColumn = this.ui.$tableColumn(columnNumber);
             await tableColumn.first().waitFor({ state: 'visible' });
-            columnValues.push(...await tableColumn.allTextContents())
+            columnValues.push(...await tableColumn.allTextContents());
             if (await this.ui.$nextPageNavButton.isDisabled()) {
                 break;
             }

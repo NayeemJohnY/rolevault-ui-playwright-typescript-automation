@@ -1,4 +1,4 @@
-import type { Locator, Page } from "@playwright/test";
+import type { Locator, Page } from '@playwright/test';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const commonLocators = (page: Page) => ({

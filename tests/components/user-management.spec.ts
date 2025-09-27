@@ -4,21 +4,20 @@ import type { Role, TestUser } from '../../test-data/test-users';
 import { getNewUser, testUsers } from '../../test-data/test-users';
 import { getRandomValue, getSearchString } from '../../utils/helper';
 
-
 export const ROLES = ['admin', 'contributor', 'viewer'];
 
-test.describe("User management", { tag: '@component' }, () => {
-    const users: TestUser[] = []
+test.describe('User management', { tag: '@component' }, () => {
+    const users: TestUser[] = [];
     test.beforeAll('Create new users to enable pagination on the users table', async ({ request }) => {
         const admin = testUsers.Administrator;
-        const loginResponse = await request.post("/api/auth/login", { data: { email: admin.emailAddress, password: admin.password } });
+        const loginResponse = await request.post('/api/auth/login', { data: { email: admin.emailAddress, password: admin.password } });
         const { token: authToken } = await loginResponse.json();
         for (let i = 0; i < 10; i++) {
             const user = getNewUser();
-            user.role = getRandomValue(ROLES) as Role
-            users.push(user)
-            const { fullName: name, emailAddress: email, password, role } = user
-            const response = await request.post("/api/users", {
+            user.role = getRandomValue(ROLES) as Role;
+            users.push(user);
+            const { fullName: name, emailAddress: email, password, role } = user;
+            const response = await request.post('/api/users', {
                 headers: {
                     'Authorization': `Bearer ${authToken}`
                 },

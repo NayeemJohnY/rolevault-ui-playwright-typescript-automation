@@ -16,7 +16,7 @@ const startMaximized = {
   launchOptions: {
     args: ['--start-maximized']
   }
-}
+};
 
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
@@ -66,7 +66,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       }
     }
   ]
-}
+};
 
 // Staging config: extends base, adds extra browsers for compatibility
 const stagingPlaywrightTestConfig: PlaywrightTestConfig = {
@@ -75,10 +75,10 @@ const stagingPlaywrightTestConfig: PlaywrightTestConfig = {
   retries: process.env.ci ? 2 : 0,
   use: {
     ...basePlaywrightTestConfig.use,
-    baseURL: baseURL,
+    baseURL,
     trace: process.env.ci ? 'on-first-retry' : 'retain-on-failure'
   }
-}
+};
 
 // Production config: extends base, can be minimized for speed
 const prodPlaywrightTestConfig: PlaywrightTestConfig = {
@@ -87,18 +87,16 @@ const prodPlaywrightTestConfig: PlaywrightTestConfig = {
   retries: 0,
   use: {
     ...basePlaywrightTestConfig.use,
-    baseURL: baseURL,
+    baseURL,
     trace: 'retain-on-failure'
   }
-}
-
+};
 
 // Map of environment name to config
 const configMap: Record<Environment, PlaywrightTestConfig> = {
   staging: stagingPlaywrightTestConfig,
   prod: prodPlaywrightTestConfig
-}
-
+};
 
 // Export the selected config for Playwright
-export default defineConfig(configMap[environment])
+export default defineConfig(configMap[environment]);

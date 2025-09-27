@@ -1,8 +1,8 @@
-import type { Locator, Page } from "@playwright/test";
-import { BasePage } from "./base-page";
-import type { UserData } from "../test-data/test-users";
-import { step } from "../fixtures/base";
-import { getRandomValue } from "../utils/helper";
+import type { Locator, Page } from '@playwright/test';
+import { BasePage } from './base-page';
+import type { UserData } from '../test-data/test-users';
+import { step } from '../fixtures/base';
+import { getRandomValue } from '../utils/helper';
 
 export class HomePage extends BasePage {
     readonly $emailAddress: Locator;
@@ -14,7 +14,6 @@ export class HomePage extends BasePage {
     readonly $createAccount: Locator;
     readonly $showTestAccounts: Locator;
     readonly $testAccounts: Locator;
-
 
     constructor(page: Page) {
         super(page);
@@ -41,11 +40,10 @@ export class HomePage extends BasePage {
         await this.$login.click();
     }
 
-
     @step('Fill user registration form and create account')
     public async register(registerUser: UserData): Promise<void> {
         await this.$registerTab.click();
-        await this.$fullName.fill(registerUser.fullName)
+        await this.$fullName.fill(registerUser.fullName);
         await this.$emailAddress.fill(registerUser.emailAddress);
         await this.$password.fill(registerUser.password);
         await this.$confirmPassword.fill(registerUser.password);
@@ -55,14 +53,14 @@ export class HomePage extends BasePage {
     public async getRandomTestAccountLocator(): Promise<Locator> {
         await this.$showTestAccounts.click();
         const testAccounts = await this.$testAccounts.all();
-        const randomTestAccount = getRandomValue(testAccounts)
+        const randomTestAccount = getRandomValue(testAccounts);
         return randomTestAccount;
     }
 
     public async getRandomTestAccountEmail(): Promise<string> {
         const $testAccount = await this.getRandomTestAccountLocator();
         const innerTexts = await $testAccount.allInnerTexts();
-        const [, email] = innerTexts[0].split("\n");
+        const [, email] = innerTexts[0].split('\n');
         return email;
     }
 

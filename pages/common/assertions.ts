@@ -2,7 +2,6 @@ import type { Page } from '@playwright/test';
 import { expect } from '../../fixtures/base';
 import { commonLocators } from './locators';
 
-
 export class CommonAssertions {
 
     readonly page: Page;

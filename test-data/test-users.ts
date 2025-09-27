@@ -50,14 +50,9 @@ export const testUsers = new Proxy(userCache, {
     }
 });
 
+export const getUserByRole = (role: Role): TestUser => new UserWithPermissions(usersData[role] as UserData, role);
 
-export const getUserByRole = (role: Role): TestUser => {
-    return new UserWithPermissions(usersData[role] as UserData, role);
-}
-
-export const getAvailableRoles = (): Role[] => {
-    return Object.keys(usersData) as Role[];
-}
+export const getAvailableRoles = (): Role[] => Object.keys(usersData) as Role[];
 
 export const getNewUser = (): TestUser => {
     const baseUser = testUsers.newUser;
@@ -66,7 +61,7 @@ export const getNewUser = (): TestUser => {
     }
 
     const timestamp = Date.now().toString();
-    const placeholder = "{{timestamp}}";
+    const placeholder = '{{timestamp}}';
     // Create a new object to avoid mutating the original
     return {
         ...baseUser,

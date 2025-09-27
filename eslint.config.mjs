@@ -31,11 +31,22 @@ export default defineConfig([
             '@typescript-eslint/no-misused-promises': 'error',        // Prevent accidentally using promises in conditionals
             '@typescript-eslint/consistent-type-imports': 'error',    // Use `import type` for type-only imports
             '@typescript-eslint/no-explicit-any': 'warn',             // Discourage use of `any`
-            '@typescript-eslint/explicit-function-return-type': 'warn', // Optional: Make return types explicit for better maintainability
+            '@typescript-eslint/explicit-function-return-type': 'warn', // Make return types explicit for better maintainability
+            '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }], // Ignore intentionally unused variables (e.g., `_context`)
 
             /* General code quality */
             'eqeqeq': ['error', 'always'],             // Enforce strict equality
             'prefer-const': 'warn',                    // Suggest `const` where possible
+            'curly': ['error', 'all'],                 // Always use curly braces
+            'no-multiple-empty-lines': ['warn', { max: 1 }],
+            'arrow-body-style': ['warn', 'as-needed'], // Keep arrow functions clean
+            'object-shorthand': ['warn', 'always'],    // Prefer shorthand syntax where possible
+
+
+            /** --- Style Consistency --- **/
+            'no-trailing-spaces': 'warn',
+            'semi': ['warn', 'always'],
+            'quotes': ['warn', 'single', { avoidEscape: true }],
         }
     }
 ]);

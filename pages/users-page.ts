@@ -1,20 +1,19 @@
-import type { Locator, Page } from "@playwright/test";
+import type { Locator, Page } from '@playwright/test';
 import { expect, step } from '../fixtures/base';
-import type { TestUser, UserData } from "../test-data/test-users";
-import { BasePage } from "./base-page";
-import { getRandomValue } from "../utils/helper";
+import type { TestUser, UserData } from '../test-data/test-users';
+import { BasePage } from './base-page';
+import { getRandomValue } from '../utils/helper';
 
 export class UsersPage extends BasePage {
 
   readonly $addNewUser: Locator;
-  readonly $userName: Locator
+  readonly $userName: Locator;
   readonly $email: Locator;
   readonly $password: Locator;
   readonly role: Locator;
   readonly $createUser: Locator;
   readonly $userRow: (user: TestUser) => Locator;
   readonly $delete: (user: TestUser) => Locator;
-
 
   constructor(page: Page) {
     super(page);
@@ -26,8 +25,8 @@ export class UsersPage extends BasePage {
     this.$createUser = this.page.getByRole('button', { name: 'Create User' });
     this.$userRow = (user): Locator =>
       this.page.locator(`//tr[td[text()="${user.fullName}"] and td[text()="${user.emailAddress.toLowerCase()}"] and td/span[text()="${user.role.toLowerCase()}"]]`);
-    this.$delete = (user): Locator => this.$userRow(user).getByRole('button', { name: "Delete" });
-    this.page.locator('button.nav-button:nth-of-type(2)')
+    this.$delete = (user): Locator => this.$userRow(user).getByRole('button', { name: 'Delete' });
+    this.page.locator('button.nav-button:nth-of-type(2)');
   }
 
   @step('Add new user')
@@ -55,24 +54,23 @@ export class UsersPage extends BasePage {
 
   @step('Search users by name/email')
   public async searchUsersBy(search: string): Promise<string[]> {
-    await this.ui.$comboboxSelect(1).selectOption({ value: '50' })
+    await this.ui.$comboboxSelect(1).selectOption({ value: '50' });
     await this.ui.$searchInput.fill(search);
-    await this.ui.$tableRow.first().waitFor({ state: "visible" });
-    const tableValues: string[] = []
+    await this.ui.$tableRow.first().waitFor({ state: 'visible' });
+    const tableValues: string[] = [];
     while (true) {
       const rowsNotMatch = this.ui.$tableRow.filter({ hasNotText: search });
       await expect(rowsNotMatch).toHaveCount(0);
       for (const locator of await this.ui.$tableRow.all()) {
-        tableValues.push((await locator.textContent()) ?? "");
+        tableValues.push((await locator.textContent()) ?? '');
       }
       if (await this.ui.$nextPageNavButton.isDisabled()) {
         break;
       }
       await this.ui.$nextPageNavButton.click();
-      await this.ui.$tableRow.first().waitFor({ state: "visible" });
+      await this.ui.$tableRow.first().waitFor({ state: 'visible' });
     }
     return tableValues;
   }
 
-
-}   
+}
