@@ -3,7 +3,6 @@ import { expect, test } from '../../fixtures/base';
 import { testUsers, getNewUser, type Role } from '../../test-data/test-users';
 
 test.describe('User authentication', { tag: '@component' }, () => {
-
   test('Should allow user to login and access dashboard using UI test accounts', async ({ app }) => {
     await app.homePage.loginUsingTestAccount();
     await app.dashboardPage.assertIsVisible();
@@ -20,14 +19,15 @@ test.describe('User authentication', { tag: '@component' }, () => {
   }
 
   test('Should redirect unauthenticated user to login', async ({ app }) => {
-
     await test.step('Login with valid credentials', async () => {
       await app.homePage.loginUsingTestAccount();
       await app.dashboardPage.assertIsVisible();
     });
 
     await test.step('Clear session and verify redirect', async () => {
-      await app.page.evaluate(() => { localStorage.clear(); });
+      await app.page.evaluate(() => {
+        localStorage.clear();
+      });
       await app.page.reload();
       await expect(app.page).not.toHaveURL(/dashboard/);
       await expect(app.homePage.$login).toBeVisible();
@@ -42,4 +42,3 @@ test.describe('User authentication', { tag: '@component' }, () => {
     await expect(app.page).not.toHaveURL(/dashboard/);
   });
 });
-

@@ -4,33 +4,31 @@ type Environment = 'staging' | 'prod';
 
 const environment = (process.env.TESTENV as Environment) || 'staging';
 
-const baseURL = process.env.BASE_URL ||
+const baseURL =
+  process.env.BASE_URL ||
   {
     prod: 'http://localhost:5000',
-    staging: 'http://localhost:5001'
+    staging: 'http://localhost:5001',
   }[environment];
 
 const startMaximized = {
   deviceScaleFactor: undefined,
   viewport: null,
   launchOptions: {
-    args: ['--start-maximized']
-  }
+    args: ['--start-maximized'],
+  },
 };
 
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  reporter: [
-    ['html', { title: 'RoleVault Playwright Test Results' }],
-    ['list']
-  ],
+  reporter: [['html', { title: 'RoleVault Playwright Test Results' }], ['list']],
   expect: {
-    timeout: 10000
+    timeout: 10000,
   },
   use: {
-    screenshot: 'on-first-failure'
+    screenshot: 'on-first-failure',
   },
   projects: [
     // Desktop - Most popular browser (covers 70%+ market share)
@@ -38,8 +36,8 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        ...startMaximized
-      }
+        ...startMaximized,
+      },
     },
 
     // Desktop - Alternative engine for compatibility testing
@@ -47,25 +45,26 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
-      }
+      },
     },
 
     // Mobile - Most popular mobile browser
     {
       name: 'Mobile Chrome',
       use: {
-        ...devices['Pixel 7']
+        ...devices['Pixel 7'],
       },
     },
 
     {
       name: 'Google Chrome',
       use: {
-        ...devices['Desktop Chrome'], channel: 'chrome',
-        ...startMaximized
-      }
-    }
-  ]
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        ...startMaximized,
+      },
+    },
+  ],
 };
 
 // Staging config: extends base, adds extra browsers for compatibility
@@ -76,8 +75,8 @@ const stagingPlaywrightTestConfig: PlaywrightTestConfig = {
   use: {
     ...basePlaywrightTestConfig.use,
     baseURL,
-    trace: process.env.ci ? 'on-first-retry' : 'retain-on-failure'
-  }
+    trace: process.env.ci ? 'on-first-retry' : 'retain-on-failure',
+  },
 };
 
 // Production config: extends base, can be minimized for speed
@@ -88,14 +87,14 @@ const prodPlaywrightTestConfig: PlaywrightTestConfig = {
   use: {
     ...basePlaywrightTestConfig.use,
     baseURL,
-    trace: 'retain-on-failure'
-  }
+    trace: 'retain-on-failure',
+  },
 };
 
 // Map of environment name to config
 const configMap: Record<Environment, PlaywrightTestConfig> = {
   staging: stagingPlaywrightTestConfig,
-  prod: prodPlaywrightTestConfig
+  prod: prodPlaywrightTestConfig,
 };
 
 // Export the selected config for Playwright

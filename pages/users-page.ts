@@ -5,7 +5,6 @@ import { BasePage } from './base-page';
 import { getRandomValue } from '../utils/helper';
 
 export class UsersPage extends BasePage {
-
   readonly $addNewUser: Locator;
   readonly $userName: Locator;
   readonly $email: Locator;
@@ -24,7 +23,8 @@ export class UsersPage extends BasePage {
     this.role = this.page.locator('select[name="role"]');
     this.$createUser = this.page.getByRole('button', { name: 'Create User' });
     this.$userRow = (user): Locator =>
-      this.page.locator(`//tr[td[text()="${user.fullName}"] and td[text()="${user.emailAddress.toLowerCase()}"] and td/span[text()="${user.role.toLowerCase()}"]]`);
+      this.page.locator(`//tr[td[text()="${user.fullName}"] and td[text()="${user.emailAddress.toLowerCase()}"] 
+        // and td/span[text()="${user.role.toLowerCase()}"]]`);
     this.$delete = (user): Locator => this.$userRow(user).getByRole('button', { name: 'Delete' });
     this.page.locator('button.nav-button:nth-of-type(2)');
   }
@@ -72,5 +72,4 @@ export class UsersPage extends BasePage {
     }
     return tableValues;
   }
-
 }

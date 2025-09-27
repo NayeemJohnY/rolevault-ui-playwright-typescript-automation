@@ -3,10 +3,13 @@
 import eslint from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
+import prettierPlugin from 'eslint-plugin-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default defineConfig([
     eslint.configs.recommended,
     tseslint.configs.recommended,
+
     {
         ignores: [
             "eslint.config.mjs",
@@ -23,6 +26,9 @@ export default defineConfig([
                 projectService: true,
                 tsconfigRootDir: import.meta.dirname,
             },
+        },
+        plugins: {
+            prettier: prettierPlugin
         },
         rules: {
             /** --- TypeScript Best Practices --- **/
@@ -50,6 +56,18 @@ export default defineConfig([
 
             /** --- Best Practices --- **/
             'complexity': ['warn', 10],
+
+            // Prettier integration as ESLint rule
+            'prettier/prettier': ['warn', {
+                singleQuote: true,         // Use single quotes
+                semi: true,                // Add semicolons
+                trailingComma: 'es5',      // Add trailing commas where valid in ES5
+                tabWidth: 2,               // Set tab width to 2 spaces
+                useTabs: false,            // Use spaces, not tabs
+                printWidth: 120,           // Wrap lines after 120 characters
+                bracketSpacing: true,      // Add spaces inside brackets
+                arrowParens: 'always',     // Always include parens in arrow functions
+            }],
         }
-    }
+    },
 ]);
