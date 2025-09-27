@@ -47,6 +47,9 @@ export default defineConfig([
             'no-trailing-spaces': 'warn',
             'semi': ['warn', 'always'],
             'quotes': ['warn', 'single', { avoidEscape: true }],
+
+            /** --- Best Practices --- **/
+            'complexity': ['warn', 10],
         }
     }
 ]);
