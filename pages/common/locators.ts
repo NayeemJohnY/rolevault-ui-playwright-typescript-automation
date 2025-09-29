@@ -21,4 +21,6 @@ export const commonLocators = (page: Page) => ({
   $tableColumn: (index: number = 0): Locator => page.locator(`//table//td[${index}]`),
   $nextPageNavButton: page.locator('//button[contains(@class, "nav-button")][2]'),
   $searchInput: page.locator('input[class*=search-input]'),
+  $featureSpotlightPopup: page.getByRole('document', { name: 'RoleVault Feature Spotlight - Tips and Information' }),
+  $featureSpotlightPopupGotItButton: page.getByRole('button', { name: 'Got it!' }),
 });
