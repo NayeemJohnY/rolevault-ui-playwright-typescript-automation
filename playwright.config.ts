@@ -11,13 +11,17 @@ const baseURL =
     staging: 'http://localhost:5001',
   }[environment];
 
-const startMaximized = {
-  deviceScaleFactor: undefined,
-  viewport: null,
-  launchOptions: {
-    args: ['--start-maximized'],
-  },
-};
+const isHeaded = process.argv.includes('--headed') || process.env.PWDEBUG === '1';
+
+const startMaximized = isHeaded
+  ? {
+      deviceScaleFactor: undefined,
+      viewport: null,
+      launchOptions: {
+        args: ['--start-maximized'],
+      },
+    }
+  : {};
 
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
@@ -26,9 +30,6 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
   reporter: [['html', { title: 'RoleVault Playwright Test Results' }], ['list']],
   expect: {
     timeout: 10000,
-  },
-  use: {
-    screenshot: 'on-first-failure',
   },
   projects: [
     // Desktop - Most popular browser (covers 70%+ market share)

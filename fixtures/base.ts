@@ -17,6 +17,7 @@ async function launchApp(page: Page, url = '/'): Promise<App> {
 export type TestFixtures = {
   app: App;
   session: (options?: { baseURL?: string; newSession?: boolean; role?: Role }) => Promise<App>;
+  fullPageScreenshotOnFailure: void;
 };
 
 export const test = base.extend<TestFixtures>({
@@ -59,6 +60,24 @@ export const test = base.extend<TestFixtures>({
       await context.close();
     }
   },
+
+  fullPageScreenshotOnFailure: [
+    async ({ page }, use, testInfo): Promise<void> => {
+      await use();
+      if (testInfo.status !== testInfo.expectedStatus) {
+        const screenshot = await page.screenshot({
+          path: `screenshots/${testInfo.title.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`,
+          fullPage: true,
+          scale: 'css',
+        });
+        await testInfo.attach(testInfo.title, {
+          body: screenshot,
+          contentType: 'image/png',
+        });
+      }
+    },
+    { auto: true },
+  ],
 });
 
 export function step(stepName?: string) {
