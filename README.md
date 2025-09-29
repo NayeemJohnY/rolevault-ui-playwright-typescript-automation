@@ -13,7 +13,19 @@ This project contains Playwright end-to-end tests for the RoleVault UI, written 
    ```bash
    npx playwright test
    ```
-3. View the HTML report:
+3. Run Last failed test on specific project:
+   ```bash
+   npx playwright test --project "Google Chrome" --last-failed
+   ```
+4. Run each test repeatedly multiple times:
+   ```bash
+   npx playwright test --repeat-each=5
+   ```
+5. Run each test UI Mode, Headed and One Worker:
+   ```bash
+   npx playwright test --ui --headed  --workers 1
+   ```
+6. View the HTML report:
    ```bash
    npx playwright show-report
    ```

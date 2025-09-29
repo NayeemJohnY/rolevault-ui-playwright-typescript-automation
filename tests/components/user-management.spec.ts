@@ -6,6 +6,8 @@ import { getRandomValue, getSearchString } from '../../utils/helper';
 
 export const ROLES = ['admin', 'contributor', 'viewer'];
 
+test.describe.configure({ mode: 'default', timeout: 60000 });
+
 test.describe('User management', { tag: '@component' }, () => {
   const users: TestUser[] = [];
   test.beforeAll('Create new users to enable pagination on the users table', async ({ request }) => {
@@ -41,7 +43,6 @@ test.describe('User management', { tag: '@component' }, () => {
   const searchFieldKey = { name: 'fullName', email: 'emailAddress' };
   for (const [field, key] of Object.entries(searchFieldKey)) {
     test(`Search users by ${field}`, async ({ app, session }) => {
-      test.setTimeout(60000);
       await session({ role: 'Administrator' });
       await app.dashboardPage.navigateToMenu(USER_MANAGEMENT);
       const searchString = getSearchString(String(getRandomValue(users)[key as keyof TestUser]));

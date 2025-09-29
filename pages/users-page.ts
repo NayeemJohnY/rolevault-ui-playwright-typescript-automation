@@ -24,7 +24,7 @@ export class UsersPage extends BasePage {
     this.$createUser = this.page.getByRole('button', { name: 'Create User' });
     this.$userRow = (user): Locator =>
       this.page.locator(`//tr[td[text()="${user.fullName}"] and td[text()="${user.emailAddress.toLowerCase()}"] 
-        // and td/span[text()="${user.role.toLowerCase()}"]]`);
+         and td/span[text()="${user.role.toLowerCase()}"]]`);
     this.$delete = (user): Locator => this.$userRow(user).getByRole('button', { name: 'Delete' });
     this.page.locator('button.nav-button:nth-of-type(2)');
   }
@@ -58,7 +58,8 @@ export class UsersPage extends BasePage {
     await this.ui.$searchInput.fill(search);
     await this.ui.$tableRow.first().waitFor({ state: 'visible' });
     const tableValues: string[] = [];
-    while (true) {
+    let counter = 5;
+    while (counter > 0) {
       const rowsNotMatch = this.ui.$tableRow.filter({ hasNotText: search });
       await expect(rowsNotMatch).toHaveCount(0);
       for (const locator of await this.ui.$tableRow.all()) {
@@ -69,6 +70,7 @@ export class UsersPage extends BasePage {
       }
       await this.ui.$nextPageNavButton.click();
       await this.ui.$tableRow.first().waitFor({ state: 'visible' });
+      counter--;
     }
     return tableValues;
   }
