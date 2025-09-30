@@ -19,12 +19,13 @@ export class CommonAssertions {
   }
 
   /**
-   * Verifies that a toast message with specific text is visible.
+   * Verifies that a toast message with specific text is visible and close it
    *
    * @param message - Expected toast message text
    */
   async expectToastMessage(message: string): Promise<void> {
     await expect(commonLocators(this.page).$toastMessage(message)).toBeVisible();
+    await commonLocators(this.page).$toastMessageCloseButton(message).click();
   }
 
   /**

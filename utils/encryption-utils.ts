@@ -9,7 +9,7 @@ import * as crypto from 'crypto';
 const ALGORITHM = 'aes-256-gcm';
 
 /** Secret key for encryption, sourced from environment or default fallback */
-const SECRET_KEY = process.env.ENCRYPTION_KEY;
+const SECRET_KEY = process.env.ROLE_VAULT_ENCRYPTION_KEY;
 
 /** Length of initialization vector in bytes */
 const IV_LENGTH = 12;
