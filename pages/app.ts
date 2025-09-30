@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 import { CommonAssertions } from './common/assertions';
 import { commonLocators } from './common/locators';
 import { DashboardPage } from './dashboard-page';

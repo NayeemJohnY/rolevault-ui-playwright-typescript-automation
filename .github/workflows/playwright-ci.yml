@@ -12,15 +12,15 @@ on:
           - staging
           - prod
 
-      publish_report:
-        description: Publish Test Report
-        type: boolean
-        default: true
-
       cli_args:
         description: Additional CLI Arguments (--project "Google Chrome" / -g "Search User")
         type: string
         required: false
+
+      publish_report:
+        description: Publish Test Report
+        type: boolean
+        default: true
 
 permissions:
   id-token: write
@@ -36,6 +36,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    container:
+      image: mcr.microsoft.com/playwright
 
     steps:
       - name: Checkout Test Repo
