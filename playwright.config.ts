@@ -27,9 +27,12 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  reporter: [['html', { title: 'RoleVault Playwright Test Results' }], ['list']],
+  reporter: [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']],
   expect: {
     timeout: 10000,
+  },
+  use: {
+    video: 'retain-on-failure',
   },
   projects: [
     // Desktop - Most popular browser (covers 70%+ market share)
