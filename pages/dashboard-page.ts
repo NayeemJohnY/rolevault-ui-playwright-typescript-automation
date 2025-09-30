@@ -33,8 +33,14 @@ export class DashboardPage extends BasePage {
     try {
       dialog = await clickLogoutAndGetDialogPromise();
     } catch (error) {
-      console.error('Error occurred while logging out. Retrying ', error);
-      dialog = await clickLogoutAndGetDialogPromise();
+      if (
+        error instanceof Error &&
+        error.message.includes('Timeout 5000ms exceeded while waiting for event "dialog"')
+      ) {
+        console.warn(`${error.message} Retrying...`);
+        dialog = await clickLogoutAndGetDialogPromise();
+      }
+      throw error;
     }
 
     expect(dialog.message()).toBe('Are you sure you want to logout?');
