@@ -4,7 +4,7 @@
   "description": "Role Vault UI Automation using playwright and typescript",
   "main": "index.js",
   "scripts": {
-    "pretest": "npx eslint ."
+    "pretest": "tsc && npx eslint ."
   },
   "keywords": [],
   "author": "",

@@ -5,24 +5,13 @@ import { testUsers, type Role } from '../test-data/test-users';
 
 export { expect };
 
-async function handlePopup(app: App): Promise<void> {
-  await app.page.addLocatorHandler(
-    app.ui.$featureSpotlightPopup,
-    async () => {
-      await app.ui.$featureSpotlightPopupGotItButton.click();
-      await expect(app.ui.$featureSpotlightPopup).not.toBeVisible();
-    },
-    { noWaitAfter: true }
-  );
-}
-
 async function launchApp(page: Page, url = '/'): Promise<App> {
   return await test.step('Launch Application', async () => {
     await page.goto(url);
     await expect(page).toHaveTitle('RoleVault');
     await expect(page.getByRole('heading', { name: 'Role Vault' })).toBeVisible();
     const app = new App(page);
-    await handlePopup(app);
+    await app.handlePopup();
     return app;
   });
 }

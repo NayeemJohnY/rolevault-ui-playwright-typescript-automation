@@ -17,6 +17,11 @@ on:
         type: boolean
         default: true
 
+      cli_args:
+        description: Additional CLI Arguments (--project "Google Chrome" / -g "Search User")
+        type: string
+        required: false
+
 permissions:
   id-token: write
   contents: read
@@ -33,63 +38,65 @@ jobs:
     timeout-minutes: 60
 
     steps:
-    - name: Checkout Test Repo
-      uses: actions/checkout@v4
+      - name: Checkout Test Repo
+        uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
 
-    - name: Checkout RoleVault Webapp Repo
-      uses: actions/checkout@v4
-      with:
-        repository: NayeemJohnY/rolevault-webapp
-        path: rolevault-webapp
+      - name: Checkout RoleVault Webapp Repo
+        uses: actions/checkout@v4
+        with:
+          repository: NayeemJohnY/rolevault-webapp
+          path: rolevault-webapp
 
-    - name: Start RoleVault Webapp (Docker Compose Up)
-      run: docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} up -d
+      - name: Start RoleVault Webapp (Docker Compose Up)
+        run: docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} up -d
 
-    - name: Wait for RoleVault to start
-      run: |
-        for i in {1..60}; do
-          if docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs | grep -q "RoleVault started successfully"; then
-            echo "<========================= ✅ RoleVault App started successfully! ✅ =========================>"
-            exit 0
-          fi
-          echo "Waiting.... attempt $i/60"
-          sleep 5
-        done
-        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 100
-        echo "<========================= ❌ Timeout: RoleVault did not start within 5 minutes ❌ =========================>"
-        exit 1
+      - name: Wait for RoleVault to start
+        run: |
+          for i in {1..60}; do
+            if docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs | grep -q "RoleVault started successfully"; then
+              echo "<========================= ✅ RoleVault App started successfully! ✅ =========================>"
+              exit 0
+            fi
+            echo "Waiting.... attempt $i/60"
+            sleep 5
+          done
+          docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs --tail 100
+          echo "<========================= ❌ Timeout: RoleVault did not start within 5 minutes ❌ =========================>"
+          exit 1
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
-    - name: Run Playwright tests
-      run: npx playwright test
+      - name: PreTest - ESLint & TS Compile
+        run: npm run pretest
+      - name: Run Playwright tests
+        run: npx playwright test ${{ inputs.cli_args }}
 
-    - name: Stop RoleVault Webapp (Docker Compose Down)
-      if: always()
-      run: |
-        mkdir -p playwright-report
-        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs > playwright-report/application-logs.log
-        docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} down
+      - name: Stop RoleVault Webapp (Docker Compose Down)
+        if: always()
+        run: |
+          mkdir -p playwright-report
+          docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs > playwright-report/application-logs.log
+          docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} down
 
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
-    - name: Copy Playwright Test Report to Github Pages
-      if: ${{ (success() || failure()) && inputs.publish_report }}
-      run: cp -r playwright-report github-pages/playwright-report
+      - name: Copy Playwright Test Report to Github Pages
+        if: ${{ (success() || failure()) && inputs.publish_report }}
+        run: cp -r playwright-report github-pages/playwright-report
 
-    - name: Deploy GitHub Pages
-      if: ${{ (success() || failure()) && inputs.publish_report }}
-      uses: NayeemJohnY/actions/deploy-github-pages-site@main
+      - name: Deploy GitHub Pages
+        if: ${{ (success() || failure()) && inputs.publish_report }}
+        uses: NayeemJohnY/actions/deploy-github-pages-site@main

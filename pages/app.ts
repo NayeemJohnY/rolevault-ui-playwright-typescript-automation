@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { CommonAssertions } from './common/assertions';
 import { commonLocators } from './common/locators';
 import { DashboardPage } from './dashboard-page';
@@ -32,5 +32,16 @@ export class App {
 
   get ui(): ReturnType<typeof commonLocators> {
     return (this._ui ??= commonLocators(this.page));
+  }
+
+  async handlePopup(): Promise<void> {
+    await this.page.addLocatorHandler(
+      this.ui.$featureSpotlightPopup,
+      async () => {
+        await this.ui.$featureSpotlightPopupGotItButton.click();
+        await expect(this.ui.$featureSpotlightPopup).not.toBeVisible();
+      },
+      { noWaitAfter: true }
+    );
   }
 }

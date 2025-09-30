@@ -56,12 +56,11 @@ export class UsersPage extends BasePage {
   public async searchUsersBy(search: string): Promise<string[]> {
     await this.ui.$comboboxSelect(1).selectOption({ value: '50' });
     await this.ui.$searchInput.fill(search);
-    await this.ui.$tableRow.first().waitFor({ state: 'visible' });
     const tableValues: string[] = [];
     let counter = 5;
     while (counter > 0) {
-      const rowsNotMatch = this.ui.$tableRow.filter({ hasNotText: search });
-      await expect(rowsNotMatch).toHaveCount(0);
+      await expect(this.ui.$tableRow.filter({ hasNotText: search }).last()).not.toBeVisible();
+      await expect(this.ui.$tableRow.filter({ hasText: search }).first()).toBeVisible();
       for (const locator of await this.ui.$tableRow.all()) {
         tableValues.push((await locator.textContent()) ?? '');
       }
@@ -69,7 +68,6 @@ export class UsersPage extends BasePage {
         break;
       }
       await this.ui.$nextPageNavButton.click();
-      await this.ui.$tableRow.first().waitFor({ state: 'visible' });
       counter--;
     }
     return tableValues;
