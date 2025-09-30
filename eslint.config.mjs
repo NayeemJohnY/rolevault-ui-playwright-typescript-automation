@@ -19,6 +19,8 @@ export default defineConfig([
             "playwright-report",
             "test-results",
             "rolevault-webapp",
+            'allure-report',
+            'allure-results'
         ]
     },
     {
