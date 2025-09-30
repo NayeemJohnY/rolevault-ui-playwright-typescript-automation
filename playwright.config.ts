@@ -37,7 +37,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
   projects: [
     // Desktop - Most popular browser (covers 70%+ market share)
     {
-      name: 'chromium',
+      name: 'Chromium',
       use: {
         ...devices['Desktop Chrome'],
         ...startMaximized,
@@ -46,7 +46,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
 
     // Desktop - Alternative engine for compatibility testing
     {
-      name: 'firefox',
+      name: 'Firefox',
       use: {
         ...devices['Desktop Firefox'],
       },
