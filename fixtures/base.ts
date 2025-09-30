@@ -11,7 +11,7 @@ async function launchApp(page: Page, url = '/'): Promise<App> {
     await expect(page).toHaveTitle('RoleVault');
     await expect(page.getByRole('heading', { name: 'Role Vault' })).toBeVisible();
     const app = new App(page);
-    await app.handlePopup();
+    await app.homePage.addPopupHandler();
     return app;
   });
 }

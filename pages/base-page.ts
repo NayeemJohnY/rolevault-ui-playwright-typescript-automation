@@ -45,4 +45,15 @@ export abstract class BasePage {
     }
     return columnValues;
   }
+
+  async addPopupHandler(): Promise<void> {
+    await this.page.addLocatorHandler(
+      this.ui.$featureSpotlightPopup,
+      async () => {
+        await this.ui.$featureSpotlightPopupGotItButton.click();
+        await expect(this.ui.$featureSpotlightPopup).not.toBeVisible();
+      },
+      { noWaitAfter: true }
+    );
+  }
 }

@@ -33,15 +33,4 @@ export class App {
   get ui(): ReturnType<typeof commonLocators> {
     return (this._ui ??= commonLocators(this.page));
   }
-
-  async handlePopup(): Promise<void> {
-    await this.page.addLocatorHandler(
-      this.ui.$featureSpotlightPopup,
-      async () => {
-        await this.ui.$featureSpotlightPopupGotItButton.click();
-        await expect(this.ui.$featureSpotlightPopup).not.toBeVisible();
-      },
-      { noWaitAfter: true }
-    );
-  }
 }
