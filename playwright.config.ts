@@ -1,9 +1,21 @@
 import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/test';
 
+/**
+ * Supported test environments for the RoleVault application.
+ * Each environment has different base URLs and configurations.
+ */
 type Environment = 'staging' | 'prod';
 
+/**
+ * Current test environment, determined from TESTENV environment variable.
+ * Defaults to 'staging' if not specified.
+ */
 const environment = (process.env.TESTENV as Environment) || 'staging';
 
+/**
+ * Base URL for the application under test.
+ * Can be overridden by BASE_URL environment variable or determined by environment.
+ */
 const baseURL =
   process.env.BASE_URL ||
   {
@@ -11,8 +23,16 @@ const baseURL =
     staging: 'http://localhost:5001',
   }[environment];
 
+/**
+ * Determines if tests should run in headed mode (with visible browser).
+ * True when --headed flag is used or PWDEBUG environment variable is set.
+ */
 const isHeaded = process.argv.includes('--headed') || process.env.PWDEBUG === '1';
 
+/**
+ * Browser configuration for maximized window when running in headed mode.
+ * Only applied when tests are running with visible browser.
+ */
 const startMaximized = isHeaded
   ? {
       deviceScaleFactor: undefined,
@@ -23,6 +43,10 @@ const startMaximized = isHeaded
     }
   : {};
 
+/**
+ * Base Playwright test configuration shared across all environments.
+ * Defines common settings for test execution, reporting, and browser behavior.
+ */
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
   fullyParallel: true,
@@ -71,7 +95,10 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
   ],
 };
 
-// Staging config: extends base, adds extra browsers for compatibility
+/**
+ * Staging environment configuration.
+ * Extends base configuration with additional retry logic and trace settings for CI.
+ */
 const stagingPlaywrightTestConfig: PlaywrightTestConfig = {
   ...basePlaywrightTestConfig,
   name: 'Staging Tests',
@@ -83,7 +110,10 @@ const stagingPlaywrightTestConfig: PlaywrightTestConfig = {
   },
 };
 
-// Production config: extends base, can be minimized for speed
+/**
+ * Production environment configuration.
+ * Optimized for speed with no retries and minimal trace collection.
+ */
 const prodPlaywrightTestConfig: PlaywrightTestConfig = {
   ...basePlaywrightTestConfig,
   name: 'Production Tests',
@@ -95,11 +125,17 @@ const prodPlaywrightTestConfig: PlaywrightTestConfig = {
   },
 };
 
-// Map of environment name to config
+/**
+ * Mapping of environment names to their respective configurations.
+ * Used to select the appropriate config based on the current environment.
+ */
 const configMap: Record<Environment, PlaywrightTestConfig> = {
   staging: stagingPlaywrightTestConfig,
   prod: prodPlaywrightTestConfig,
 };
 
-// Export the selected config for Playwright
+/**
+ * Exports the Playwright configuration for the current environment.
+ * Configuration is selected based on the TESTENV environment variable.
+ */
 export default defineConfig(configMap[environment]);

@@ -1,5 +1,12 @@
 import type { Locator, Page } from '@playwright/test';
 
+/**
+ * Common locator factory function for RoleVault application.
+ * Provides reusable locators for UI elements that appear across multiple pages.
+ *
+ * @param page - Playwright page instance to create locators for
+ * @returns Object containing all common locator functions
+ */
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const commonLocators = (page: Page) => ({
   $themeToggle: page.getByTestId('theme-toggle'),
@@ -7,6 +14,11 @@ export const commonLocators = (page: Page) => ({
   $toastMessage: (message?: string | RegExp): Locator => {
     const locator = page.getByRole('status');
     return message ? locator.getByText(message).first() : locator.first();
+  },
+  $toastMessageCloseButton: (message?: string | RegExp): Locator => {
+    let locator = page.getByRole('status');
+    locator = message ? locator.getByText(message).first() : locator.first();
+    return locator.getByRole('button', { name: 'Close notification' });
   },
   $level1Heading: (heading: string): Locator => page.getByRole('heading', { name: heading, level: 1 }),
   $menuButton: page.getByTestId('menu-button'),

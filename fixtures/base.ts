@@ -5,6 +5,14 @@ import { testUsers, type Role } from '../test-data/test-users';
 
 export { expect };
 
+/**
+ * Launches the RoleVault application and performs initial setup.
+ *
+ * @param page - The Playwright page instance
+ * @param url - The URL to navigate to, defaults to '/'
+ * @returns Promise resolving to an App instance
+ * @throws Will throw an error if the application fails to load or title is incorrect
+ */
 async function launchApp(page: Page, url = '/'): Promise<App> {
   return await test.step('Launch Application', async () => {
     await page.goto(url);
@@ -16,9 +24,16 @@ async function launchApp(page: Page, url = '/'): Promise<App> {
   });
 }
 
+/**
+ * Test fixtures interface extending Playwright's base test fixtures.
+ * Provides common utilities and setup for RoleVault application tests.
+ */
 export type TestFixtures = {
+  /** Pre-initialized App instance for the current test */
   app: App;
+  /** Session factory function to create app instances with different configurations */
   session: (options?: { baseURL?: string; newSession?: boolean; role?: Role }) => Promise<App>;
+  /** Automatic full page screenshot capture on test failure */
   fullPageScreenshotOnFailure: void;
 };
 
@@ -82,6 +97,23 @@ export const test = base.extend<TestFixtures>({
   ],
 });
 
+/**
+ * Decorator function that wraps class methods with Playwright test steps.
+ * Provides better test reporting and debugging by creating named steps in test execution.
+ *
+ * @param stepName - Optional custom name for the test step. If not provided, uses class and method name
+ * @returns Decorator function for class methods
+ *
+ * @example
+ * ```typescript
+ * class MyPage {
+ *   @step('Click login button')
+ *   async clickLogin() {
+ *     // method implementation
+ *   }
+ * }
+ * ```
+ */
 export function step(stepName?: string) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   return function decorator(target: Function, context: ClassMethodDecoratorContext) {

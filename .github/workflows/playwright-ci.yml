@@ -31,6 +31,7 @@ env:
   TESTENV: ${{inputs.env}}
   DOCKER_COMPOSE_FILE: rolevault-webapp/docker-compose.${{ inputs.env }}.yml
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  ROLE_VAULT_ENCRYPTION_KEY: ${{ secrets.ROLE_VAULT_ENCRYPTION_KEY }}
 
 jobs:
   test:
@@ -82,8 +83,7 @@ jobs:
       - name: Stop RoleVault Webapp (Docker Compose Down)
         if: always()
         run: |
-          mkdir -p playwright-report
-          docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs > playwright-report/application-logs.log
+          docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} logs > application-logs.log
           docker compose -f ${{ env.DOCKER_COMPOSE_FILE }} down
 
       - name: Generate Allure Report
@@ -106,6 +106,7 @@ jobs:
             allure-report
             screenshots
             test-results
+            application-logs.log
 
       - name: Prepare GitHub Pages Content
         if: ${{ (success() || failure()) && inputs.publish_report }}

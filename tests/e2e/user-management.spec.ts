@@ -1,3 +1,8 @@
+/**
+ * End-to-end user management tests for RoleVault application.
+ * Tests complete user lifecycle: creation, authentication, and deletion.
+ */
+
 import { INVALID_LOGIN_ERROR_MSG, USER_CREATE_SUCCESS, USER_MANAGEMENT } from '../../constants';
 import { expect, test } from '../../fixtures/base';
 import type { App } from '../../pages/app';

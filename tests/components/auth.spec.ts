@@ -1,3 +1,8 @@
+/**
+ * Component-level authentication tests for RoleVault application.
+ * Tests individual authentication features and error handling.
+ */
+
 import { INVALID_LOGIN_ERROR_MSG, USER_ALREADY_EXISTS } from '../../constants';
 import { expect, test } from '../../fixtures/base';
 import { testUsers, getNewUser, type Role } from '../../test-data/test-users';
