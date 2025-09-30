@@ -17,7 +17,7 @@ export const commonLocators = (page: Page) => ({
   },
   $toastMessageCloseButton: (message?: string | RegExp): Locator => {
     let locator = page.getByRole('status');
-    locator = message ? locator.getByText(message).first() : locator.first();
+    locator = message ? locator.filter({ hasText: message }).first() : locator.first();
     return locator.getByRole('button', { name: 'Close notification' });
   },
   $level1Heading: (heading: string): Locator => page.getByRole('heading', { name: heading, level: 1 }),
