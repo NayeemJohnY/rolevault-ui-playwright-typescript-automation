@@ -21,20 +21,20 @@ export class DashboardPage extends BasePage {
   }
 
   async logoutFromProfile(): Promise<void> {
-    const dialogPromise = this.page.waitForEvent('dialog', { timeout: 5000 });
     let dialog: Dialog;
-    const clickLogout = async (): Promise<void> => {
+    const clickLogoutAndGetDialogPromise = async (): Promise<Dialog> => {
+      const dialogPromise = this.page.waitForEvent('dialog', { timeout: 5000 });
       await this.$profileIcon.click();
       // Since this logout click not get resolves unless the dialog in handled
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.$logoutFromProfile.click();
+      return dialogPromise;
     };
     try {
-      await clickLogout();
-      dialog = await dialogPromise;
-    } catch {
-      await clickLogout();
-      dialog = await dialogPromise;
+      dialog = await clickLogoutAndGetDialogPromise();
+    } catch (error) {
+      console.error('Error occurred while logging out. Retrying ', error);
+      dialog = await clickLogoutAndGetDialogPromise();
     }
 
     expect(dialog.message()).toBe('Are you sure you want to logout?');
