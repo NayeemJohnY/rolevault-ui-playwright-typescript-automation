@@ -26,6 +26,7 @@
     "github-pages",
     "node_modules",
     "playwright-report",
-    "test-results"
+    "test-results",
+    "rolevault-webapp",
   ]
 }
