@@ -36,8 +36,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    container:
-      image: mcr.microsoft.com/playwright
 
     steps:
       - name: Checkout Test Repo
