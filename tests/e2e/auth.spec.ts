@@ -1,3 +1,8 @@
+/**
+ * End-to-end authentication tests for RoleVault application.
+ * Tests complete user authentication workflows from registration to logout.
+ */
+
 import { ACCOUNT_CREATE_SUCCESS, LOGOUT_SUCCESS } from '../../constants';
 import { expect, test } from '../../fixtures/base';
 import { getNewUser } from '../../test-data/test-users';

@@ -1,3 +1,21 @@
+/**
+ * Utility helper functions for test automation.
+ * Provides common functionality for random selection and string manipulation.
+ */
+
+/**
+ * Selects a random element from an array.
+ *
+ * @param iterable - Array of elements to choose from
+ * @returns A randomly selected element from the array
+ * @throws Error if the array is empty or not an array
+ *
+ * @example
+ * ```typescript
+ * const colors = ['red', 'blue', 'green'];
+ * const randomColor = getRandomValue(colors); // Returns 'red', 'blue', or 'green'
+ * ```
+ */
 export function getRandomValue<T>(iterable: T[]): T {
   if (!Array.isArray(iterable) || iterable.length === 0) {
     throw Error('iterable is Empty');
@@ -5,6 +23,19 @@ export function getRandomValue<T>(iterable: T[]): T {
   return iterable[Math.floor(Math.random() * iterable.length)];
 }
 
+/**
+ * Generates a random substring from the input string for search testing.
+ * Ensures minimum length of 4 characters for meaningful search queries.
+ *
+ * @param str - The source string to extract a substring from
+ * @returns A random substring in lowercase, minimum 4 characters or the full string if shorter
+ *
+ * @example
+ * ```typescript
+ * const searchTerm = getSearchString('John Doe Administrator');
+ * console.log(searchTerm); // Might return 'john', 'doe', 'admin', etc.
+ * ```
+ */
 export function getSearchString(str: string): string {
   const lowerStr = str.toLowerCase();
   if (lowerStr.length <= 4) {

@@ -2,19 +2,433 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Playwright Report Link</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RoleVault UI Automation Framework - Playwright & TypeScript</title>
+    <meta name="description"
+        content="Professional UI automation framework for RoleVault application using Playwright and TypeScript with advanced testing capabilities.">
+    <meta name="keywords" content="Playwright, TypeScript, UI Automation, Testing Framework, RoleVault, E2E Testing">
+    <meta name="author" content="NayeemJohnY">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RoleVault UI Automation Framework">
+    <meta property="og:description" content="Professional UI automation framework with Playwright & TypeScript">
+    <meta property="og:image"
+        content="https://nayeemjohny.github.io/rolevault-ui-playwright-typescript-automation/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="RoleVault UI Automation Framework">
+    <meta property="twitter:description" content="Professional UI automation framework with Playwright & TypeScript">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎭</text></svg>">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <h2>Playwright Test Report</h2>
-    <p>
-        <a href="playwright-report/index.html" target="_blank">View Playwright HTML Report</a>
-    </p>
-    <h2>Allure Test Report</h2>
-    <p>
-        <a href="allure-report/index.html" target="_blank">View Allure Report</a>
-    </p>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-icon">RV</div>
+                    <span>RoleVault Automation</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#reports" class="nav-link">Reports</a>
+                    <a href="#architecture" class="nav-link">Architecture</a>
+                    <a href="https://github.com/NayeemJohnY/rolevault-ui-playwright-typescript-automation"
+                        class="nav-link" target="_blank">GitHub</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>RoleVault UI Automation Framework</h1>
+            <p>Professional-grade UI testing framework built with Playwright and TypeScript, featuring comprehensive
+                test coverage, advanced reporting, and enterprise-ready architecture.</p>
+            <div class="hero-buttons">
+                <a href="#reports" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14,2 14,8 20,8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10,9 9,9 8,9"></polyline>
+                    </svg>
+                    View Test Reports
+                </a>
+                <a href="https://github.com/NayeemJohnY/rolevault-ui-playwright-typescript-automation"
+                    class="btn btn-secondary" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                        </path>
+                    </svg>
+                    View Source Code
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>4</h3>
+                    <p>Browser Coverage</p>
+                </div>
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>TypeScript</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2</h3>
+                    <p>Report Formats</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="features" class="features section">
+        <div class="container">
+            <div class="feature-highlight">
+                <h2>🚀 Key Framework Highlights</h2>
+                <p>Discover what makes this automation framework stand out from the rest</p>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon primary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Advanced Page Object Model</h3>
+                    <p>Implements lazy initialization pattern with comprehensive JSDoc documentation. Features base page
+                        classes with common utilities and specialized page objects for each application section.</p>
+                    <div class="badge badge-primary">Architecture</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon secondary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3>Enterprise Security</h3>
+                    <p>Built-in AES-256-GCM encryption for sensitive test data. Secure credential management with
+                        environment variable support and encrypted password storage.</p>
+                    <div class="badge badge-secondary">Security</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon accent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                            </path>
+                            <polyline points="3.27,6.96 12,12.01 20.73,6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h3>Smart Test Fixtures</h3>
+                    <p>Custom test fixtures with session management, automatic screenshots on failure, and
+                        environment-specific configurations. Supports both component and E2E testing patterns.</p>
+                    <div class="badge badge-accent">Testing</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon primary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3>Multi-Environment Support</h3>
+                    <p>Flexible configuration system supporting staging and production environments. Dynamic base URL
+                        configuration and environment-specific retry policies with CI/CD integration.</p>
+                    <div class="badge badge-outline">DevOps</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon secondary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z">
+                            </path>
+                            <circle cx="12" cy="13" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3>Visual Testing Capabilities</h3>
+                    <p>Automatic screenshot capture on test failures with full-page screenshots and Video recording for
+                        debugging.</p>
+                    <div class="badge badge-secondary">Visual</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon accent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                        </svg>
+                    </div>
+                    <h3>Comprehensive Documentation</h3>
+                    <p>Every class, method, and function includes detailed JSDoc comments. Clear usage examples,
+                        parameter descriptions, and return value documentation for enhanced developer experience.</p>
+                    <div class="badge badge-accent">Docs</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section">
+        <div class="container">
+            <div class="feature-highlight">
+                <h2>🏗️ Framework Architecture</h2>
+                <p>Built with industry best practices and modern testing patterns</p>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>🧩 Modular Structure</h3>
+                    <div class="code-block">
+                        <pre>
+├── fixtures/               # Test fixtures & utilities
+├── pages/                  # Page Object Models
+│   ├── common/             # Shared locators & assertions
+│   └── *.page.ts           # Individual page classes
+├── test-data/              # Test data & user management
+├── tests/                  # Test specifications
+│   ├── components/         # Component-level tests
+│   └── e2e/                # End-to-end tests
+├── utils/                  # Utility functions
+└── playwright.config.ts    # Environment configs
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔧 Core Technologies</h3>
+                    <ul class="tech-list">
+                        <li class="tech-list-item">
+                            <strong>🎭 Playwright:</strong> Cross-browser automation
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>📘 TypeScript:</strong> Type-safe development
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>🔐 Crypto:</strong> Secure data encryption
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>📊 Allure:</strong> Rich test reporting
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>🎯 ESLint:</strong> Code quality assurance
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Reports Section -->
+    <section id="reports" class="reports section">
+        <div class="container">
+            <div class="feature-highlight">
+                <h2>📊 Test Reports & Analytics</h2>
+                <p>Comprehensive reporting with detailed insights and visual test execution data</p>
+            </div>
+
+            <div class="grid grid-2">
+                <article class="card report-card">
+                    <div class="card-icon primary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 3v18l15-9L5 3z"></path>
+                        </svg>
+                    </div>
+                    <h3>Playwright HTML Report</h3>
+                    <p>Interactive test execution report featuring step-by-step breakdowns, trace viewer, screenshots,
+                        and network monitoring. Perfect for debugging and test analysis.</p>
+
+                    <div class="code-block">
+                        <pre>✅ Component Tests: Authentication, User Management
+✅ E2E Tests: Complete user workflows
+✅ Cross-browser: Chrome, Firefox, Mobile
+✅ Visual: Screenshots & Video recordings</pre>
+                    </div>
+
+                    <div class="report-actions">
+                        <a href="playwright-report/index.html" class="btn btn-primary" target="_blank"
+                            rel="noopener noreferrer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            View Report
+                        </a>
+                    </div>
+                    <small class="last-updated" id="playwright-mod">Last
+                        updated: —</small>
+                </article>
+
+                <article class="card report-card">
+                    <div class="card-icon secondary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 6v6l4 2"></path>
+                        </svg>
+                    </div>
+                    <h3>Allure Analytics Report</h3>
+                    <p>Advanced test analytics with historical trends, test categorization, flaky test detection, and
+                        comprehensive test suite metrics for enterprise reporting.</p>
+
+                    <div class="code-block">
+                        <pre>📈 Test Trends & History
+🏷️ Test Categories & Tags  
+🔍 Flaky Test Detection
+📊 Execution Time Analytics</pre>
+                    </div>
+
+                    <div class="report-actions">
+                        <a href="allure-report/index.html" class="btn btn-primary" target="_blank"
+                            rel="noopener noreferrer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            View Report
+                        </a>
+                    </div>
+                    <small class="last-updated" id="allure-mod">Last
+                        updated: —</small>
+                </article>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/NayeemJohnY/rolevault-ui-playwright-typescript-automation"
+                    class="footer-link" target="_blank">GitHub Repository</a>
+                <a href="https://playwright.dev/" class="footer-link" target="_blank">Playwright Docs</a>
+                <a href="https://www.typescriptlang.org/" class="footer-link" target="_blank">TypeScript</a>
+                <a href="https://docs.qameta.io/allure/" class="footer-link" target="_blank">Allure Reports</a>
+            </div>
+            <p>&copy; 2025 RoleVault UI Automation Framework. Built with ❤️ by <a href="https://github.com/NayeemJohnY"
+                    target="_blank">NayeemJohnY</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced script for showing last modified dates with better error handling
+        async function showModified(elementId, reportUrl) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+
+            try {
+                // Try HEAD request first for better performance
+                const response = await fetch(reportUrl, {
+                    method: 'HEAD',
+                    cache: 'no-cache'
+                });
+
+                const lastModified = response.headers.get('last-modified');
+                if (lastModified) {
+                    const date = new Date(lastModified);
+                    element.textContent = `Last updated: ${date.toLocaleString()}`;
+                    return;
+                }
+
+                // Fallback to GET request
+                const fullResponse = await fetch(reportUrl, { cache: 'no-cache' });
+                const fallbackLastModified = fullResponse.headers.get('last-modified');
+
+                if (fallbackLastModified) {
+                    const date = new Date(fallbackLastModified);
+                    element.textContent = `Last updated: ${date.toLocaleString()}`;
+                } else {
+                    element.textContent = 'Last updated: Recently';
+                }
+            } catch (error) {
+                console.warn(`Unable to fetch last modified date for ${reportUrl}:`, error);
+                element.textContent = 'Last updated: Unknown';
+            }
+        }
+
+        // Initialize last modified dates
+        document.addEventListener('DOMContentLoaded', () => {
+            showModified('playwright-mod', 'playwright-report/index.html');
+            showModified('allure-mod', 'allure-report/index.html');
+        });
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .stat-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 
 </html>

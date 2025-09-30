@@ -1,9 +1,15 @@
+/**
+ * Component-level user management tests for RoleVault application.
+ * Tests user filtering, searching, and table operations.
+ */
+
 import { USER_MANAGEMENT } from '../../constants';
 import { expect, test } from '../../fixtures/base';
 import type { Role, TestUser } from '../../test-data/test-users';
 import { getNewUser, testUsers } from '../../test-data/test-users';
 import { getRandomValue, getSearchString } from '../../utils/helper';
 
+/** Available user roles for testing user creation */
 export const ROLES = ['admin', 'contributor', 'viewer'];
 
 test.describe.configure({ mode: 'default', timeout: 60000 });
