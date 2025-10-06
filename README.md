@@ -1,26 +1,44 @@
 # RoleVault Playwright TypeScript Automation
 
 ## Overview
-This repository contains Playwright end-to-end tests for the RoleVault UI, written in TypeScript. The framework focuses on readable Page Object Models (POM), reusable fixtures, cross-browser coverage, and rich reporting (Playwright HTML report + Allure).
+This repository contains Playwright end-to-end tests for the RoleVault UI, written in **TypeScript**. The framework focuses on readable Page Object Models (POM), reusable fixtures, cross-browser coverage, and rich reporting (Playwright HTML report + Allure).
+
+## 🛠️ Tech Stack
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+![Allure](https://img.shields.io/badge/Allure-FF6C37?style=for-the-badge&logo=qameta&logoColor=white)
 
 ## Key Features
 
-### Framework Architecture
-- **Professional-grade E2E test framework** using Playwright + TypeScript
+### 🏗️ Framework Architecture
+- **Professional-grade E2E test framework** using **Playwright** + **TypeScript**
 - **Page Object Model (POM)** with clear, reusable page classes and helpers
 - **Smart fixtures** for session/auth management, automatic screenshots on failure, and optional video recording
 - **Component and E2E test patterns** with consistent fixtures and utilities
+- **TDD/BDD support** - Framework supports both Test-Driven Development and Behavior-Driven Development approaches
 
-### Cross-Browser & Multi-Environment Support
+### 🌐 Cross-Browser & Multi-Environment Support
 - **Cross-browser testing**: Chromium (Google Chrome), Firefox, WebKit (Safari) and mobile emulation
 - **Multi-environment support**: dynamic base URLs, env-specific timeouts/retries
 - **Configurable retries and timeouts** per environment and CI
+- **CI/CD Integration**: Seamless integration with **GitHub Actions**, **Jenkins**, and other CI/CD pipelines
 
-### Visual Testing & Reporting
+### 📊 Advanced Testing & Reporting
 - **Visual testing support**: screenshots and video capture on failures
-- **Built-in reporting**: Playwright HTML report and Allure analytics (if configured)
+- **Rich reporting**: Playwright HTML report and **Allure** analytics with detailed insights
 - **CI-friendly**: easy to preserve artifacts (reports, videos, traces) for pipeline debugging
 - **Simple local demo site** (see `github-pages/index.html`) that summarizes architecture and links to generated reports
+
+### 🔧 Additional Framework Capabilities
+This framework draws from modern testing practices including:
+- **Multiple language support**: While this project uses TypeScript, similar patterns work with **Java**, **Python**, **JavaScript**
+- **Cross-framework compatibility**: Patterns applicable to **Selenium**, **pytest**, **TestNG**, **Cucumber**
+- **API & Performance testing integration**: Ready for **Postman**, **REST Assured**, **Locust** integration
+- **DevOps tools**: **Docker** containerization, **Maven** build patterns, **Azure DevOps** / **JIRA** integration
+- **Development environments**: **VS Code**, **Eclipse**, **PyCharm** support
+- **Agile methodologies**: **Scrum**, **V-Model**, **Waterfall** compatible
 
 ## Project Structure
 
