@@ -1,0 +1,99 @@
+{
+  "workbench.iconTheme": "material-icon-theme",
+  "files.autoSave": "afterDelay",
+  "editor.formatOnSave": true,
+  "google-java-format.executable": "./Learning/google-java-format-1.28.0-all-deps.jar",
+  "vscode-gjf.win32ExecJarPath": "./Learning/google-java-format-1.28.0-all-deps.jar",
+  "[java]": {
+    "editor.defaultFormatter": "lcjuves.vscode-gjf",
+    "editor.formatOnSave": true
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  "github.copilot.advanced": {},
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "workbench.colorTheme": "Default Dark+",
+  "editor.defaultFormatter": "ms-python.black-formatter",
+  "editor.defaultFoldingRangeProvider": "ms-python.black-formatter",
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "cSpell.userWords": ["addoption", "autouse", "pylint", "pytest"],
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "playwright.reuseBrowser": true,
+  "playwright.showTrace": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "playwright.env": {},
+  "gitlens.views.commits.showStashes": true,
+  "gitlens.views.repositories.showStashes": true,
+  "gitlens.views.scm.grouped.views": {
+    "commits": true,
+    "branches": true,
+    "remotes": true,
+    "stashes": false,
+    "tags": true,
+    "worktrees": true,
+    "contributors": true,
+    "fileHistory": false,
+    "repositories": true,
+    "searchAndCompare": false,
+    "launchpad": false
+  },
+  "workbench.secondarySideBar.defaultVisibility": "visible",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:grok-code",
+  "mdb.mcp.server": "enabled",
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.format.enable": true,
+  "eslint.workingDirectories": [],
+
+  //  Prettier options
+  "prettier.singleQuote": true, // Use single quotes
+  "prettier.semi": true, // Add semicolons
+  "prettier.trailingComma": "es5", // Add trailing commas where valid in ES5 (objects, arrays, etc.)
+  "prettier.tabWidth": 2, // Set tab width to 2 spaces
+  "prettier.useTabs": false, // Use spaces, not tabs
+  "prettier.printWidth": 120, // Wrap lines after 120 characters
+  "prettier.bracketSpacing": true, // Add spaces inside brackets
+  "prettier.arrowParens": "always", // Always include parens in arrow functions
+  "prettier.endOfLine": "lf"
+}
