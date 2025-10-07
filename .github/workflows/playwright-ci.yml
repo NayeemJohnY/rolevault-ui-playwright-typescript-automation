@@ -1,9 +1,9 @@
 name: Test Execution - Playwright
-run-name: ${{inputs.env}} - playwright test execution
+run-name: ${{ github.env.TESTENV}} - playwright test execution
 
 on:
   schedule:
-    - cron: "35 9 * * 1-5"
+    - cron: "00 10 * * 1-5"
 
   workflow_dispatch:
     inputs:
@@ -32,7 +32,7 @@ permissions:
 
 env:
   TESTENV: ${{github.event_name == 'schedule' && 'staging'  || inputs.env}}
-  DOCKER_COMPOSE_FILE: rolevault-webapp/docker-compose.${{ inputs.env }}.yml
+  DOCKER_COMPOSE_FILE: rolevault-webapp/docker-compose.${{ github.env.TESTENV }}.yml
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   ROLE_VAULT_ENCRYPTION_KEY: ${{ secrets.ROLE_VAULT_ENCRYPTION_KEY }}
   PUBLISH_REPORT: ${{ github.event_name == 'schedule' && 'true' || inputs.publish_report }}
