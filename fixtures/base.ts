@@ -2,6 +2,7 @@ import type { BrowserContext, Page } from '@playwright/test';
 import { test as base, expect } from '@playwright/test';
 import { App } from '../pages/app';
 import { testUsers, type Role } from '../test-data/test-users';
+import { setupNetworkMonitoring } from '../utils/networkMonitor';
 
 export { expect };
 
@@ -35,6 +36,8 @@ export type TestFixtures = {
   session: (options?: { baseURL?: string; newSession?: boolean; role?: Role }) => Promise<App>;
   /** Automatic full page screenshot capture on test failure */
   fullPageScreenshotOnFailure: void;
+
+  networkMonitor: void;
 };
 
 export const test = base.extend<TestFixtures>({
@@ -92,6 +95,19 @@ export const test = base.extend<TestFixtures>({
           contentType: 'image/png',
         });
       }
+    },
+    { auto: true },
+  ],
+
+  networkMonitor: [
+    async ({ page }, use, testInfo): Promise<void> => {
+      // Use the setupNetworkMonitoring function from networkMonitor.ts
+      const networkMonitor = await setupNetworkMonitoring(page, testInfo);
+
+      await use();
+
+      // Attach the network report after the test completes
+      await networkMonitor.attachReport();
     },
     { auto: true },
   ],

@@ -49,6 +49,8 @@ const startMaximized = isHeaded
  */
 const basePlaywrightTestConfig: PlaywrightTestConfig = {
   testDir: './tests',
+  globalSetup: './fixtures/globalSetup',
+  globalTeardown: './fixtures/globalTeardown',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   reporter: [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']],
