@@ -62,7 +62,6 @@ jobs:
     needs: [determine-shards]
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    container: mcr.microsoft.com/playwright:v1.56.0-noble
     strategy:
       fail-fast: false
       matrix:
