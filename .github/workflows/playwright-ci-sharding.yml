@@ -68,6 +68,7 @@ jobs:
       matrix:
         shardIndex: ${{ fromJson(needs.determine-shards.outputs.shardIndexes) }}
         shardTotal: ${{ fromJson(needs.determine-shards.outputs.shardTotal) }}
+    name: "test - ${{ matrix.shardIndex }} / ${{ matrix.shardTotal }}"
 
     services:
       mongo:
