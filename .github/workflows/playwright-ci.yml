@@ -42,11 +42,34 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     container:
-      image: ghcr.io/nayeemjohny/rolevault:latest
-      env:
-        JWT_SECRET: ${{env.JWT_SECRET}}
-        TESTENV: ${{env.TESTENV}}
-      options: --user root
+      image: mcr.microsoft.com/playwright:v1.56.0-noble
+      options: --user 1001
+
+    services:
+      mongo:
+        image: mongo:7.0
+        volumes:
+          - mongo-data:/data/db
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+      rolevault:
+        image: ghcr.io/nayeemjohny/rolevault:latest
+        env:
+          JWT_SECRET: ${{env.JWT_SECRET}}
+          TESTENV: ${{env.TESTENV}}
+          MONGODB_URI: mongodb://mongo:27017/${{env.TESTENV}}-rolevault-db
+        ports:
+          - 5000:5000
+          - 5001:5001
+        options: >-
+          --user root
+          --depends-on mongo
 
     steps:
       - name: Checkout Test Repo
