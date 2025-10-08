@@ -65,11 +65,6 @@ jobs:
           - 5001:5001
         options: >-
           --user root
-          --health-cmd "sh -c 'if [ \"$TESTENV\" = \"staging\" ]; then curl -f http://localhost:5001/api/health || exit 1; else curl -f http://localhost:5000/api/health || exit 1; fi'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-start-period 60s
-          --health-retries 6
 
     steps:
       - name: Checkout Test Repo
