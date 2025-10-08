@@ -62,8 +62,6 @@ jobs:
           TESTENV: ${{env.TESTENV}}
           MONGODB_URI: mongodb://mongo:27017/${{env.TESTENV}}-rolevault-db
         ports:
-          # Map both ports, but staging uses 5001, prod uses 5000
-          - 5000:5000
           - 5001:5001
         options: >-
           --user root
