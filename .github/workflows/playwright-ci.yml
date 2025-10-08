@@ -69,7 +69,6 @@ jobs:
           - 5001:5001
         options: >-
           --user root
-          --depends-on mongo
 
     steps:
       - name: Checkout Test Repo
