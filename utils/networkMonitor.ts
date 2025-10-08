@@ -125,6 +125,11 @@ function convertRequestRecordsToCSV(data: HttpRequestRecord[]): string {
 }
 
 export function cleanUpTempNetworkData(): void {
+  if (process.env.PW_SHARDED) {
+    console.log('Skipping Cleanup in sharded mode. Consider manual cleanup');
+    return;
+  }
+
   if (fs.existsSync(TEMP_NETWORK_DATA_DIR)) {
     // Clean up any existing temp files
     const files = fs.readdirSync(TEMP_NETWORK_DATA_DIR);
@@ -135,7 +140,12 @@ export function cleanUpTempNetworkData(): void {
   }
 }
 
-export async function generateNetworkReportCSV(): Promise<void> {
+export function generateNetworkReportCSV(): void {
+  if (process.env.PW_SHARDED) {
+    console.log('Skipping Network report generation in sharded mode. Use manual report generation script');
+    return;
+  }
+
   try {
     if (!fs.existsSync(TEMP_NETWORK_DATA_DIR)) {
       console.log('No network data files found');
@@ -228,4 +238,15 @@ export async function setupNetworkMonitoring(
       }
     },
   };
+}
+
+// Direct execution support
+if (require.main === module) {
+  try {
+    console.log('🚀 Generating network report...');
+    generateNetworkReportCSV();
+    console.log('✅ Network report generation completed');
+  } catch (error) {
+    console.error('❌ Error generating network report:', error);
+  }
 }
