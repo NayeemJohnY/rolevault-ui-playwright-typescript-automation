@@ -149,7 +149,7 @@ export async function generateNetworkReportCSV(): Promise<void> {
       console.log('No network data to merge');
       return;
     }
-    console.log(`📊 Merging ${jsonFiles.length} network data files...`);
+    console.log(`\n📊 Merging ${jsonFiles.length} network data files...`);
 
     const allHttpRequestRecords: HttpRequestRecord[] = [];
 
