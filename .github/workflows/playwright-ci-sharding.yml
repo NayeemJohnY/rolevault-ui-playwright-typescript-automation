@@ -1,5 +1,5 @@
 name: Test Execution - Playwright - Sharded
-run-name: ${{inputs.env}} - playwright test execution
+run-name: ${{ inputs.env }} - playwright test execution
 
 on:
   workflow_dispatch:
@@ -33,10 +33,10 @@ permissions:
   pages: write
 
 env:
-  TESTENV: ${{github.event_name == 'schedule' && 'staging'  || inputs.env}}
+  TESTENV: ${{ inputs.env }}
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   ROLE_VAULT_ENCRYPTION_KEY: ${{ secrets.ROLE_VAULT_ENCRYPTION_KEY }}
-  PUBLISH_REPORT: ${{ github.event_name == 'schedule' && 'true' || inputs.publish_report }}
+  PUBLISH_REPORT: ${{ inputs.publish_report }}
 
 jobs:
   determine-shards:
@@ -87,6 +87,7 @@ jobs:
           TESTENV: ${{env.TESTENV}}
           MONGODB_URI: mongodb://mongo:27017/${{env.TESTENV}}-rolevault-db
         ports:
+          - 5000:5000
           - 5001:5001
         options: >-
           --user root
@@ -123,7 +124,6 @@ jobs:
             network-reports
 
   generate-reports:
-    if: ${{ needs.test.result == 'success' || needs.test.result == 'failure' }}
     needs: [test]
     runs-on: ubuntu-latest
 
