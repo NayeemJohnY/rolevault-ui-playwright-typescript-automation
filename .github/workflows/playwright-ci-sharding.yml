@@ -1,0 +1,215 @@
+name: Test Execution - Playwright - Sharded
+run-name: ${{inputs.env}} - playwright test execution
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Select Test Environment
+        type: choice
+        default: staging
+        options:
+          - staging
+          - prod
+
+      shard_percent:
+        description: Shard Percentage (% of work distribution)
+        type: number
+        default: 25
+
+      cli_args:
+        description: Additional CLI Arguments (--project "Google Chrome" / -g "Search User")
+        type: string
+        required: false
+
+      publish_report:
+        description: Publish Test Report
+        type: boolean
+        default: true
+
+permissions:
+  id-token: write
+  contents: read
+  pages: write
+
+env:
+  TESTENV: ${{github.event_name == 'schedule' && 'staging'  || inputs.env}}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  ROLE_VAULT_ENCRYPTION_KEY: ${{ secrets.ROLE_VAULT_ENCRYPTION_KEY }}
+  PUBLISH_REPORT: ${{ github.event_name == 'schedule' && 'true' || inputs.publish_report }}
+
+jobs:
+  determine-shards:
+    runs-on: ubuntu-latest
+    outputs:
+      shardIndexes: ${{ steps.shard-generator.outputs.shardIndexes }}
+      shardTotal: ${{ steps.shard-generator.outputs.shardTotal }}
+
+    steps:
+      - name: Create Shard Indexes
+        id: shard-generator
+        run: |
+          percent=${{ inputs.shard_percent }}
+          shard_total=$(( (100 + percent - 1) / percent ))
+          json_array="["
+
+          for (( i=1; i<=shard_total; i++ ))
+          do
+            shard="\"$i/$shard_total\""
+            if [ "$i" -eq 1 ]; then
+              json_array+="$shard"
+            else
+              json_array+=",$shard"
+            fi
+          done
+
+          json_array+="]"
+
+          # Output JSON array
+          echo "shardIndexes=$json_array" >> "$GITHUB_OUTPUT"
+          echo "shardTotal=$shard_total" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: [determine-shards]
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    container: mcr.microsoft.com/playwright:v1.56.0-noble
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: ${{ fromJson(needs.determine-shards.outputs.shardIndexes) }}
+        shardTotal: ${{ fromJson(needs.determine-shards.outputs.shardTotal) }}
+
+    services:
+      mongo:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+      rolevault:
+        image: ghcr.io/nayeemjohny/rolevault:latest
+        env:
+          JWT_SECRET: ${{env.JWT_SECRET}}
+          TESTENV: ${{env.TESTENV}}
+          MONGODB_URI: mongodb://mongo:27017/${{env.TESTENV}}-rolevault-db
+        ports:
+          - 5001:5001
+        options: >-
+          --user root
+
+    steps:
+      - name: Checkout Test Repo
+        uses: actions/checkout@v5
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: PreTest - ESLint & TS Compile
+        run: npm run pretest
+
+      - name: Run Playwright tests
+        run: npx playwright test ${{ inputs.cli_args }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v5
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results-${{ matrix.shardIndex }}
+          if-no-files-found: ignore
+          retention-days: 30
+          path: |
+            blob-report
+            allure-results
+            screenshots
+            test-results
+            application-logs.log
+            network-reports
+
+  generate-reports:
+    if: ${{ !cancelled() }}
+    needs: [test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Test Repo
+        uses: actions/checkout@v5
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download all test artifacts for network report
+        uses: actions/download-artifact@v5
+        with:
+          path: all-test-results
+          pattern: test-results-*
+          merge-multiple: true
+
+      - name: Consolidate Allure Results
+        if: success() || failure()
+        run: |
+          # Create consolidated allure results
+          mkdir -p allure-results-consolidated
+          # Copy all allure results directory
+          find all-test-results -name "allure-results" -type d -exec cp -r {}/* allure-results-consolidated/ \; 2>/dev/null || true
+          ls -la allure-results-consolidated || echo "No allure results directories found"
+
+      - name: Generate Allure Report
+        if: success() || failure()
+        uses: NayeemJohnY/actions/allure-report-with-history@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          allure-results-dir: ./allure-results-consolidated
+          allure-report-dir: ./allure-report
+
+      - name: Consolidate Blob Reports
+        if: success() || failure()
+        run: |
+          # Create consolidated blob reports
+          mkdir -p blob-reports-consolidated
+          # Copy all blob reports directory
+          find all-test-results -name "blob-report" -type d -exec cp -r {}/* blob-reports-consolidated/ \; 2>/dev/null || true
+          ls -la blob-reports-consolidated || echo "No blob reports directories found"
+
+      - name: Merge into HTML Report
+        run: npx playwright merge-reports --reporter html ./blob-reports-consolidated
+
+      - name: Consolidate Network Data
+        if: success() || failure()
+        run: |
+          # Create consolidated network-reports directory
+          mkdir -p network-reports/temp-network-data
+          # Copy all network data from downloaded artifacts
+          find all-test-results -name "*.json" -path "*/network-reports/temp-network-data/*" -exec cp {} network-reports/temp-network-data/ \;
+          ls -la network-reports/temp-network-data/ || echo "No network data files found"
+
+      - name: Generate Network Report
+        if: success() || failure()
+        run: npm run generate-network-report
+
+      - name: Upload Consolidated Test Reports
+        uses: actions/upload-artifact@v5
+        with:
+          name: test-reports-consolidated
+          path: |
+            playwright-report
+            network-reports
+            allure-report
+
+      - name: Prepare GitHub Pages Content
+        if: ${{ (success() || failure()) && env.PUBLISH_REPORT == 'true' }}
+        uses: NayeemJohnY/actions/prepare-github-pages@main
+        with:
+          allure-report-dir: ./allure-report
+          playwright-report-dir: ./playwright-report
+
+      - name: Deploy GitHub Pages
+        if: ${{ (success() || failure()) && env.PUBLISH_REPORT == 'true' }}
+        uses: NayeemJohnY/actions/deploy-github-pages-site@main
