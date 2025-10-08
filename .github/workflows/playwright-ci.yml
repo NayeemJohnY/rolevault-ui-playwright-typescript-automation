@@ -3,10 +3,7 @@ run-name: ${{github.event_name == 'schedule' && 'staging'  || inputs.env}} - pla
 
 on:
   schedule:
-    - cron: "30 7 * * 1-5"
-    - cron: "0 8 * * 1-5"
-    - cron: "30 8 * * 1-5"
-    - cron: "0 9 * * 1-5"
+    - cron: "30 5 * * 1-5"
 
   workflow_dispatch:
     inputs:
