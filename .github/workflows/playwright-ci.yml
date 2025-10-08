@@ -76,16 +76,24 @@ jobs:
           echo "<========================= ❌ Timeout: RoleVault did not start within 5 minutes ❌ =========================>"
           exit 1
 
-      - name: Install dependencies
-        run: npm ci
+      # - name: Install dependencies
+      #   run: npm ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps
 
-      - name: PreTest - ESLint & TS Compile
-        run: npm run pretest
-      - name: Run Playwright tests
-        run: npx playwright test ${{ inputs.cli_args }}
+      - name: Run Playwright Tests in Docker
+        run: |
+          docker run -it --rm --ipc=host \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            mcr.microsoft.com/playwright:v1.56.0-noble \
+            bash -c "npm ci && npx playwright install --with-deps && npm run pretest && npx playwright test ${{ inputs.cli_args }}"
+
+      # - name: PreTest - ESLint & TS Compile
+      #   run: npm run pretest
+      # - name: Run Playwright tests
+      #   run: npx playwright test ${{ inputs.cli_args }}
 
       - name: Stop RoleVault Webapp (Docker Compose Down)
         if: always()
