@@ -103,6 +103,7 @@ jobs:
             network-reports
 
       - name: Prepare GitHub Pages Content
+        id: prepare-pages
         if: ${{ (success() || failure()) && env.PUBLISH_REPORT == 'true' }}
         uses: NayeemJohnY/actions/prepare-github-pages@main
         with:
@@ -110,5 +111,5 @@ jobs:
           playwright-report-dir: ./playwright-report
 
       - name: Deploy GitHub Pages
-        if: ${{ (success() || failure()) && env.PUBLISH_REPORT == 'true' }}
+        if: ${{ steps.prepare-pages.outcome == 'success' && env.PUBLISH_REPORT == 'true' }}
         uses: NayeemJohnY/actions/deploy-github-pages-site@main

@@ -51,25 +51,12 @@ jobs:
         run: |
           percent=${{ inputs.shard_percent }}
           shard_total=$(( (100 + percent - 1) / percent ))
-          json_array="["
+          shard_indexes=$(seq -s, 1 $shard_total)
 
-          for (( i=1; i<=shard_total; i++ ))
-          do
-            shard="\"$i/$shard_total\""
-            if [ "$i" -eq 1 ]; then
-              json_array+="$shard"
-            else
-              json_array+=",$shard"
-            fi
-          done
-
-          json_array+="]"
-
-          # Output JSON array
-          echo "shardIndexes: $json_array"
-          echo "shardTotal: $shard_total"
-          echo "shardIndexes=$json_array" >> "$GITHUB_OUTPUT"
-          echo "shardTotal=$shard_total" >> "$GITHUB_OUTPUT"
+          echo "shardIndexes: [$shard_indexes]"
+          echo "shardTotal: [$shard_total]"
+          echo "shardIndexes=[$shard_indexes]" >> "$GITHUB_OUTPUT"
+          echo "shardTotal=[$shard_total]" >> "$GITHUB_OUTPUT"
 
   test:
     needs: [determine-shards]
@@ -206,6 +193,7 @@ jobs:
             allure-report
 
       - name: Prepare GitHub Pages Content
+        id: prepare-pages
         if: ${{ (success() || failure()) && env.PUBLISH_REPORT == 'true' }}
         uses: NayeemJohnY/actions/prepare-github-pages@main
         with:
@@ -213,5 +201,5 @@ jobs:
           playwright-report-dir: ./playwright-report
 
       - name: Deploy GitHub Pages
-        if: ${{ (success() || failure()) && env.PUBLISH_REPORT == 'true' }}
+        if: ${{ steps.prepare-pages.outcome == 'success' && env.PUBLISH_REPORT == 'true' }}
         uses: NayeemJohnY/actions/deploy-github-pages-site@main
