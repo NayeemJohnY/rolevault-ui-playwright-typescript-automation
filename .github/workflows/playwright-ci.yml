@@ -42,11 +42,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     container:
-            image: ghcr.io/nayeemjohny/rolevault:latest
-            env:
-                JWT_SECRET: ${{env.JWT_SECRET}}
-                TESTENV: ${{env.TESTENV}}
-            options: --user root
+      image: ghcr.io/nayeemjohny/rolevault:latest
+      env:
+        JWT_SECRET: ${{env.JWT_SECRET}}
+        TESTENV: ${{env.TESTENV}}
+      options: --user root
 
     steps:
       - name: Checkout Test Repo
@@ -54,6 +54,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - name: PreTest - ESLint & TS Compile
         run: npm run pretest
