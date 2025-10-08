@@ -27,13 +27,12 @@ const baseURL =
  * Determines if tests should run in headed mode (with visible browser).
  * True when --headed flag is used or PWDEBUG environment variable is set.
  */
-const isHeaded = process.argv.includes('--headed') || process.env.PWDEBUG === '1';
 
 /**
  * Browser configuration for maximized window when running in headed mode.
  * Only applied when tests are running with visible browser.
  */
-const startMaximized = isHeaded
+const startMaximized = process.env.PW_HEADED
   ? {
       deviceScaleFactor: undefined,
       viewport: null,
@@ -53,7 +52,9 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
   globalTeardown: './fixtures/globalTeardown',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  reporter: [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']],
+  reporter: process.env.PW_SHARDED
+    ? [['blob'], ['list'], ['allure-playwright']]
+    : [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']],
   expect: {
     timeout: 10000,
   },
