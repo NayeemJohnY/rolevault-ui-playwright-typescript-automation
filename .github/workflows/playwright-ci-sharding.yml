@@ -66,6 +66,8 @@ jobs:
           json_array+="]"
 
           # Output JSON array
+          echo "shardIndexes: $json_array"
+          echo "shardTotal: $shard_total"
           echo "shardIndexes=$json_array" >> "$GITHUB_OUTPUT"
           echo "shardTotal=$shard_total" >> "$GITHUB_OUTPUT"
 
@@ -78,7 +80,7 @@ jobs:
       fail-fast: false
       matrix:
         shardIndex: ${{ fromJson(needs.determine-shards.outputs.shardIndexes) }}
-        shardTotal: ${{ fromJson(needs.determine-shards.outputs.shardTotal) }}
+        shardTotal: ${{ needs.determine-shards.outputs.shardTotal }}
 
     services:
       mongo:
@@ -119,7 +121,7 @@ jobs:
         run: npx playwright test ${{ inputs.cli_args }} --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Upload Test Results
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: test-results-${{ matrix.shardIndex }}
@@ -134,7 +136,7 @@ jobs:
             network-reports
 
   generate-reports:
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && needs.test.result != 'skipped' }}
     needs: [test]
     runs-on: ubuntu-latest
 
@@ -195,7 +197,7 @@ jobs:
         run: npm run generate-network-report
 
       - name: Upload Consolidated Test Reports
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: test-reports-consolidated
           path: |
