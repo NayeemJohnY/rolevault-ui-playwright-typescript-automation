@@ -84,7 +84,7 @@ jobs:
 
       - name: Run Playwright Tests in Docker
         run: |
-          docker run --rm --ipc=host \
+          docker run --rm --ipc=host --network="host" \
             -v ${{ github.workspace }}:/app \
             -w /app \
             mcr.microsoft.com/playwright:v1.56.0-noble \
