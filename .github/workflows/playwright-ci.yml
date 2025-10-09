@@ -112,5 +112,5 @@ jobs:
           playwright-report-dir: ./playwright-report
 
       - name: Deploy GitHub Pages
-        if: ${{ steps.prepare-pages.outcome == 'success' && env.PUBLISH_REPORT == 'true' }}
+        if: ${{ (success() || failure()) && steps.prepare-pages.outcome == 'success' && env.PUBLISH_REPORT == 'true' }}
         uses: NayeemJohnY/actions/deploy-github-pages-site@main
