@@ -138,6 +138,7 @@ export function cleanUpTempNetworkData(): void {
     }
     fs.rmdirSync(TEMP_NETWORK_DATA_DIR);
   }
+  console.log('🧹 Cleaned up temporary files');
 }
 
 export function generateNetworkReportCSV(): void {

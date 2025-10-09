@@ -6,9 +6,11 @@ import { cleanUpTempNetworkData } from '../utils/networkMonitor';
  */
 export default async function globalSetup(): Promise<void> {
   // Set sharded mode in env
-  process.env.PW_SHARDED = getArg('--shard=') ? '1' : undefined;
+  const shard = getArg('--shard=');
+  if (shard) {
+    process.env.PW_SHARDED = shard;
+  }
 
   // Clear any existing temp network data
   cleanUpTempNetworkData();
-  console.log('🧹 Cleaned up temporary files');
 }
