@@ -1,5 +1,5 @@
 name: Test Execution - Playwright
-run-name: ${{github.event_name == 'schedule' && 'staging'  || inputs.env}} - playwright test execution
+run-name: ${{ github.event_name == 'schedule' && 'staging'  || inputs.env }} - playwright test execution
 
 on:
   schedule:
@@ -31,7 +31,7 @@ permissions:
   pages: write
 
 env:
-  TESTENV: ${{github.event_name == 'schedule' && 'staging'  || inputs.env}}
+  TESTENV: ${{ github.event_name == 'schedule' && 'staging'  || inputs.env }}
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
   ROLE_VAULT_ENCRYPTION_KEY: ${{ secrets.ROLE_VAULT_ENCRYPTION_KEY }}
   PUBLISH_REPORT: ${{ github.event_name == 'schedule' && 'true' || inputs.publish_report }}
@@ -59,6 +59,7 @@ jobs:
           TESTENV: ${{env.TESTENV}}
           MONGODB_URI: mongodb://mongo:27017/${{env.TESTENV}}-rolevault-db
         ports:
+          - 5000:5000
           - 5001:5001
         options: >-
           --user root
