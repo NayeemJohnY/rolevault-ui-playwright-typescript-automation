@@ -81,7 +81,7 @@ jobs:
 
       - name: Run Playwright tests
         env:
-          BASE_URL: "https://rolevault:${{env.TESTENV == 'staging' && 5001 || 5000 }}"
+          BASE_URL: "http://rolevault:${{env.TESTENV == 'staging' && 5001 || 5000 }}"
         run: npx playwright test ${{ inputs.cli_args }}
 
       - name: Generate Allure Report
