@@ -142,29 +142,12 @@ jobs:
           pattern: test-results-*
           merge-multiple: true
 
-      - name: Consolidate Allure Results
-        if: success() || failure()
-        run: |
-          ls -la all-test-results || echo "No all test results"
-          mkdir -p allure-results-consolidated
-
-          find all-test-results -type d -name "allure-results" | while read dir; do
-            echo "Processing: $dir"
-            if [ "$(ls -A "$dir")" ]; then
-              cp -r "$dir"/* allure-results-consolidated/ 2>/dev/null || true
-            else
-              echo "Skipping empty directory: $dir"
-            fi
-          done
-
-          ls -la allure-results-consolidated || echo "No files were copied into allure-results-consolidated"
-
       - name: Generate Allure Report
         if: success() || failure()
         uses: NayeemJohnY/actions/allure-report-with-history@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          allure-results-dir: ./allure-results-consolidated
+          allure-results-dir: ./all-test-results/allure-results
           allure-report-dir: ./allure-report
 
       - name: Consolidate Blob Reports

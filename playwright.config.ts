@@ -1,4 +1,5 @@
-import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig, devices, type PlaywrightTestConfig, type ReporterDescription } from '@playwright/test';
+import { getArg } from './utils/helper';
 
 /**
  * Supported test environments for the RoleVault application.
@@ -24,23 +25,23 @@ const baseURL =
   }[environment];
 
 /**
- * Determines if tests should run in headed mode (with visible browser).
- * True when --headed flag is used or PWDEBUG environment variable is set.
- */
-
-/**
  * Browser configuration for maximized window when running in headed mode.
  * Only applied when tests are running with visible browser.
  */
-const startMaximized = process.env.PW_HEADED
-  ? {
-      deviceScaleFactor: undefined,
-      viewport: null,
-      launchOptions: {
-        args: ['--start-maximized'],
-      },
-    }
-  : {};
+const startMaximized = {
+  deviceScaleFactor: undefined,
+  viewport: null,
+  launchOptions: {
+    args: ['--start-maximized'],
+  },
+};
+
+const reportsConfig = (): ReporterDescription[] => {
+  if (getArg('--shard')) {
+    return [['blob'], ['list'], ['allure-playwright']];
+  }
+  return [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']];
+};
 
 /**
  * Base Playwright test configuration shared across all environments.
@@ -52,9 +53,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
   globalTeardown: './fixtures/globalTeardown',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  reporter: process.env.PW_SHARDED
-    ? [['blob'], ['list'], ['allure-playwright']]
-    : [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']],
+  reporter: reportsConfig(),
   expect: {
     timeout: 10000,
   },
@@ -67,7 +66,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       name: 'Chromium',
       use: {
         ...devices['Desktop Chrome'],
-        ...startMaximized,
+        ...(getArg('--headed') ? startMaximized : {}),
       },
     },
 
@@ -92,7 +91,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
-        ...startMaximized,
+        ...(getArg('--headed') ? startMaximized : {}),
       },
     },
   ],

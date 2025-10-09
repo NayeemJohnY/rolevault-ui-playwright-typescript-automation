@@ -45,3 +45,7 @@ export function getSearchString(str: string): string {
   const end = Math.floor(Math.random() * (lowerStr.length - start)) + 4;
   return lowerStr.slice(start, start + end);
 }
+
+export function getArg(str: string): string | undefined {
+  return process.argv.find((arg) => arg.includes(str));
+}
