@@ -125,7 +125,7 @@ jobs:
 
   generate-reports:
     needs: [test]
-    if: ${{ always() && needs.test.result != 'skipped' }}
+    if: ${{ !cancelled() && needs.test.result != 'skipped' }}
     runs-on: ubuntu-latest
 
     steps:

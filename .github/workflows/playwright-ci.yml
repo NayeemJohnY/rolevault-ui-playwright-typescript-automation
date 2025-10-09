@@ -42,7 +42,6 @@ jobs:
     timeout-minutes: 60
     container:
       image: mcr.microsoft.com/playwright:v1.56.0-noble
-      options: --user 1001
 
     services:
       mongo:
