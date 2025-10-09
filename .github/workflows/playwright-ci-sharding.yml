@@ -1,5 +1,5 @@
-name: Test Execution - Playwright - Sharded
-run-name: ${{ inputs.env }} - playwright test execution
+name: Sharded - Test Execution - Playwright
+run-name: ${{ format('{0} - shard {1}% - playwright test execution', inputs.env, inputs.shard_percent) }}
 
 on:
   workflow_dispatch:
