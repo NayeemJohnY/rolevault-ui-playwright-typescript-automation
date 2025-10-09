@@ -40,8 +40,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    container:
-      image: mcr.microsoft.com/playwright:v1.56.0-noble
 
     services:
       mongo:
@@ -80,8 +78,6 @@ jobs:
         run: npm run pretest
 
       - name: Run Playwright tests
-        env:
-          BASE_URL: "http://rolevault:${{env.TESTENV == 'staging' && 5001 || 5000 }}"
         run: npx playwright test ${{ inputs.cli_args }}
 
       - name: Generate Allure Report
