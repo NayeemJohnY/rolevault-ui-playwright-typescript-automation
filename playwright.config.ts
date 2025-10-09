@@ -28,12 +28,18 @@ const baseURL =
  * Browser configuration for maximized window when running in headed mode.
  * Only applied when tests are running with visible browser.
  */
-const startMaximized = {
-  deviceScaleFactor: undefined,
-  viewport: null,
-  launchOptions: {
-    args: ['--start-maximized'],
-  },
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const startMaximizedConfig = () => {
+  if (getArg('--headed')) {
+    return {
+      deviceScaleFactor: undefined,
+      viewport: null,
+      launchOptions: {
+        args: ['--start-maximized'],
+      },
+    };
+  }
+  return {};
 };
 
 const reportsConfig = (): ReporterDescription[] => {
@@ -66,7 +72,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       name: 'Chromium',
       use: {
         ...devices['Desktop Chrome'],
-        ...(getArg('--headed') ? startMaximized : {}),
+        ...startMaximizedConfig(),
       },
     },
 
@@ -91,7 +97,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
-        ...(getArg('--headed') ? startMaximized : {}),
+        ...startMaximizedConfig(),
       },
     },
   ],
