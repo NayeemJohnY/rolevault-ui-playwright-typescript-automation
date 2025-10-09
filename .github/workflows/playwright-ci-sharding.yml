@@ -141,15 +141,13 @@ jobs:
           path: all-test-results
           pattern: test-results-*
           merge-multiple: true
-        
-      - name: Upload All Test Results
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: all-test-results
-          if-no-files-found: ignore
-          retention-days: 30
-          path: all-test-results
+
+      - name: Generate Playwright HTML Reports
+        run: npx playwright merge-reports --reporter html ../all-test-results/blob-report
+
+      - name: Generate Network Report
+        if: success() || failure()
+        run: npm run generate-network-report
 
       - name: Generate Allure Report
         if: success() || failure()
@@ -158,31 +156,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           allure-results-dir: ./all-test-results/allure-results
           allure-report-dir: ./allure-report
-
-      - name: Consolidate Blob Reports
-        if: success() || failure()
-        run: |
-          # Create consolidated blob reports
-          mkdir -p blob-reports-consolidated
-          # Copy all blob reports directory
-          find all-test-results -name "blob-report" -type d -exec cp -r {}/* blob-reports-consolidated/ \; 2>/dev/null || true
-          ls -la blob-reports-consolidated || echo "No blob reports directories found"
-
-      - name: Merge into HTML Report
-        run: npx playwright merge-reports --reporter html ./blob-reports-consolidated
-
-      - name: Consolidate Network Data
-        if: success() || failure()
-        run: |
-          # Create consolidated network-reports directory
-          mkdir -p network-reports/temp-network-data
-          # Copy all network data from downloaded artifacts
-          find all-test-results -name "*.json" -path "*/network-reports/temp-network-data/*" -exec cp {} network-reports/temp-network-data/ \;
-          ls -la network-reports/temp-network-data/ || echo "No network data files found"
-
-      - name: Generate Network Report
-        if: success() || failure()
-        run: npm run generate-network-report
 
       - name: Upload Consolidated Test Reports
         if: success() || failure()
