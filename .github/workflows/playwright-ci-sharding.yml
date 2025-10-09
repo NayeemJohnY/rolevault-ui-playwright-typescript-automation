@@ -145,6 +145,7 @@ jobs:
       - name: Consolidate Allure Results
         if: success() || failure()
         run: |
+          ls -la all-test-results || echo "No all test results"
           # Create consolidated allure results
           mkdir -p allure-results-consolidated
           # Copy all allure results directory
