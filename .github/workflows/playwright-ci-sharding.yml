@@ -146,6 +146,8 @@ jobs:
 
       - name: Generate Network Report
         if: success() || failure()
+        env:
+          TEMP_NETWORK_DATA_DIR_ENV: ./all-test-results/network-reports/temp-network-data
         run: npm run generate-network-report
 
       - name: Generate Allure Report

@@ -146,7 +146,7 @@ export function generateNetworkReportCSV(): void {
     return;
   }
 
-  const NETWORK_DATA_DIR = process.env.TEMP_NETWORK_DATA_DIR || TEMP_NETWORK_DATA_DIR;
+  const NETWORK_DATA_DIR = process.env.TEMP_NETWORK_DATA_DIR_ENV || TEMP_NETWORK_DATA_DIR;
 
   try {
     if (!fs.existsSync(NETWORK_DATA_DIR)) {
