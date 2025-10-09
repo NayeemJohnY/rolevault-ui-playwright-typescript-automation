@@ -81,7 +81,7 @@ jobs:
           --health-retries 3
 
       rolevault:
-        image: ghcr.io/nayeemjohny/rlevault:latest
+        image: ghcr.io/nayeemjohny/rolevault:latest
         env:
           JWT_SECRET: ${{env.JWT_SECRET}}
           TESTENV: ${{env.TESTENV}}
