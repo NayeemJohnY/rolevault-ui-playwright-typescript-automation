@@ -70,6 +70,7 @@ export default defineConfig([
                 printWidth: 120,           // Wrap lines after 120 characters
                 bracketSpacing: true,      // Add spaces inside brackets
                 arrowParens: 'always',     // Always include parens in arrow functions
+                endOfLine: "lf"
             }],
         }
     },
