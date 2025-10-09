@@ -146,11 +146,18 @@ jobs:
         if: success() || failure()
         run: |
           ls -la all-test-results || echo "No all test results"
-          # Create consolidated allure results
           mkdir -p allure-results-consolidated
-          # Copy all allure results directory
-          find all-test-results -name "allure-results" -type d -exec cp -r {}/* allure-results-consolidated/ \; 2>/dev/null || true
-          ls -la allure-results-consolidated || echo "No allure results directories found"
+
+          find all-test-results -type d -name "allure-results" | while read dir; do
+            echo "Processing: $dir"
+            if [ "$(ls -A "$dir")" ]; then
+              cp -r "$dir"/* allure-results-consolidated/ 2>/dev/null || true
+            else
+              echo "Skipping empty directory: $dir"
+            fi
+          done
+
+          ls -la allure-results-consolidated || echo "No files were copied into allure-results-consolidated"
 
       - name: Generate Allure Report
         if: success() || failure()
