@@ -60,7 +60,6 @@ jobs:
 
   test:
     needs: [determine-shards]
-    if: ${{ always() && needs.test.result != 'skipped' }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
@@ -82,7 +81,7 @@ jobs:
           --health-retries 3
 
       rolevault:
-        image: ghcr.io/nayeemjohny/rolevault:latest
+        image: ghcr.io/nayeemjohny/rlevault:latest
         env:
           JWT_SECRET: ${{env.JWT_SECRET}}
           TESTENV: ${{env.TESTENV}}
@@ -126,6 +125,7 @@ jobs:
 
   generate-reports:
     needs: [test]
+    if: ${{ always() && needs.test.result != 'skipped' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -202,5 +202,5 @@ jobs:
           playwright-report-dir: ./playwright-report
 
       - name: Deploy GitHub Pages
-        if: ${{ steps.prepare-pages.outcome == 'success' && env.PUBLISH_REPORT == 'true' }}
+        if: ${{ (success() || failure()) && steps.prepare-pages.outcome == 'success' && env.PUBLISH_REPORT == 'true' }}
         uses: NayeemJohnY/actions/deploy-github-pages-site@main
