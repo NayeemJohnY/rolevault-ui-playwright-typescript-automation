@@ -1,5 +1,5 @@
 name: Sharded - Test Execution - Playwright
-run-name: ${{ format('{0} - shard {1}% - playwright test execution', inputs.env, inputs.shard_percent) }}
+run-name: ${{ format('{0} - playwright test execution - {1}%/shard', inputs.env, inputs.shard_percent) }}
 
 on:
   workflow_dispatch:
@@ -34,7 +34,6 @@ permissions:
 
 env:
   TESTENV: ${{ inputs.env }}
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
   ROLE_VAULT_ENCRYPTION_KEY: ${{ secrets.ROLE_VAULT_ENCRYPTION_KEY }}
   PUBLISH_REPORT: ${{ inputs.publish_report }}
 
@@ -83,9 +82,9 @@ jobs:
       rolevault:
         image: ghcr.io/nayeemjohny/rolevault:latest
         env:
-          JWT_SECRET: ${{env.JWT_SECRET}}
-          TESTENV: ${{env.TESTENV}}
-          MONGODB_URI: mongodb://mongo:27017/${{env.TESTENV}}-rolevault-db
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          TESTENV: ${{ inputs.env }}
+          MONGODB_URI: mongodb://mongo:27017/${{ inputs.env }}-rolevault-db
         ports:
           - 5000:5000
           - 5001:5001
