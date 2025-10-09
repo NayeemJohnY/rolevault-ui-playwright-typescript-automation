@@ -146,14 +146,16 @@ export function generateNetworkReportCSV(): void {
     return;
   }
 
+  const NETWORK_DATA_DIR = process.env.TEMP_NETWORK_DATA_DIR || TEMP_NETWORK_DATA_DIR;
+
   try {
-    if (!fs.existsSync(TEMP_NETWORK_DATA_DIR)) {
+    if (!fs.existsSync(NETWORK_DATA_DIR)) {
       console.log('No network data files found');
       return;
     }
 
     // Read all JSON files (no parsing overhead)
-    const jsonFiles = fs.readdirSync(TEMP_NETWORK_DATA_DIR).filter((file) => file.endsWith('.json'));
+    const jsonFiles = fs.readdirSync(NETWORK_DATA_DIR).filter((file) => file.endsWith('.json'));
 
     if (jsonFiles.length === 0) {
       console.log('No network data to merge');
@@ -165,7 +167,7 @@ export function generateNetworkReportCSV(): void {
 
     // Simply concatenate all JSON arrays (super fast)
     for (const jsonFile of jsonFiles) {
-      const filePath = path.join(TEMP_NETWORK_DATA_DIR, jsonFile);
+      const filePath = path.join(NETWORK_DATA_DIR, jsonFile);
       const fileData = JSON.parse(fs.readFileSync(filePath, 'utf8')) as HttpRequestRecord[];
       allHttpRequestRecords.push(...fileData);
     }
@@ -187,7 +189,7 @@ export function generateNetworkReportCSV(): void {
     const csvContent = convertRequestRecordsToCSV(allHttpRequestRecords);
     const csvPath = path.join(reportsDir, `network-report-${timestamp}.csv`);
     fs.writeFileSync(csvPath, csvContent);
-
+    console.log('✅ Network report generation completed');
     cleanUpTempNetworkData();
   } catch (error) {
     console.error('❌ Error in global teardown:', error);
@@ -245,7 +247,6 @@ if (require.main === module) {
   try {
     console.log('🚀 Generating network report...');
     generateNetworkReportCSV();
-    console.log('✅ Network report generation completed');
   } catch (error) {
     console.error('❌ Error generating network report:', error);
   }
