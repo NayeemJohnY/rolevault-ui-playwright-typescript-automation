@@ -46,6 +46,7 @@
                 </div>
                 <div class="nav-links">
                     <a href="#features" class="nav-link">Features</a>
+                    <a href="#cicd" class="nav-link">CI/CD</a>
                     <a href="#reports" class="nav-link">Reports</a>
                     <a href="#architecture" class="nav-link">Architecture</a>
                     <a href="https://github.com/NayeemJohnY/rolevault-ui-playwright-typescript-automation"
@@ -101,6 +102,10 @@
                     <h3>2</h3>
                     <p>Report Formats</p>
                 </div>
+                <div class="stat-item">
+                    <h3>⚡</h3>
+                    <p>Auth State Caching</p>
+                </div>
             </div>
         </div>
     </section>
@@ -152,9 +157,42 @@
                         </svg>
                     </div>
                     <h3>Smart Test Fixtures</h3>
-                    <p>Custom test fixtures with session management, automatic screenshots on failure, and
-                        environment-specific configurations. Supports both component and E2E testing patterns.</p>
+                    <p>Custom test fixtures with session management, automatic screenshots on failure, per-page network
+                        monitoring, and
+                        environment-specific configurations. Supports both component and E2E testing patterns with
+                        isolated browser contexts.</p>
                     <div class="badge badge-accent">Testing</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon success">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 0 1 9-9">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3>Storage State Management</h3>
+                    <p>Authentication state persistence with role-based caching dramatically reduces test execution
+                        time. Automatically saves and reuses browser storage states across test sessions, eliminating
+                        redundant login operations.</p>
+                    <div class="badge badge-success">Performance</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon warning">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                            <path d="M2 12h20"></path>
+                        </svg>
+                    </div>
+                    <h3>Network Monitoring</h3>
+                    <p>Comprehensive HTTP request/response tracking for every page and session. Automatically captures
+                        network activity with detailed JSON reports including timing, status codes, headers, and
+                        payloads for debugging and analysis.</p>
+                    <div class="badge badge-warning">Debugging</div>
                 </div>
 
                 <div class="card">
@@ -220,6 +258,8 @@
                     <div class="code-block">
                         <pre>
 ├── fixtures/               # Test fixtures & utilities
+│   ├── base.ts             # Core test fixtures
+│   └── storageState.ts     # Auth state management
 ├── pages/                  # Page Object Models
 │   ├── common/             # Shared locators & assertions
 │   └── *.page.ts           # Individual page classes
@@ -228,6 +268,8 @@
 │   ├── components/         # Component-level tests
 │   └── e2e/                # End-to-end tests
 ├── utils/                  # Utility functions
+│   ├── helper.ts           # General utilities
+│   └── networkMonitor.ts   # Network tracking
 └── playwright.config.ts    # Environment configs
                         </pre>
                     </div>
@@ -250,6 +292,113 @@
                         </li>
                         <li class="tech-list-item">
                             <strong>🎯 ESLint:</strong> Code quality assurance
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CI/CD Automation Section -->
+    <section id="cicd" class="section">
+        <div class="container">
+            <div class="feature-highlight">
+                <h2>🚀 CI/CD Automation</h2>
+                <p>Production-ready GitHub Actions workflows for automated testing and deployment</p>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-icon primary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Code Analysis Workflow</h3>
+                    <p>Automated ESLint validation on pull requests with auto-fix capabilities. Ensures code quality
+                        standards are maintained before merging.</p>
+                    <div class="code-block">
+                        <pre>✓ Runs on PRs automatically
+✓ ESLint validation
+✓ Auto-fix & commit
+✓ TypeScript compilation check</pre>
+                    </div>
+                    <div class="badge badge-primary">Quality</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon success">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Test Execution Workflow</h3>
+                    <p>Scheduled and manual test runs with environment selection. Includes Docker-based services,
+                        automated reporting, and GitHub Pages deployment.</p>
+                    <div class="code-block">
+                        <pre>✓ Scheduled runs (Mon-Fri 5:30 AM)
+✓ Environment: staging | prod
+✓ MongoDB + RoleVault services
+✓ Report auto-deployment</pre>
+                    </div>
+                    <div class="badge badge-success">Testing</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon accent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <h3>Sharded Execution</h3>
+                    <p>Parallel test execution with configurable sharding percentage. Distributes work across multiple
+                        runners for faster feedback.</p>
+                    <div class="code-block">
+                        <pre>✓ Configurable shard % (e.g., 25%)
+✓ Parallel execution
+✓ Merged reports
+✓ 30-day artifact retention</pre>
+                    </div>
+                    <div class="badge badge-accent">Performance</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h3>🔧 Workflow Features</h3>
+                <div class="grid grid-2" style="gap: 1rem;">
+                    <ul class="tech-list">
+                        <li class="tech-list-item">
+                            <strong>Environment Selection:</strong> Choose staging or production
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>Custom CLI Arguments:</strong> Pass Playwright options dynamically
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>Automated Services:</strong> Docker-based MongoDB and RoleVault
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>Report Generation:</strong> Playwright HTML and Allure analytics
+                        </li>
+                    </ul>
+                    <ul class="tech-list">
+                        <li class="tech-list-item">
+                            <strong>GitHub Pages:</strong> Automatic report deployment
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>Artifact Retention:</strong> 30-day storage for debugging
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>Network Reports:</strong> Comprehensive HTTP tracking
+                        </li>
+                        <li class="tech-list-item">
+                            <strong>Screenshot Capture:</strong> Visual debugging on failures
                         </li>
                     </ul>
                 </div>

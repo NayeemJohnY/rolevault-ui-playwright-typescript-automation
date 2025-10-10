@@ -384,6 +384,16 @@ a:hover {
     color: white;
 }
 
+.card-icon.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.card-icon.warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
 .card h3 {
     margin-bottom: var(--space-sm);
 }
@@ -481,6 +491,16 @@ a:hover {
     background: transparent;
     color: var(--primary);
     border: 1px solid var(--primary);
+}
+
+.badge-success {
+    background: #10b981;
+    color: white;
+}
+
+.badge-warning {
+    background: #f59e0b;
+    color: white;
 }
 
 /* Reports section */
