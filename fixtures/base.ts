@@ -2,8 +2,8 @@ import type { BrowserContext, Page } from '@playwright/test';
 import { test as base, expect } from '@playwright/test';
 import { App } from '../pages/app';
 import { testUsers, type Role } from '../test-data/test-users';
+import { captureScreenshot } from '../utils/helper';
 import { setupNetworkMonitoring } from '../utils/networkMonitor';
-
 export { expect };
 
 /**
@@ -33,37 +33,63 @@ export type TestFixtures = {
   /** Pre-initialized App instance for the current test */
   app: App;
   /** Session factory function to create app instances with different configurations */
-  session: (options?: { baseURL?: string; newSession?: boolean; role?: Role }) => Promise<App>;
-  /** Automatic full page screenshot capture on test failure */
-  fullPageScreenshotOnFailure: void;
-
-  networkMonitor: void;
+  session: (options?: { baseURL?: string; role?: Role }) => Promise<App>;
 };
 
 export const test = base.extend<TestFixtures>({
+  page: async ({ page }, use, testInfo) => {
+    const pageIdentifier = 'MainPage';
+    // Set up network monitoring for the main page
+    const networkMonitor = await setupNetworkMonitoring(page, testInfo, pageIdentifier);
+
+    await use(page);
+
+    // Capture screenshot on failure
+    if (testInfo.status !== testInfo.expectedStatus) {
+      await captureScreenshot(testInfo, page, `${pageIdentifier}_${testInfo.title}`);
+    }
+
+    // Attach the network report after the test completes
+    await networkMonitor.attachReport();
+  },
+
   app: async ({ page }, use) => {
     const app = await launchApp(page);
     await use(app);
   },
 
-  session: async ({ browser, page }, use) => {
+  session: async ({ browser }, use, testInfo) => {
     const browserContexts: BrowserContext[] = [];
+    const sessionData: Array<{
+      page: Page;
+      networkMonitor: { attachReport: () => Promise<void> };
+      name: string;
+    }> = [];
 
-    const createSession = async (options?: { baseURL?: string; newSession?: boolean; role?: Role }): Promise<App> => {
-      const stepName = `Initialize session ${options?.newSession ? 'New' : ''} for ${
-        options?.role || 'anonymous user'
-      }`;
+    const createSession = async (options?: { baseURL?: string; role?: Role }): Promise<App> => {
+      const sessionIndex = sessionData.length + 1;
+      const role = options?.role;
+      const sessionName = `Session${sessionIndex}_${role || 'Unspecified'}`;
+
+      const stepName = `Initialize ${sessionName}`;
+
       return await test.step(stepName, async () => {
-        let sessionPage = page;
-        if (options?.newSession) {
-          const context = await browser.newContext();
-          sessionPage = await context.newPage();
-          browserContexts.push(context);
-        }
+        const context = await browser.newContext();
+        const sessionPage = await context.newPage();
+        browserContexts.push(context);
+
+        // Manually set up network monitoring for this new page
+        const networkMonitor = await setupNetworkMonitoring(sessionPage, testInfo, sessionName);
+        sessionData.push({
+          page: sessionPage,
+          networkMonitor,
+          name: sessionName,
+        });
+
         const appInstance = await launchApp(sessionPage, options?.baseURL);
 
-        if (options?.role) {
-          const user = testUsers[options.role];
+        if (role) {
+          const user = testUsers[role];
           await appInstance.homePage.login(user);
           await appInstance.assert.expectToastMessage(`Welcome back, ${user.fullName}!`);
           await appInstance.dashboardPage.assertIsVisible();
@@ -75,42 +101,26 @@ export const test = base.extend<TestFixtures>({
 
     await use(createSession);
 
+    // Capture screenshots on failure for all session pages
+    if (testInfo.status !== testInfo.expectedStatus) {
+      for (const session of sessionData) {
+        await captureScreenshot(testInfo, session.page, session.name);
+      }
+    }
+    // Attach all network reports
+    for (const session of sessionData) {
+      try {
+        await session.networkMonitor.attachReport();
+      } catch (error) {
+        console.warn(`Could not attach network report for ${session.name}:`, error);
+      }
+    }
+
     // Cleanup: Close all created browser contexts
     for (const context of browserContexts) {
       await context.close();
     }
   },
-
-  fullPageScreenshotOnFailure: [
-    async ({ page }, use, testInfo): Promise<void> => {
-      await use();
-      if (testInfo.status !== testInfo.expectedStatus) {
-        const screenshot = await page.screenshot({
-          path: `screenshots/${testInfo.title.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`,
-          fullPage: true,
-          scale: 'css',
-        });
-        await testInfo.attach(testInfo.title, {
-          body: screenshot,
-          contentType: 'image/png',
-        });
-      }
-    },
-    { auto: true },
-  ],
-
-  networkMonitor: [
-    async ({ page }, use, testInfo): Promise<void> => {
-      // Use the setupNetworkMonitoring function from networkMonitor.ts
-      const networkMonitor = await setupNetworkMonitoring(page, testInfo);
-
-      await use();
-
-      // Attach the network report after the test completes
-      await networkMonitor.attachReport();
-    },
-    { auto: true },
-  ],
 });
 
 /**
