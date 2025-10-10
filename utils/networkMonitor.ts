@@ -203,7 +203,8 @@ export function generateNetworkReportCSV(): void {
  */
 export async function setupNetworkMonitoring(
   page: Page,
-  testInfo: TestInfo
+  testInfo: TestInfo,
+  pageIdentifier: string
 ): Promise<{ getNetworkData: () => HttpRequestRecord[]; attachReport: () => Promise<void> }> {
   const httpRequestRecords: HttpRequestRecord[] = [];
   // Set up request finished listener
@@ -234,7 +235,7 @@ export async function setupNetworkMonitoring(
     attachReport: async (): Promise<void> => {
       const networkRequestJSON = saveTestNetworkData(testInfo, httpRequestRecords);
       if (networkRequestJSON) {
-        await testInfo.attach('Network Requests JSON Report', {
+        await testInfo.attach(`${pageIdentifier}_Network_Requests_JSON_Report`, {
           body: networkRequestJSON,
           contentType: 'application/json',
         });

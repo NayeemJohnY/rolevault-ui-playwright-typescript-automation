@@ -3,6 +3,8 @@
  * Provides common functionality for random selection and string manipulation.
  */
 
+import type { Page, TestInfo } from '@playwright/test';
+
 /**
  * Selects a random element from an array.
  *
@@ -48,4 +50,20 @@ export function getSearchString(str: string): string {
 
 export function getArg(str: string): string | undefined {
   return process.argv.find((arg) => arg.includes(str));
+}
+
+export async function captureScreenshot(testInfo: TestInfo, page: Page, screenshotName: string): Promise<void> {
+  try {
+    const screenshot = await page.screenshot({
+      path: `screenshots/${screenshotName.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`,
+      fullPage: true,
+      scale: 'css',
+    });
+    await testInfo.attach(screenshotName, {
+      body: screenshot,
+      contentType: 'image/png',
+    });
+  } catch (error) {
+    console.warn(`Could not capture screenshot with name ${screenshotName}:`, error);
+  }
 }
