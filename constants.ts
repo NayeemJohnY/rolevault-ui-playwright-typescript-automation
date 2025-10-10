@@ -8,3 +8,4 @@ export const USER_ALREADY_EXISTS = 'User already exists with this email';
 export const LOGOUT_SUCCESS = 'Logged out successfully';
 export const ACCOUNT_CREATE_SUCCESS = 'Account created successfully';
 export const USER_CREATE_SUCCESS = 'User created successfully';
+export const STORAGE_STATE_DIR = '.auth';

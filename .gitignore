@@ -9,3 +9,4 @@ screenshots/
 allure-results/
 allure-report
 network-reports
+.auth
