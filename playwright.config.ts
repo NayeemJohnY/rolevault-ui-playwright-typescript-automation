@@ -28,26 +28,19 @@ const baseURL =
  * Browser configuration for maximized window when running in headed mode.
  * Only applied when tests are running with visible browser.
  */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const startMaximizedConfig = () => {
-  if (getArg('--headed')) {
-    return {
+const startMaximizedConfig = process.env.PW_HEADED
+  ? {
       deviceScaleFactor: undefined,
       viewport: null,
       launchOptions: {
         args: ['--start-maximized'],
       },
-    };
-  }
-  return {};
-};
+    }
+  : {};
 
-const reportsConfig = (): ReporterDescription[] => {
-  if (getArg('--shard')) {
-    return [['blob'], ['list'], ['allure-playwright']];
-  }
-  return [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']];
-};
+const reportsConfig: ReporterDescription[] = getArg('--shard')
+  ? [['blob'], ['list'], ['allure-playwright']]
+  : [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']];
 
 /**
  * Base Playwright test configuration shared across all environments.
@@ -59,7 +52,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
   globalTeardown: './fixtures/globalTeardown',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  reporter: reportsConfig(),
+  reporter: reportsConfig,
   expect: {
     timeout: 10000,
   },
@@ -72,7 +65,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       name: 'Chromium',
       use: {
         ...devices['Desktop Chrome'],
-        ...startMaximizedConfig(),
+        ...startMaximizedConfig,
       },
     },
 
@@ -97,7 +90,7 @@ const basePlaywrightTestConfig: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
-        ...startMaximizedConfig(),
+        ...startMaximizedConfig,
       },
     },
   ],
