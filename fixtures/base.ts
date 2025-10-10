@@ -4,6 +4,7 @@ import { App } from '../pages/app';
 import { testUsers, type Role } from '../test-data/test-users';
 import { captureScreenshot } from '../utils/helper';
 import { setupNetworkMonitoring } from '../utils/networkMonitor';
+import { getStorageStatePath, hasStorageState, saveStorageState } from './storageState';
 export { expect };
 
 /**
@@ -11,15 +12,21 @@ export { expect };
  *
  * @param page - The Playwright page instance
  * @param url - The URL to navigate to, defaults to '/'
+ * @param isAuthenticated - Whether session is authenticated. defaults to false
  * @returns Promise resolving to an App instance
  * @throws Will throw an error if the application fails to load or title is incorrect
  */
-async function launchApp(page: Page, url = '/'): Promise<App> {
+async function launchApp(page: Page, url = '/', isAuthenticated = false): Promise<App> {
   return await test.step('Launch Application', async () => {
     await page.goto(url);
     await expect(page).toHaveTitle('RoleVault');
-    await expect(page.getByRole('heading', { name: 'Role Vault' })).toBeVisible();
     const app = new App(page);
+    if (isAuthenticated) {
+      await app.dashboardPage.assertIsVisible();
+    } else {
+      await expect(page.getByRole('heading', { name: 'Role Vault' })).toBeVisible();
+    }
+
     await app.homePage.addPopupHandler();
     return app;
   });
@@ -70,11 +77,13 @@ export const test = base.extend<TestFixtures>({
       const sessionIndex = sessionData.length + 1;
       const role = options?.role;
       const sessionName = `Session${sessionIndex}_${role || 'Unspecified'}`;
+      const useStorageState = role && hasStorageState(role);
 
       const stepName = `Initialize ${sessionName}`;
 
       return await test.step(stepName, async () => {
-        const context = await browser.newContext();
+        const contextOptions = useStorageState ? { storageState: getStorageStatePath(role) } : {};
+        const context = await browser.newContext(contextOptions);
         const sessionPage = await context.newPage();
         browserContexts.push(context);
 
@@ -86,13 +95,14 @@ export const test = base.extend<TestFixtures>({
           name: sessionName,
         });
 
-        const appInstance = await launchApp(sessionPage, options?.baseURL);
+        const appInstance = await launchApp(sessionPage, options?.baseURL, useStorageState);
 
-        if (role) {
+        if (role && !useStorageState) {
           const user = testUsers[role];
           await appInstance.homePage.login(user);
           await appInstance.assert.expectToastMessage(`Welcome back, ${user.fullName}!`);
           await appInstance.dashboardPage.assertIsVisible();
+          await saveStorageState(context, role);
         }
 
         return appInstance;
