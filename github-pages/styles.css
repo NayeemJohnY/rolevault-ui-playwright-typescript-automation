@@ -308,8 +308,7 @@ a:hover {
 }
 
 .btn-primary:hover {
-    background: var(--primary-dark);
-    transform: translateY(-3px);
+    background: var(--bg-primary);
     box-shadow: 0 8px 25px 0 rgba(29, 78, 216, 0.5);
 }
 
