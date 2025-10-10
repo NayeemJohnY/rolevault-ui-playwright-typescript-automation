@@ -37,8 +37,8 @@ test.describe('User management', { tag: '@component' }, () => {
     }
   });
 
-  test('Filter users by role', async ({ app, session }) => {
-    await session({ role: 'Administrator' });
+  test('Filter users by role', async ({ session }) => {
+    const app = await session({ role: 'Administrator' });
     await app.dashboardPage.navigateToMenu(USER_MANAGEMENT);
     const filteredRole = (await app.usersPage.filterUsersByRole()).toLowerCase();
     const uniqueColumValues = new Set(await app.usersPage.getColumnValues('Role'));
@@ -48,8 +48,8 @@ test.describe('User management', { tag: '@component' }, () => {
 
   const searchFieldKey = { name: 'fullName', email: 'emailAddress' };
   for (const [field, key] of Object.entries(searchFieldKey)) {
-    test(`Search users by ${field}`, async ({ app, session }) => {
-      await session({ role: 'Administrator' });
+    test(`Search users by ${field}`, async ({ session }) => {
+      const app = await session({ role: 'Administrator' });
       await app.dashboardPage.navigateToMenu(USER_MANAGEMENT);
       const searchString = getSearchString(String(getRandomValue(users)[key as keyof TestUser]));
       const tableTextContents = await app.usersPage.searchUsersBy(searchString);
