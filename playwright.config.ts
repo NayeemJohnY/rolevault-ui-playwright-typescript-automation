@@ -39,8 +39,13 @@ const startMaximizedConfig = process.env.PW_HEADED
   : {};
 
 const reportsConfig: ReporterDescription[] = getArg('--shard')
-  ? [['blob'], ['list'], ['allure-playwright']]
-  : [['html', { title: 'RoleVault Playwright Test Results' }], ['list'], ['allure-playwright']];
+  ? [['list'], ['allure-playwright'], ['blob']]
+  : [
+      ['list'],
+      ['allure-playwright'],
+      ['html', { title: 'RoleVault Playwright Test Results' }],
+      ['./custom-reporter/test-results-reporter.ts'],
+    ];
 
 /**
  * Base Playwright test configuration shared across all environments.

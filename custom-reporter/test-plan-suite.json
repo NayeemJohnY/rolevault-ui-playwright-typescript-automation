@@ -1,0 +1,36 @@
+{
+  "testPlanName": "Automation Test Plan",
+  "testSuiteName": "RoleVault Playwright Typescript UI Automation",
+  "testCases": {
+    "Should allow user to login and access dashboard using UI test accounts": {
+      "testCaseId": "4"
+    },
+    "Should show valid error for invalidPassword with invalid login credentials": {
+      "testCaseId": "5"
+    },
+    "Should show valid error for tooShortPassword with invalid login credentials": {
+      "testCaseId": "13"
+    },
+    "Should redirect unauthenticated user to login": {
+      "testCaseId": "6"
+    },
+    "Should handle registration with existing email": {
+      "testCaseId": "7"
+    },
+    "Filter users by role": {
+      "testCaseId": "8"
+    },
+    "Search users by name": {
+      "testCaseId": "9"
+    },
+    "Search users by email": {
+      "testCaseId": "10"
+    },
+    "Should complete user registration, login, and logout flow": {
+      "testCaseId": "11"
+    },
+    "Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login": {
+      "testCaseId": "12"
+    }
+  }
+}

@@ -414,7 +414,7 @@
                 <p>Comprehensive reporting with detailed insights and visual test execution data</p>
             </div>
 
-            <div class="grid grid-2">
+            <div class="grid grid-3">
                 <article class="card report-card">
                     <div class="card-icon primary">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -427,10 +427,10 @@
                         and network monitoring. Perfect for debugging and test analysis.</p>
 
                     <div class="code-block">
-                        <pre>✅ Component Tests: Authentication, User Management
-✅ E2E Tests: Complete user workflows
-✅ Cross-browser: Chrome, Firefox, Mobile
-✅ Visual: Screenshots & Video recordings</pre>
+                        <pre>✅  Component & E2E Tests
+✅  Cross-browser Coverage
+✅  Screenshots & Videos
+✅  Network Monitoring</pre>
                     </div>
 
                     <div class="report-actions">
@@ -462,10 +462,10 @@
                         comprehensive test suite metrics for enterprise reporting.</p>
 
                     <div class="code-block">
-                        <pre>📈 Test Trends & History
-🏷️ Test Categories & Tags  
-🔍 Flaky Test Detection
-📊 Execution Time Analytics</pre>
+                        <pre>📈  Test Trends & History
+🏷️  Test Categories & Tags  
+🔍  Flaky Test Detection
+📊  Execution Time Analytics</pre>
                     </div>
 
                     <div class="report-actions">
@@ -481,6 +481,44 @@
                         </a>
                     </div>
                     <small class="last-updated" id="allure-mod">Last
+                        updated: —</small>
+                </article>
+
+                <article class="card report-card">
+                    <div class="card-icon accent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                            <path d="M3 15h6"></path>
+                            <path d="M3 18h6"></path>
+                        </svg>
+                    </div>
+                    <h3>Custom JSON Report</h3>
+                    <p>Structured test results in JSON format with test case ID mapping, multi-project iteration
+                        tracking, duration metrics, and clean error messages. Ideal for CI/CD integration and custom
+                        dashboards.</p>
+
+                    <div class="code-block">
+                        <pre>🔗  Test Case ID Mapping
+🔄  Multi-Project Iterations
+⏱️  Duration & Outcome Tracking
+🧹  ANSI-free Error Messages</pre>
+                    </div>
+
+                    <div class="report-actions">
+                        <a href="test-results-report.json" class="btn btn-primary" target="_blank"
+                            rel="noopener noreferrer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            View JSON Report
+                        </a>
+                    </div>
+                    <small class="last-updated" id="json-mod">Last
                         updated: —</small>
                 </article>
             </div>
@@ -544,6 +582,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             showModified('playwright-mod', 'playwright-report/index.html');
             showModified('allure-mod', 'allure-report/index.html');
+            showModified('json-mod', 'test-results-report.json');
         });
 
         // Add smooth scrolling for anchor links

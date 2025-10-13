@@ -2,6 +2,10 @@ name: Test Execution - Playwright
 run-name: ${{ github.event_name == 'schedule' && 'staging'  || inputs.env }} - playwright test execution
 
 on:
+  push:
+    branches:
+      - main
+
   schedule:
     - cron: "30 5 * * 1-5"
 
@@ -102,6 +106,7 @@ jobs:
             test-results
             application-logs.log
             network-reports
+            custom-reporter/test-results-report.json
 
       - name: Prepare GitHub Pages Content
         id: prepare-pages
@@ -110,6 +115,7 @@ jobs:
         with:
           allure-report-dir: ./allure-report
           playwright-report-dir: ./playwright-report
+          test-results-json: ./custom-reporter/test-results-report.json
 
       - name: Deploy GitHub Pages
         if: ${{ (success() || failure()) && steps.prepare-pages.outcome == 'success' && env.PUBLISH_REPORT == 'true' }}

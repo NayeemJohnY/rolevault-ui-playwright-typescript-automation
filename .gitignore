@@ -10,3 +10,4 @@ allure-results/
 allure-report
 network-reports
 .auth
+custom-reporter/test-results-report.json
