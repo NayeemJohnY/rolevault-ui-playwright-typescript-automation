@@ -3,6 +3,7 @@ import { CommonAssertions } from './common/assertions';
 import { commonLocators } from './common/locators';
 import { DashboardPage } from './dashboard-page';
 import { HomePage } from './home-page';
+import { UploadPage } from './upload-page';
 import { UsersPage } from './users-page';
 
 /**
@@ -20,6 +21,7 @@ export class App {
   private _homePage?: HomePage;
   private _dashboardPage?: DashboardPage;
   private _usersPage?: UsersPage;
+  private _uploadPage?: UploadPage;
   private _assert?: CommonAssertions;
   private _ui?: ReturnType<typeof commonLocators>;
 
@@ -45,6 +47,14 @@ export class App {
    */
   get usersPage(): UsersPage {
     return (this._usersPage ??= new UsersPage(this.page));
+  }
+
+  /**
+   * Gets the file upload page instance.
+   * Creates instance on first access and caches it.
+   */
+  get uploadPage(): UploadPage {
+    return (this._uploadPage ??= new UploadPage(this.page));
   }
 
   /**
