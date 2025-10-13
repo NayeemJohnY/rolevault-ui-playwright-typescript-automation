@@ -89,8 +89,7 @@ class TestResultsReporter implements Reporter {
     existingResult.durationInMs = totalDuration;
   }
 
-  onEnd(result: FullResult): void {
-    console.log(`Final Suite Status - ${result.status.toUpperCase()}`);
+  onEnd(): void {
     console.log('Generated Test Results Report JSON');
     try {
       const report = { testPlanName, testSuiteName, testResults: this.testResults };
