@@ -111,6 +111,7 @@ jobs:
         with:
           allure-report-dir: ./allure-report
           playwright-report-dir: ./playwright-report
+          test-results-json: ./custom-reporter/test-results-report.json
 
       - name: Deploy GitHub Pages
         if: ${{ (success() || failure()) && steps.prepare-pages.outcome == 'success' && env.PUBLISH_REPORT == 'true' }}
