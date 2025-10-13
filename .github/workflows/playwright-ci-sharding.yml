@@ -121,7 +121,6 @@ jobs:
             test-results
             application-logs.log
             network-reports
-            custom-reporter/test-results-report.json
 
   generate-reports:
     needs: [test]

@@ -1,4 +1,4 @@
-import type { FullResult, Reporter, TestCase, TestResult } from '@playwright/test/reporter';
+import type { Reporter, TestCase, TestResult } from '@playwright/test/reporter';
 import * as fs from 'fs';
 import { testCases, testPlanName, testSuiteName } from './test-plan-suite.json';
 import path from 'path';
