@@ -1,0 +1,330 @@
+{
+  "testPlanName": "Automation Test Plan",
+  "testSuiteName": "RoleVault Playwright Typescript UI Automation",
+  "testResults": {
+    "4": {
+      "comment": "Test Name: Should allow user to login and access dashboard using UI test accounts",
+      "outcome": "Passed",
+      "durationInMs": 23374,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Should allow user to login and access dashboard using UI test accounts",
+          "outcome": "Passed",
+          "durationInMs": 7159
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Should allow user to login and access dashboard using UI test accounts",
+          "outcome": "Passed",
+          "durationInMs": 6250
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Should allow user to login and access dashboard using UI test accounts",
+          "outcome": "Passed",
+          "durationInMs": 5005
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Should allow user to login and access dashboard using UI test accounts",
+          "outcome": "Passed",
+          "durationInMs": 4960
+        }
+      ]
+    },
+    "5": {
+      "comment": "Test Name: Should show valid error for invalidPassword with invalid login credentials",
+      "outcome": "Passed",
+      "durationInMs": 20988,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Should show valid error for invalidPassword with invalid login credentials",
+          "outcome": "Passed",
+          "durationInMs": 4112
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Should show valid error for invalidPassword with invalid login credentials",
+          "outcome": "Passed",
+          "durationInMs": 10033
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Should show valid error for invalidPassword with invalid login credentials",
+          "outcome": "Passed",
+          "durationInMs": 3317
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Should show valid error for invalidPassword with invalid login credentials",
+          "outcome": "Passed",
+          "durationInMs": 3526
+        }
+      ]
+    },
+    "6": {
+      "comment": "Test Name: Should redirect unauthenticated user to login",
+      "outcome": "Passed",
+      "durationInMs": 27737,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Should redirect unauthenticated user to login",
+          "outcome": "Passed",
+          "durationInMs": 7766
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Should redirect unauthenticated user to login",
+          "outcome": "Passed",
+          "durationInMs": 9242
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Should redirect unauthenticated user to login",
+          "outcome": "Passed",
+          "durationInMs": 5467
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Should redirect unauthenticated user to login",
+          "outcome": "Passed",
+          "durationInMs": 5262
+        }
+      ]
+    },
+    "7": {
+      "comment": "Test Name: Should handle registration with existing email",
+      "outcome": "Passed",
+      "durationInMs": 15708,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Should handle registration with existing email",
+          "outcome": "Passed",
+          "durationInMs": 5092
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Should handle registration with existing email",
+          "outcome": "Passed",
+          "durationInMs": 3885
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Should handle registration with existing email",
+          "outcome": "Passed",
+          "durationInMs": 3350
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Should handle registration with existing email",
+          "outcome": "Passed",
+          "durationInMs": 3381
+        }
+      ]
+    },
+    "8": {
+      "comment": "Test Name: Filter users by role",
+      "outcome": "Passed",
+      "durationInMs": 22090,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Filter users by role",
+          "outcome": "Passed",
+          "durationInMs": 5127
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Filter users by role",
+          "outcome": "Passed",
+          "durationInMs": 8666
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Filter users by role",
+          "outcome": "Passed",
+          "durationInMs": 3745
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Filter users by role",
+          "outcome": "Passed",
+          "durationInMs": 4552
+        }
+      ]
+    },
+    "9": {
+      "comment": "Test Name: Search users by name",
+      "outcome": "Passed",
+      "durationInMs": 24873,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Search users by name",
+          "outcome": "Passed",
+          "durationInMs": 4628
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Search users by name",
+          "outcome": "Passed",
+          "durationInMs": 8448
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Search users by name",
+          "outcome": "Passed",
+          "durationInMs": 7749
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Search users by name",
+          "outcome": "Passed",
+          "durationInMs": 4048
+        }
+      ]
+    },
+    "10": {
+      "comment": "Test Name: Search users by email",
+      "outcome": "Passed",
+      "durationInMs": 40935,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Search users by email",
+          "outcome": "Passed",
+          "durationInMs": 19234
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Search users by email",
+          "outcome": "Passed",
+          "durationInMs": 6697
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Search users by email",
+          "outcome": "Passed",
+          "durationInMs": 11622
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Search users by email",
+          "outcome": "Passed",
+          "durationInMs": 3382
+        }
+      ]
+    },
+    "11": {
+      "comment": "Test Name: Should complete user registration, login, and logout flow",
+      "outcome": "Passed",
+      "durationInMs": 42292,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Should complete user registration, login, and logout flow",
+          "outcome": "Passed",
+          "durationInMs": 14368
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Should complete user registration, login, and logout flow",
+          "outcome": "Passed",
+          "durationInMs": 12055
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Should complete user registration, login, and logout flow",
+          "outcome": "Passed",
+          "durationInMs": 7942
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Should complete user registration, login, and logout flow",
+          "outcome": "Passed",
+          "durationInMs": 7927
+        }
+      ]
+    },
+    "12": {
+      "comment": "Test Name: Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login",
+      "outcome": "Passed",
+      "durationInMs": 72131,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login",
+          "outcome": "Passed",
+          "durationInMs": 16658
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login",
+          "outcome": "Passed",
+          "durationInMs": 27996
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login",
+          "outcome": "Passed",
+          "durationInMs": 11776
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Admin login to Role Vault, add new user, added new user login, delete user, verify removed user cannot login",
+          "outcome": "Passed",
+          "durationInMs": 15701
+        }
+      ]
+    },
+    "13": {
+      "comment": "Test Name: Should show valid error for tooShortPassword with invalid login credentials",
+      "outcome": "Failed",
+      "durationInMs": 78290,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Should show valid error for tooShortPassword with invalid login credentials",
+          "outcome": "Failed",
+          "durationInMs": 17007,
+          "errorMessage": "Error: expect(locator).toHaveText(expected) failed\n\nLocator: getByTestId('form-error')\nExpected: \"Invalid credentials or account deactivated\"\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toHaveText\" with timeout 10000ms\n  - waiting for getByTestId('form-error')\n    11 × locator resolved to <div data-testid=\"form-error\" class=\"text-red-600 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded-lg\">Validation error</div>\n       - unexpected value \"Validation error\"\n"
+        },
+        {
+          "id": 2,
+          "comment": "Project: Firefox <=> Test Name: Should show valid error for tooShortPassword with invalid login credentials",
+          "outcome": "Failed",
+          "durationInMs": 20443,
+          "errorMessage": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('form-error')\nExpected: \"Invalid credentials or account deactivated\"\nReceived: \"Validation error\"\nTimeout:  10000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 10000ms\n  - waiting for getByTestId('form-error')\n    13 × locator resolved to <div data-testid=\"form-error\" class=\"text-red-600 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded-lg\">Validation error</div>\n       - unexpected value \"Validation error\"\n"
+        },
+        {
+          "id": 3,
+          "comment": "Project: Mobile Chrome <=> Test Name: Should show valid error for tooShortPassword with invalid login credentials",
+          "outcome": "Failed",
+          "durationInMs": 25838,
+          "errorMessage": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('form-error')\nExpected: \"Invalid credentials or account deactivated\"\nReceived: \"Validation error\"\nTimeout:  10000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 10000ms\n  - waiting for getByTestId('form-error')\n    13 × locator resolved to <div data-testid=\"form-error\" class=\"text-red-600 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded-lg\">Validation error</div>\n       - unexpected value \"Validation error\"\n"
+        },
+        {
+          "id": 4,
+          "comment": "Project: Google Chrome <=> Test Name: Should show valid error for tooShortPassword with invalid login credentials",
+          "outcome": "Failed",
+          "durationInMs": 15002,
+          "errorMessage": "Error: expect(locator).toHaveText(expected) failed\n\nLocator:  getByTestId('form-error')\nExpected: \"Invalid credentials or account deactivated\"\nReceived: \"Validation error\"\nTimeout:  10000ms\n\nCall log:\n  - Expect \"toHaveText\" with timeout 10000ms\n  - waiting for getByTestId('form-error')\n    12 × locator resolved to <div data-testid=\"form-error\" class=\"text-red-600 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900/20 p-3 rounded-lg\">Validation error</div>\n       - unexpected value \"Validation error\"\n"
+        }
+      ]
+    }
+  }
+}

@@ -11,6 +11,7 @@
 - [Key Features](#key-features)
 - [Code Quality & Standards](#-code-quality--standards)
 - [Advanced Test Fixtures](#advanced-test-fixtures)
+- [Custom JSON Reporter](#-custom-json-reporter)
 - [Project Structure](#project-structure)
 - [How to Run Tests](#how-to-run-tests)
 
@@ -82,9 +83,11 @@ Access artifacts via the GitHub Actions workflow run summary page.
 ### 📊 Advanced Testing & Reporting
 - **Visual testing support**: screenshots and video capture on failures
 - **Rich reporting**: Playwright HTML report and **Allure** analytics with detailed insights
+- **Custom JSON reporter**: Structured test results with test case ID mapping, multi-project iterations, and clean error messages for CI/CD integration
 - **Network monitoring**: Comprehensive HTTP request/response tracking with JSON reports for debugging
 - **Session isolation**: Each test session runs in independent browser contexts for reliable test execution
 - **CI-friendly**: easy to preserve artifacts (reports, videos, traces) for pipeline debugging
+- **Shard-friendly reporting**: Seamless integration with Playwright's blob reporter for parallel test execution
 - **Simple local demo site** (see `github-pages/index.html`) that summarizes architecture and links to generated reports
 
 ## 🎨 Code Quality & Standards
@@ -174,6 +177,88 @@ test('Multi-user workflow', async ({ session }) => {
 });
 ```
 
+## 📄 Custom JSON Reporter
+
+This framework includes a custom Playwright reporter that generates structured JSON test results, designed for seamless integration with CI/CD pipelines and external reporting systems.
+
+### 🎯 Key Features
+
+- **Test Case ID Mapping**: Maps test titles to test case IDs from configuration
+- **Multi-Project Support**: Aggregates results from multiple browser projects (Chromium, Firefox, Mobile Chrome, etc.)
+- **Iteration Tracking**: Records each project execution as a separate iteration with detailed metrics
+- **Clean Error Messages**: Automatically strips ANSI color codes from error output
+- **Outcome Tracking**: Supports Passed, Failed, Error, Inconclusive, and Unspecified outcomes
+- **Shard-Friendly**: Works seamlessly with Playwright's blob reporter for parallel execution
+
+### 📊 Report Structure
+
+```json
+{
+  "testPlanName": "Automation Test Plan",
+  "testSuiteName": "RoleVault Playwright Typescript UI Automation",
+  "testResults": {
+    "4": {
+      "comment": "Test Name: Should allow user to login",
+      "outcome": "Passed",
+      "durationInMs": 23374,
+      "errorMessage": "",
+      "iterationDetails": [
+        {
+          "id": 1,
+          "comment": "Project: Chromium <=> Test Name: Should allow user to login",
+          "outcome": "Passed",
+          "durationInMs": 7159
+        }
+      ]
+    }
+  }
+}
+```
+
+### 🚀 Usage
+
+**Regular Run (No Sharding)**
+```bash
+npx playwright test
+# Generates: custom-reporter/test-results-report.json
+```
+
+**Sharded Run**
+```bash
+# Step 1: Run shards (blob reporter saves temporary data)
+npx playwright test --shard=1/4
+npx playwright test --shard=2/4
+npx playwright test --shard=3/4
+npx playwright test --shard=4/4
+
+# Step 2: Merge reports (custom reporter processes merged data)
+npx playwright merge-reports --reporter ./custom-reporter/test-results-reporter.ts ./blob-report
+```
+
+### ⚙️ Configuration
+
+Edit `custom-reporter/test-plan-suite.json` to map test titles to test case IDs:
+
+```json
+{
+  "testPlanName": "Automation Test Plan",
+  "testSuiteName": "RoleVault Playwright Typescript UI Automation",
+  "testCases": {
+    "Should allow user to login and access dashboard": {
+      "testCaseId": "4"
+    }
+  }
+}
+```
+
+### 💡 Benefits
+
+- **CI/CD Integration**: Easily parse and process test results in automated pipelines
+- **Custom Dashboards**: Feed structured data into external reporting tools
+- **Test Management**: Map automated tests to test management system IDs
+- **Analytics**: Track test execution metrics across multiple runs and environments
+- **Debugging**: Clean error messages without terminal formatting codes
+
 ## Project Structure
 
 Below is a tree view of the repository layout with descriptions of each component:
@@ -219,7 +304,11 @@ rolevault-ui-playwright-typescript-automation/
 │   ├── playwright-report/        # Generated Playwright HTML report (artifact folder)
 │   ├── screenshots/              # Saved screenshots from test runs
 │   ├── test-results/             # Test runner outputs and structured results
-│   └── network-reports/          # HTTP request/response logs with timing data
+│   ├── network-reports/          # HTTP request/response logs with timing data
+│   └── custom-reporter/          # Custom JSON reporter
+│       ├── test-plan-suite.json        # Test case ID mappings
+│       ├── test-results-report.json    # Generated JSON test results
+│       └── test-results-reporter.ts    # Custom reporter implementation
 │
 └── 🌐 Documentation Site
     └── github-pages/             # Static demo/overview site
@@ -252,4 +341,14 @@ rolevault-ui-playwright-typescript-automation/
 6. Open the Playwright HTML report locally:
    ```bash
    npx playwright show-report
+   ```
+7. Merge shard reports (after running tests with --shard):
+   ```bash
+   npm run merge-reports
+   ```
+8. View custom JSON report:
+   ```bash
+   cat custom-reporter/test-results-report.json
+   # or open in browser
+   open custom-reporter/test-results-report.json
    ```

@@ -102,6 +102,7 @@ jobs:
             test-results
             application-logs.log
             network-reports
+            custom-reporter/test-results-report.json
 
       - name: Prepare GitHub Pages Content
         id: prepare-pages

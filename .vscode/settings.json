@@ -94,6 +94,5 @@
   "prettier.useTabs": false, // Use spaces, not tabs
   "prettier.printWidth": 120, // Wrap lines after 120 characters
   "prettier.bracketSpacing": true, // Add spaces inside brackets
-  "prettier.arrowParens": "always", // Always include parens in arrow functions
-  "prettier.endOfLine": "lf"
+  "prettier.arrowParens": "always" // Always include parens in arrow functions
 }
