@@ -316,6 +316,20 @@ rolevault-ui-playwright-typescript-automation/
         └── styles.css            # Custom styles for documentation site
 ```
 
+## Setup RoleVault Webapp
+
+The **RoleVault Webapp** is a self-hosted application that runs locally.
+
+To set up and start the web application:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/NayeemJohnY/rolevault-webapp.git
+   ```
+
+2. Follow the [setup steps](https://github.com/NayeemJohnY/rolevault-webapp?tab=readme-ov-file#-prerequisites) provided in the repository README to install dependencies and start the application.
+
 ## How to Run Tests
 
 1. Install dependencies:
