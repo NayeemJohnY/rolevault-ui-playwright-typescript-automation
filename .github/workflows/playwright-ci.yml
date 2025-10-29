@@ -2,8 +2,8 @@ name: Test Execution - Playwright
 run-name: ${{ github.event_name == 'schedule' && 'staging'  || inputs.env }} - playwright test execution
 
 on:
-  schedule:
-    - cron: "30 5 * * 1-5"
+  # schedule:
+  #   - cron: "30 5 * * 1-5"
 
   workflow_dispatch:
     inputs:
